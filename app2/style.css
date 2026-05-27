@@ -1786,8 +1786,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ═══ Sci-fi dark mode - full token override ════════ */
 /* Scifi mode: title font only */
+.scifi-mode .cmdbar {
+  font-family: 'IBM Plex Mono', monospace;
+}
 .scifi-mode .brand-name {
-  font-family: 'VCR OSD Mono', 'IBM Plex Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
   letter-spacing: 0.04em;
 }
 

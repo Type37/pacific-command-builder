@@ -1322,7 +1322,7 @@ function App() {
       <header className="cmdbar">
         <div className="brand">
           <span className="brand-icon"><Icon.Flag /></span>
-          <span className="brand-name">Pacific Command</span>
+          <span className="brand-name">{scifi ? 'Space Command' : 'Pacific Command'}</span>
         </div>
 
         <div className="scale-ctrl">
