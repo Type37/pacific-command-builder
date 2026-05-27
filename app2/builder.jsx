@@ -1230,7 +1230,6 @@ function App() {
   });
   const [showPreview, setShowPreview] = useState(false);
   const [scifi, setScifi] = useState(() => localStorage.getItem('pc2-scifi') === '1');
-  const [scifiTransition, setScifiTransition] = useState(false);
   const [literalNames, setLiteralNames] = useState(() => localStorage.getItem('pc2-literal') === '1');
   const [showRandom, setShowRandom] = useState(false);
 
@@ -1294,11 +1293,7 @@ function App() {
   const onScaleChange = (n) => setFleet(f => ({ ...f, scale: Math.max(1, Math.min(10, n)) }));
   const onFreePlayChange = (v) => setFleet(f => ({ ...f, freePlay: v }));
 
-  const toggleScifi = () => {
-    setScifiTransition(true);
-    setTimeout(() => setScifi(s => !s), 220);
-    setTimeout(() => setScifiTransition(false), 700);
-  };
+  const toggleScifi = () => setScifi(s => !s);
 
   const faction = fleet.faction;
   const era = fleet.era;
@@ -1413,11 +1408,6 @@ function App() {
 
       <PrintArea fleet={fleet} totalsByTf={totalsByTf} showPreview={showPreview} />
 
-      {scifiTransition && (
-        <div className={'scifi-sweep' + (scifi ? ' sweep-off' : ' sweep-on')}>
-          <div className="scifi-scanline" />
-        </div>
-      )}
 
       <button className={'scifi-fab' + (scifi ? ' active' : '')} onClick={toggleScifi} title="Sci-fi mode">
         <span className="ico"><Icon.Sparkle /></span> Sci-fi
