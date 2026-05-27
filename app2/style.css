@@ -2696,3 +2696,40 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .chip-add, .chip {
   min-height: 28px;
 }
+
+/* ─── Configure/Close button — stable width ───────────── */
+.chip-add {
+  min-width: 108px;
+  justify-content: center;
+}
+.chip-add-ico {
+  display: inline-flex;
+  align-items: center;
+  width: 16px;
+  flex-shrink: 0;
+}
+.chip-add-lbl {
+  width: 68px;
+  text-align: left;
+}
+
+/* ─── Faction pill active — keep roundels readable ──────── */
+.faction-pill.active img {
+  filter: none;
+  opacity: 0.9;
+}
+
+/* ─── chip-remove: size up for the new icon ─────────────── */
+.chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  flex-shrink: 0;
+}
+.chip-remove svg {
+  width: 18px;
+  height: 18px;
+}
