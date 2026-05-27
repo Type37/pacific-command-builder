@@ -837,7 +837,7 @@ function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, 
 }
 
 // ─── Fleet Modifications section (top of main content) ─
-function FleetMods({ fleet, onApplySet, onToggleMod }) {
+function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChange }) {
   const [open, setOpen] = useState(false);
   const mm = useMemo(modMap, []);
   const activeIds = fleet.mods || [];
@@ -870,14 +870,8 @@ function FleetMods({ fleet, onApplySet, onToggleMod }) {
       {open && (
         <div className="mod-grid-panel">
           <div className="mgp-presets">
-            <span className="mgp-preset-label">Historical presets</span>
-            {sets.map(set => (
-              <button type="button" key={set.id}
-                className={'mgp-preset-btn' + (fleet.setId === set.id ? ' active' : '')}
-                onClick={() => onApplySet(set)}>
-                {set.label}
-              </button>
-            ))}
+            <span className="mgp-preset-label">Fleet faction</span>
+            <FactionToggle faction={faction} era={era} onChange={onFactionChange} />
           </div>
 
           <div className="mgp-section">
@@ -1365,8 +1359,11 @@ function App() {
                 {totalHulls} hulls in service
               </div>
             </div>
-            <FactionToggle faction={faction} era={era}
-              onChange={(f, e) => {
+          </div>
+
+          <FleetMods fleet={fleet} onApplySet={onApplySet} onToggleMod={onToggleMod}
+            faction={faction} era={era}
+            onFactionChange={(f, e) => {
               if (!f) {
                 setFleet(fl => ({ ...fl, faction: null, era: null, mods: [], setId: null }));
               } else {
@@ -1378,10 +1375,8 @@ function App() {
                     : { ...fl, faction: f, era: e, taskForces };
                 });
               }
-            }} />
-          </div>
-
-          <FleetMods fleet={fleet} onApplySet={onApplySet} onToggleMod={onToggleMod} />
+            }}
+          />
 
           {fleet.taskForces.map((tf, i) => (
             <TaskForceCard
