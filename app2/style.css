@@ -2777,3 +2777,157 @@ button, input, select, textarea { font: inherit; color: inherit; }
   width: 16px;
   flex-shrink: 0;
 }
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE — max-width: 700px
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+
+  /* ── Cmdbar: wrap to two rows ─────────────────────────── */
+  .cmdbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 48px;
+    padding: 6px var(--size-160);
+    gap: 6px;
+    row-gap: 6px;
+  }
+  .brand {
+    flex: 1;
+    order: 1;
+  }
+  .scale-ctrl {
+    position: static;
+    transform: none;
+    order: 2;
+  }
+  .cmdbar-actions {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 4px;
+    padding-bottom: 4px;
+    border-top: 1px solid var(--neutral-stroke-2);
+    padding-top: 6px;
+  }
+  /* Hide button labels in cmdbar, keep icons */
+  .cmdbar-actions .btn > *:not(.ico) {
+    display: none;
+  }
+  .cmdbar-actions .btn {
+    min-width: 40px;
+    min-height: 36px;
+    padding: 0 10px;
+    justify-content: center;
+  }
+  .cmdbar-actions .btn .ico {
+    margin: 0;
+  }
+
+  /* ── Page padding ─────────────────────────────────────── */
+  .page {
+    padding: var(--size-240) var(--size-160) var(--size-400);
+  }
+
+  /* ── TF head: tighten ─────────────────────────────────── */
+  .tf-head {
+    grid-template-columns: 28px 1fr auto auto;
+    gap: var(--size-80);
+    padding: var(--size-120) var(--size-160) var(--size-80);
+  }
+  .tf-roundel-slot {
+    width: 28px; height: 28px;
+  }
+  .tf-roundel-slot img { width: 28px; height: 28px; }
+  .tf-head .tf-id .callsign {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  /* ── Units table: hide role column, allow scroll ─────── */
+  .col-role { display: none; }
+  .units-table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .units-table thead,
+  .units-table tbody,
+  .units-table tr { display: table-row-group; }
+  .units-table { display: table; }
+
+  /* ── tf-totals: 3 columns ─────────────────────────────── */
+  .tf-totals {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tf-totals .t:nth-child(3) { border-right: none; }
+  .tf-totals .t:nth-child(4) { border-top: 1px solid var(--neutral-stroke-divider); }
+  .tf-totals .t:nth-child(6) { border-right: none; }
+
+  /* ── Fleet mods row: stack ────────────────────────────── */
+  .fleet-mods-row {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .configure-btn {
+    margin-left: 0 !important;
+  }
+
+  /* ── Faction pills: wrap ──────────────────────────────── */
+  .faction-toggle {
+    flex-wrap: wrap;
+  }
+  .faction-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  /* ── Random panel: full width ─────────────────────────── */
+  .random-panel {
+    width: calc(100vw - 32px);
+    left: auto;
+    right: 0;
+  }
+
+  /* ── Flyout: full width ───────────────────────────────── */
+  .flyout {
+    min-width: unset !important;
+    max-width: unset !important;
+    width: calc(100vw - 32px);
+    left: 0;
+    right: 0;
+  }
+
+  /* ── Mod cards: single column ─────────────────────────── */
+  .mgp-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Add TF button: full width ────────────────────────── */
+  .add-tf {
+    text-align: center;
+  }
+  .add-tf .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Print area: handled by print.css, hide on mobile ──── */
+
+  /* ── game info footer: stack ──────────────────────────── */
+  .gif-inner {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  .gif-sep { display: none; }
+  .gif-builder { margin-left: 0; }
+}
+
+/* ── Very small screens ──────────────────────────────── */
+@media (max-width: 400px) {
+  .brand-name { font-size: 13px; }
+  .tf-head .tf-id .callsign { font-size: 18px; }
+  .faction-pill span { display: none; }  /* icon only on tiny screens */
+  .faction-pill { padding: 4px 8px; min-height: 32px; }
+}
