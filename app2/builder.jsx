@@ -10,11 +10,20 @@ const useLiteralNames = () => React.useContext(LiteralNamesCtx);
 
 // Terminology map
 const T = (scifi) => ({
-  aircraft:         scifi ? 'Aerospace Craft'    : 'Aircraft',
-  aircraftCapacity: scifi ? 'Aerospace Capacity' : 'Aircraft Capacity',
-  submarine:        scifi ? 'Stealth Frigate'     : 'Submarine',
-  depthCharges:     scifi ? 'Deep-Stealth Charges': 'Depth Charges',
+  aircraft:         scifi ? 'Aerospace Craft'      : 'Aircraft',
+  aircraftCapacity: scifi ? 'Capacity'             : 'Aircraft Capacity',
+  submarine:        scifi ? 'Stealth Frigate'       : 'Submarine',
+  depthCharges:     scifi ? 'De-Stealth Charges'   : 'Depth Charges',
+  seaplaneTender:   scifi ? 'Scout Ship Tender'    : 'Seaplane Tender',
+  air:              scifi ? 'Aero'                 : 'Air',
 });
+
+// Display unit name with scifi swaps
+function scifiUnitName(id, name, terms) {
+  if (id === 'submarine')      return terms.submarine;
+  if (id === 'seaplane-tender') return terms.seaplaneTender;
+  return name;
+}
 const STORE_KEY = 'pacific-command:v6';
 const classMap = () => Object.fromEntries(window.SHIP_CLASSES.map(c => [c.id, c]));
 const modMap   = () => Object.fromEntries(window.MODIFICATIONS.map(m => [m.id, m]));
@@ -115,20 +124,23 @@ const Icon = {
   </svg>,
 };
 
-const STAT_META = [
-  { key: 'cost',     label: 'Cost',     icon: Icon.Cost,     accent: true,
-    tip: 'Sum of the points cost of every unit in this task force.' },
-  { key: 'aircraft', label: 'Aircraft Capacity', icon: Icon.Aircraft, iconScifi: Icon.Aerospace,
-    tip: 'Aircraft capacity. Total embarked squadrons may not exceed this value.' },
-  { key: 'guns',     label: 'Guns',     icon: Icon.Guns,
-    tip: 'Total Guns dice the task force rolls in a Gun Battle.' },
-  { key: 'strike',   label: 'Strike',   icon: Icon.Strike,
-    tip: 'Strike dice this task force can amass on an Air Group card during a Strike.' },
-  { key: 'aa',       label: 'AA',       icon: Icon.AA,
-    tip: 'Anti-Aircraft dice rolled during the AA Step of an Air Action targeting this task force.' },
-  { key: 'cap',      label: 'CAP',      icon: Icon.CAP,
-    tip: 'Combat Air Patrol. Dice rolled during the Interception Step to discard incoming Strike dice.' },
-];
+const STAT_META = (scifi) => {
+  const terms = T(scifi);
+  return [
+    { key: 'cost',     label: 'Cost',     icon: Icon.Cost,     accent: true,
+      tip: 'Sum of the points cost of every unit in this task force.' },
+    { key: 'aircraft', label: terms.aircraftCapacity, icon: Icon.Aircraft, iconScifi: Icon.Aerospace,
+      tip: `${terms.aircraft} capacity. Total embarked squadrons may not exceed this value.` },
+    { key: 'guns',     label: 'Guns',     icon: Icon.Guns,
+      tip: 'Total Guns dice the task force rolls in a Gun Battle.' },
+    { key: 'strike',   label: 'Strike',   icon: Icon.Strike,
+      tip: `Strike dice this task force can amass on an ${terms.air} Group card during a Strike.` },
+    { key: 'aa',       label: 'AA',       icon: Icon.AA,
+      tip: `Anti-${scifi ? 'Aerospace' : 'Aircraft'} dice rolled during the AA Step of an ${terms.air} Action targeting this task force.` },
+    { key: 'cap',      label: 'CAP',      icon: Icon.CAP,
+      tip: `Combat ${terms.air} Patrol. Dice rolled during the Interception Step to discard incoming Strike dice.` },
+  ];
+};
 
 // ─── Effects engine ────────────────────────────────────
 function applyModEffects(activeMods, baseTotals, units, cm) {
@@ -286,6 +298,7 @@ function FactionToggle({ faction, era, onChange }) {
 function UnitPicker({ onPick, onClose }) {
   const ref = useRef(null);
   const scifi = useScifi();
+  const terms = T(scifi);
   useClickOutside(ref, onClose);
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -302,11 +315,11 @@ function UnitPicker({ onPick, onClose }) {
     <div className="flyout" ref={ref} role="dialog" aria-label="Pick a unit">
       {window.CATEGORIES.map(cat => (
         <div className="flyout-group" key={cat.id}>
-          <div className="flyout-group-label">{cat.label}</div>
+          <div className="flyout-group-label">{scifi && cat.id === 'squadron' ? cat.label.replace('Air', 'Aero') : cat.label}</div>
           {byCat[cat.id].map(u => (
             <button key={u.id} className="flyout-item" onClick={() => { onPick(u.id); onClose(); }} data-tip={shipClassTip(u)}>
               <div>
-                <div className="nm"><span className="cls-tag" data-sprite={u.sprite}>{u.sprite}</span>{scifi && u.id === 'submarine' ? 'Stealth Frigate' : u.name}</div>
+                <div className="nm"><span className="cls-tag" data-sprite={u.sprite}>{u.sprite}</span>{scifi ? scifiUnitName(u.id, u.name, terms) : u.name}</div>
                 {u.role && <div className="desc">{u.role}{u.special ? ', ' + u.special : ''}</div>}
               </div>
               <div className="right">{u.cost} pts</div>
@@ -386,6 +399,8 @@ function HistoricalModSets({ onApply, currentSetId, currentFaction, currentEra }
 // ─── Unit row ──────────────────────────────────────────
 function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, faction }) {
   const literalNames = useLiteralNames();
+  const scifi = useScifi();
+  const terms = T(scifi);
   if (!cls) return null;
   return (
     <tr className={'unit-row ' + (overCapacity ? 'over-capacity' : '')}>
@@ -396,7 +411,7 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
         <div className="cls-cell">
           <div className="cls-name">
             <span className="cls-tag" data-sprite={cls.sprite} data-tip={cls.name}>{cls.sprite}</span>
-            <span data-tip={shipClassTip(cls)}>{cls.name}</span>
+            <span data-tip={shipClassTip(cls)}>{scifi ? scifiUnitName(cls.id, cls.name, terms) : cls.name}</span>
           </div>
           <div className="nm-input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <input
@@ -446,6 +461,7 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
   const scifi = useScifi();
   const literalNames = useLiteralNames();
   const terms = T(scifi);
+  const statMeta = STAT_META(scifi);
 
   const updateUnit = (id, unit) => onUpdate({ ...tf, units: tf.units.map(u => u.id === id ? unit : u) });
   const deleteUnit = (id) => onUpdate({ ...tf, units: tf.units.filter(u => u.id !== id) });
@@ -514,7 +530,7 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
           <span className="ico"><Icon.Warning /></span>
           <span>
             <strong>Squadron limit exceeded.</strong>{' '}
-            {totals.squadronCount} squadrons embarked, {totals.aircraft} Aircraft capacity available.
+            {totals.squadronCount} squadrons embarked, {totals.aircraft} {terms.aircraftCapacity} available.
             Reduce squadrons or add carriers.
           </span>
         </div>
@@ -572,9 +588,9 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
       </div>
 
       <footer className="tf-totals">
-        {STAT_META.map(s => {
+        {statMeta.map(s => {
           const IconC = (scifi && s.iconScifi) ? s.iconScifi : s.icon;
-          const statLabel = (scifi && s.key === 'aircraft') ? terms.aircraftCapacity : s.label;
+          const statLabel = s.label;
           const v = totals[s.key];
           const delta = s.key === 'aircraft' ? totals.aircraftDelta : 0;
           return (
@@ -596,20 +612,20 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
   );
 }
 
-// Print area
-const P_STATS = [
-  { key: 'cost',    label: 'Cost',    unit: 'pts' },
-  { key: 'guns',    label: 'Guns'    },
-  { key: 'aircraft',label: 'Aircraft'},
-  { key: 'strike',  label: 'Strike'  },
-  { key: 'aa',      label: 'AA'      },
-  { key: 'cap',     label: 'CAP'     },
-];
-
 function PrintArea({ fleet, totalsByTf, showPreview }) {
   const cm = useMemo(classMap, []);
   const mm = useMemo(modMap, []);
   const literalNames = useLiteralNames();
+  const scifi = useScifi();
+  const terms = T(scifi);
+  const P_STATS = [
+    { key: 'cost',     label: 'Cost',    unit: 'pts' },
+    { key: 'guns',     label: 'Guns'    },
+    { key: 'aircraft', label: scifi ? 'Capacity' : 'Aircraft' },
+    { key: 'strike',   label: 'Strike'  },
+    { key: 'aa',       label: 'AA'      },
+    { key: 'cap',      label: 'CAP'     },
+  ];
   const mods = (fleet.mods || []).map(id => mm[id]).filter(Boolean);
 
   return (
@@ -702,7 +718,7 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                     <tr key={u.id}>
                       <td className="p-r-name">
                         <span className="p-r-sprite">{c.sprite}</span>
-                        {c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
+                        {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
                       </td>
                       <td className="p-r-role">{c.role}</td>
                       <td className="p-r-special">{c.special || ''}</td>
