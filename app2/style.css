@@ -1668,6 +1668,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: 4px 8px;
   box-shadow: var(--shadow-brand-8);
   cursor: default;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .scale-btn {
   width: 28px;
