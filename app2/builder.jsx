@@ -11,7 +11,7 @@ const useLiteralNames = () => React.useContext(LiteralNamesCtx);
 // Terminology map
 const T = (scifi) => ({
   aircraft:         scifi ? 'Aerospace Craft'      : 'Aircraft',
-  aircraftCapacity: scifi ? 'Capacity'             : 'Aircraft Capacity',
+  aircraftCapacity: scifi ? 'Capacity'             : 'Air Capacity',
   submarine:        scifi ? 'Stealth Frigate'       : 'Submarine',
   depthCharges:     scifi ? 'De-Stealth Charges'   : 'Depth Charges',
   seaplaneTender:   scifi ? 'Scout Ship Tender'    : 'Seaplane Tender',
