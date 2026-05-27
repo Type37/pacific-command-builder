@@ -1,0 +1,176 @@
+/* Pacific Command — Print output
+   Clean, print-friendly. Black on white. Faction roundel.
+   List-based roster matching the rulebook example format.
+*/
+
+@page { size: letter portrait; margin: 0.5in 0.5in; }
+
+.print-area {
+  font-family: 'Jost', 'Segoe UI Variable', 'Segoe UI', sans-serif;
+  color: #1a1a1a;
+}
+
+@media print {
+  .print-area {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+.print-area.preview {
+  display: block;
+  max-width: 7.5in;
+  margin: 0 auto var(--size-240);
+  background: white;
+  border: 1px solid var(--neutral-stroke-2);
+  box-shadow: var(--shadow-8);
+  padding: 0.5in 0.5in;
+}
+
+/* ─── Fleet header ────────────────────────────────────── */
+
+.p-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid #1a1a1a;
+}
+.p-head img { flex-shrink: 0; }
+.p-head-text { flex: 1; }
+.p-fleet-name {
+  font-family: 'Jost', sans-serif;
+  font-weight: 700;
+  font-size: 20pt;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.p-fleet-meta {
+  font-size: 9pt;
+  color: #555;
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+}
+
+.p-fleet-mods {
+  margin-bottom: 14px;
+  font-size: 10pt;
+  line-height: 1.5;
+  padding: 6px 10px;
+  background: #f5f3ed;
+  border-left: 3px solid #1a1a1a;
+}
+.p-fleet-mods .p-mods-label { font-weight: 700; }
+.p-fleet-mods .p-mod { color: #1a1a1a; }
+.p-fleet-mods .p-mod.disadv { color: #7a2020; font-style: italic; }
+
+/* ─── Task force block ────────────────────────────────── */
+
+.p-tf {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed #888;
+}
+.p-tf:last-child { border-bottom: none; }
+
+.p-tf-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.p-tf-head img { display: block; }
+
+.p-tf-name {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  line-height: 1.1;
+}
+.p-tf-num {
+  font-family: 'Jost', sans-serif;
+  font-weight: 700;
+  font-size: 16pt;
+  letter-spacing: -0.005em;
+  color: #1a1a1a;
+}
+.p-tf-callsign {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 14pt;
+  color: #555;
+}
+.p-tf-commander {
+  font-family: 'PT Serif', serif;
+  font-style: italic;
+  font-size: 11pt;
+  color: #444;
+}
+.p-tf-cost {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16pt;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+.p-tf-cost small {
+  font-size: 9pt;
+  font-weight: 400;
+  color: #555;
+  margin-left: 3px;
+}
+
+.p-tf-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 14px;
+  font-size: 11pt;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  font-family: 'Segoe UI', 'Jost', sans-serif;
+}
+.p-tf-stats b {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.p-tf-roster {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.p-tf-roster li {
+  font-size: 11pt;
+  line-height: 1.5;
+  padding-left: 0;
+}
+.p-tf-roster .p-qty {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 32px;
+  color: #1a1a1a;
+}
+.p-tf-roster .p-class { font-weight: 600; color: #1a1a1a; }
+.p-tf-roster .p-pennant { font-family: 'PT Serif', serif; font-style: italic; color: #555; }
+.p-tf-roster .p-cost { font-family: 'IBM Plex Mono', monospace; color: #555; }
+
+.p-tf-mods {
+  margin-top: 6px;
+  font-size: 10pt;
+  line-height: 1.4;
+  color: #1a1a1a;
+}
+.p-mods-label { font-weight: 700; }
+.p-mod { color: #1a1a1a; }
+.p-mod.disadv { color: #7a2020; font-style: italic; }
+
+@media print {
+  .print-area.preview { box-shadow: none; border: none; max-width: none; padding: 0; }
+  body { background: white; }
+}
