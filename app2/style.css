@@ -1787,11 +1787,38 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* ═══ Sci-fi dark mode - full token override ════════ */
 /* Scifi mode: title font only */
 .scifi-mode .cmdbar {
-  font-family: 'IBM Plex Mono', monospace;
+  background: #111;
+  border-bottom-color: #2a2100;
+  box-shadow: 0 1px 0 #2a2100, 0 2px 12px rgba(0,0,0,0.6);
 }
 .scifi-mode .brand-name {
-  font-family: 'IBM Plex Mono', monospace;
-  letter-spacing: 0.04em;
+  color: #C9A227;
+  letter-spacing: 0.03em;
+}
+.scifi-mode .brand-icon svg {
+  color: #C9A227;
+}
+.scifi-mode .scale-ctrl {
+  background: #C9A227;
+  box-shadow: 0 0 12px rgba(201,162,39,0.4);
+}
+.scifi-mode .scale-ctrl .scale-display,
+.scifi-mode .scale-ctrl .scale-s,
+.scifi-mode .scale-ctrl .scale-n {
+  color: #111;
+}
+.scifi-mode .scale-btn {
+  background: rgba(0,0,0,0.15);
+  color: #111;
+}
+.scifi-mode .scale-btn:hover:not(:disabled) {
+  background: rgba(0,0,0,0.25);
+}
+.scifi-mode .cmdbar-actions .btn {
+  color: #C9A227;
+}
+.scifi-mode .cmdbar-actions .btn:hover {
+  background: rgba(201,162,39,0.1);
 }
 
 /* ═══ Print area redesign ══════════════════════════ */
