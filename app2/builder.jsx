@@ -70,6 +70,13 @@ const Icon = {
     <path d="M3 10a7 7 0 1 0 2.05-4.95M3 5v3.5h3.5M10 6v4l3 2" {...S}/>
   </svg>,
 
+  Reroll: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
+    <path d="M18 4l3 3l-3 3"/>
+    <path d="M18 20l3 -3l-3 -3"/>
+    <path d="M3 7h3a5 5 0 0 1 5 5a5 5 0 0 0 5 5h2"/>
+    <path d="M3 17h3a5 5 0 0 0 5 -5a5 5 0 0 1 5 -5h2"/>
+  </svg>,
+
   Dice: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
     <rect x="3" y="3" width="14" height="14" rx="3" {...S}/>
     <circle cx="7" cy="7" r="1.1" fill="currentColor" stroke="none"/>
@@ -241,40 +248,28 @@ function FactionRoundel({ faction, size = 36 }) {
 }
 
 function FactionToggle({ faction, era, onChange }) {
-  // 4-way toggle: each click on a roundel cycles era for that faction; click again toggles off
-  const setFE = (f, e) => onChange(f, e);
+  const opts = [
+    { f: 'IJN', e: 'Early War', label: 'IJN Early War' },
+    { f: 'IJN', e: 'Late War',  label: 'IJN Late War'  },
+    { f: 'USN', e: 'Early War', label: 'USN Early War' },
+    { f: 'USN', e: 'Late War',  label: 'USN Late War'  },
+  ];
   return (
     <div className="faction-toggle" role="group" aria-label="Faction and era">
-      <button
-        className={'roundel-btn ' + (faction === 'IJN' && era === 'Early War' ? 'active' : '')}
-        data-tip="Set faction to Imperial Japanese Navy, Early War (used for historical names)"
-        onClick={() => setFE(faction === 'IJN' && era === 'Early War' ? null : 'IJN', 'Early War')}
-      >
-        <FactionRoundel faction="IJN" size={26} />
-      </button>
-      <button
-        className={'roundel-btn ' + (faction === 'IJN' && era === 'Late War' ? 'active late' : '')}
-        data-tip="Set faction to Imperial Japanese Navy, Late War"
-        onClick={() => setFE(faction === 'IJN' && era === 'Late War' ? null : 'IJN', 'Late War')}
-      >
-        <FactionRoundel faction="IJN" size={26} />
-        <span className="era-tag">L</span>
-      </button>
-      <button
-        className={'roundel-btn ' + (faction === 'USN' && era === 'Early War' ? 'active' : '')}
-        data-tip="Set faction to United States Navy, Early War"
-        onClick={() => setFE(faction === 'USN' && era === 'Early War' ? null : 'USN', 'Early War')}
-      >
-        <FactionRoundel faction="USN" size={26} />
-      </button>
-      <button
-        className={'roundel-btn ' + (faction === 'USN' && era === 'Late War' ? 'active late' : '')}
-        data-tip="Set faction to United States Navy, Late War"
-        onClick={() => setFE(faction === 'USN' && era === 'Late War' ? null : 'USN', 'Late War')}
-      >
-        <FactionRoundel faction="USN" size={26} />
-        <span className="era-tag">L</span>
-      </button>
+      {opts.map(({ f, e, label }) => {
+        const active = faction === f && era === e;
+        return (
+          <button key={f + e}
+            className={'faction-pill' + (active ? ' active' : '')}
+            data-faction={f}
+            data-tip={label}
+            onClick={() => onChange(active ? null : f, e)}
+          >
+            <FactionRoundel faction={f} size={16} />
+            <span>{label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -395,7 +390,7 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
             <span className="cls-tag" data-sprite={cls.sprite} data-tip={cls.name}>{cls.sprite}</span>
             <span data-tip={shipClassTip(cls)}>{cls.name}</span>
           </div>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <div className="nm-input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <input
               className="nm-input"
               placeholder="Click to name"
@@ -404,7 +399,11 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
               onFocus={(e) => { if (!unit.pennant && cls) onUpdate({ ...unit, pennant: randomPennant(cls.id, faction) }); }}
               title={unit.pennant && MEANINGS[unit.pennant] ? (literalNames ? unit.pennant : MEANINGS[unit.pennant]) : undefined}
             />
-
+            {unit.pennant && (
+              <button className="reroll-btn" onClick={() => onUpdate({ ...unit, pennant: randomPennant(cls.id, faction) })} title="Random name" aria-label="Random name">
+                <Icon.Reroll />
+              </button>
+            )}
           </div>
         </div>
       </td>
@@ -1309,7 +1308,7 @@ function App() {
       <header className="cmdbar">
         <div className="brand">
           <span className="brand-icon"><Icon.Flag /></span>
-          <span className="brand-name">Pacific Command <span className="lite">Builder by WarLore</span></span>
+          <span className="brand-name">Pacific Command <span className="lite">Builder by <span className="warlore-badge">WarLore</span></span></span>
         </div>
 
         <div className="scale-ctrl">
@@ -1367,7 +1366,19 @@ function App() {
               </div>
             </div>
             <FactionToggle faction={faction} era={era}
-              onChange={(f, e) => setFleet(fl => ({ ...fl, faction: f, era: e }))} />
+              onChange={(f, e) => {
+              if (!f) {
+                setFleet(fl => ({ ...fl, faction: null, era: null, mods: [], setId: null }));
+              } else {
+                const matchSet = (window.HISTORICAL_MOD_SETS || []).find(s => s.faction === f && s.era === e);
+                setFleet(fl => {
+                  const taskForces = fl.taskForces.map(tf => autoFillForFleet(tf, f, e));
+                  return matchSet
+                    ? { ...fl, faction: f, era: e, mods: [...matchSet.mods], setId: matchSet.id, taskForces }
+                    : { ...fl, faction: f, era: e, taskForces };
+                });
+              }
+            }} />
           </div>
 
           <FleetMods fleet={fleet} onApplySet={onApplySet} onToggleMod={onToggleMod} />

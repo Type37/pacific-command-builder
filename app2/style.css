@@ -2548,3 +2548,151 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (max-width: 600px) {
   .gif-builder { margin-left: 0; }
 }
+
+/* ─── WarLore badge ────────────────────────────────────── */
+.warlore-badge {
+  font-family: 'VCR OSD Mono', 'IBM Plex Mono', monospace;
+  color: #FFE033;
+  background: #111;
+  padding: 1px 5px 2px;
+  border-radius: 2px;
+  letter-spacing: 0.03em;
+  font-size: 0.9em;
+}
+
+/* ─── Faction pills ────────────────────────────────────── */
+.faction-toggle {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.faction-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  min-height: 36px;
+  border-radius: 99px;
+  border: 1.5px solid var(--neutral-stroke-1);
+  background: var(--neutral-bg-1);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--neutral-fg-2);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+.faction-pill:hover {
+  border-color: var(--brand-stroke-1);
+  color: var(--brand-fg-1);
+  background: var(--brand-bg-2);
+  transform: translateY(-1px);
+}
+.faction-pill:active {
+  transform: scale(0.94) translateY(0);
+  animation: pill-pop 0.2s ease;
+}
+.faction-pill.active {
+  background: var(--brand-bg);
+  border-color: var(--brand-bg);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(17, 78, 122, 0.35);
+}
+.faction-pill.active img {
+  filter: brightness(0) invert(1);
+}
+.faction-pill.active:hover {
+  background: var(--brand-bg-hover);
+  transform: translateY(-1px);
+}
+
+/* ─── Reroll button ────────────────────────────────────── */
+.reroll-btn {
+  position: absolute;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-4);
+  color: var(--neutral-fg-3);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease, background 0.12s ease, color 0.12s ease, transform 0.1s ease;
+  padding: 0;
+}
+.nm-input-wrap:hover .reroll-btn,
+.reroll-btn:focus-visible {
+  opacity: 1;
+}
+.reroll-btn:hover {
+  background: var(--brand-bg-2);
+  color: var(--brand-fg-1);
+  border-color: var(--brand-stroke-1);
+}
+.reroll-btn:active {
+  transform: rotate(180deg) scale(0.9);
+}
+.nm-input {
+  padding-right: 32px;
+}
+
+/* ─── Animations / oomph ───────────────────────────────── */
+@keyframes pill-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.91); }
+  75%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+@keyframes btn-tap {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.93); }
+  100% { transform: scale(1); }
+}
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.btn:active {
+  animation: btn-tap 0.18s ease;
+}
+.mod-grid-panel {
+  animation: panel-in 0.18s ease;
+}
+.add-unit-btn:active {
+  animation: btn-tap 0.18s ease;
+}
+.flyout {
+  animation: panel-in 0.15s ease;
+}
+.random-panel {
+  animation: panel-in 0.15s ease;
+}
+
+/* ─── Touch targets ────────────────────────────────────── */
+.btn {
+  min-height: 36px;
+  padding: 0 14px;
+}
+.btn-icon {
+  min-height: 32px;
+  width: 32px;
+  padding: 0;
+}
+.scale-btn {
+  width: 34px;
+  height: 34px;
+}
+.add-unit-btn {
+  min-height: 36px;
+  padding: 0 14px;
+}
+.mgp-preset-btn {
+  min-height: 32px;
+  padding: 5px 14px;
+}
+.chip-add, .chip {
+  min-height: 28px;
+}
