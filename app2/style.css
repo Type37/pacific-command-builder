@@ -1785,57 +1785,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .scifi-fab .ico { display: flex; align-items: center; }
 
 /* ═══ Sci-fi dark mode - full token override ════════ */
-.scifi-mode {
-  /* Readable dark theme — WCAG AA compliant contrast */
-  --bg:                      #0d1117;
-  --neutral-bg-1:            #161b22;
-  --neutral-bg-1-hover:      #1c2128;
-  --neutral-bg-1-pressed:    #22272e;
-  --neutral-bg-1-selected:   #1e242b;
-  --neutral-bg-2:            #0d1117;
-  --neutral-bg-3:            #090d12;
-  --neutral-bg-4:            #060a0f;
-  --neutral-fg-1:            #e6edf3;
-  --neutral-fg-2:            #b1bac4;
-  --neutral-fg-3:            #8b949e;
-  --neutral-fg-4:            #6e7681;
-  --neutral-fg-disabled:     #484f58;
-  --neutral-fg-on-brand:     #ffffff;
-  --neutral-stroke-1:        #30363d;
-  --neutral-stroke-2:        #21262d;
-  --neutral-stroke-3:        #1b2028;
-  --neutral-stroke-accessible:#58a6ff;
-  --neutral-stroke-divider:  #21262d;
-  --brand-bg:                #1f6feb;
-  --brand-bg-hover:          #388bfd;
-  --brand-bg-pressed:        #1158c7;
-  --brand-bg-selected:       #1a5fcc;
-  --brand-bg-2:              #0d2545;
-  --brand-bg-2-hover:        #132e52;
-  --brand-fg-1:              #58a6ff;
-  --brand-fg-link:           #58a6ff;
-  --brand-stroke-1:          #1f6feb;
-  --status-danger-fg:        #f85149;
-  --status-danger-bg:        #1b1f23;
-  --status-warning-fg:       #d29922;
-  --status-warning-bg:       #1b1f23;
-  --status-success-fg:       #3fb950;
-  --status-success-bg:       #1b1f23;
-  --shadow-2:   0 0 0 1px rgba(48,54,61,0.7);
-  --shadow-4:   0 0 0 1px rgba(48,54,61,0.7), 0 2px 4px rgba(0,0,0,.5);
-  --shadow-8:   0 0 0 1px rgba(48,54,61,0.7), 0 4px 8px rgba(0,0,0,.5);
-  --shadow-16:  0 0 0 1px rgba(48,54,61,0.7), 0 8px 16px rgba(0,0,0,.5);
-  --shadow-brand-8: 0 0 8px rgba(31,111,235,.4), 0 4px 8px rgba(31,111,235,.3);
+/* Scifi mode: title font only */
+.scifi-mode .brand-name {
+  font-family: 'VCR OSD Mono', 'IBM Plex Mono', monospace;
+  letter-spacing: 0.04em;
 }
-/* Keep print area always light regardless of mode */
-.scifi-mode .print-area,
-.scifi-mode .print-area * {
-  color: #000 !important;
-  background: #fff !important;
-  border-color: #ccc !important;
-}
-
-/* Remove font changes from scifi mode - fonts stay the same */
 
 /* ═══ Print area redesign ══════════════════════════ */
 .p-tf { margin-bottom: 24px; page-break-inside: avoid; border: 1px solid #ccc; padding: 12px; }
