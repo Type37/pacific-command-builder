@@ -74,6 +74,10 @@ const Icon = {
     <path fill="currentColor" d="M4.808 16q-.348 0-.578-.23T4 15.192V8.808q0-.348.23-.578T4.808 8h14.384q.349 0 .578.23t.23.578v.665q0 .252-.193.424t-.451.16h-.087q-2.16 0-3.685 1.524q-1.526 1.523-1.526 3.688v.087q.011.257-.161.45q-.172.194-.424.194zm14.461-.017l-1.765 1.76q-.14.14-.342.152t-.366-.153q-.16-.16-.16-.354t.16-.354l1.766-1.765l-1.766-1.765q-.14-.14-.15-.345q-.01-.203.15-.363t.354-.16t.354.16l1.765 1.765l1.766-1.765q.14-.14.341-.153t.366.153q.16.16.16.354t-.16.354l-1.76 1.765l1.76 1.765q.14.141.153.342t-.153.366q-.16.16-.353.16t-.354-.16z"/>
   </svg>,
 
+  Sliders: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
+    <path d="M3 5h2m10 0H9M3 10h6m4 0h2M3 15h2m10 0H9M5 3v4M9 8v4M5 13v4" {...S}/>
+  </svg>,
+
   Reroll: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...p}>
     <path d="M18 4l3 3l-3 3"/>
     <path d="M18 20l3 -3l-3 -3"/>
@@ -860,15 +864,15 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
           <span key={m.id} className={'chip ' + (m.disadv ? 'warning' : '')} data-tip={m.text}>
             {m.name}
             <button type="button" className="chip-remove" onClick={() => onToggleMod(m.id)} aria-label={`Remove ${m.name}`}>
-              <Icon.Remove />
+              <Icon.Close />
             </button>
           </span>
         ))}
 
-        <button type="button" className="chip-add" style={{ marginLeft: 'auto' }}
-          onClick={() => setOpen(o => !o)}>
-          <span className="chip-add-ico">{open ? <Icon.Close /> : <Icon.Add />}</span>
-          <span className="chip-add-lbl">{open ? 'Close' : 'Configure'}</span>
+        <button type="button" className={'configure-btn' + (open ? ' open' : '')}
+          style={{ marginLeft: 'auto' }} onClick={() => setOpen(o => !o)}>
+          <span className="configure-btn-ico">{open ? <Icon.Close /> : <Icon.Sliders />}</span>
+          <span>{open ? 'Close' : 'Configure'}</span>
         </button>
       </div>
 
@@ -1307,7 +1311,7 @@ function App() {
       <header className="cmdbar">
         <div className="brand">
           <span className="brand-icon"><Icon.Flag /></span>
-          <span className="brand-name">Pacific Command <span className="lite">Builder by <span className="warlore-badge">WarLore</span></span></span>
+          <span className="brand-name">Pacific Command</span>
         </div>
 
         <div className="scale-ctrl">

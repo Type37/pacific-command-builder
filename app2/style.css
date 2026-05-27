@@ -2733,3 +2733,44 @@ button, input, select, textarea { font: inherit; color: inherit; }
   width: 18px;
   height: 18px;
 }
+
+/* ─── Configure button ───────────────────────────────────── */
+.configure-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  min-height: 34px;
+  border-radius: var(--r-pill, 99px);
+  border: 1.5px solid var(--brand-stroke-1);
+  background: var(--brand-bg-2);
+  color: var(--brand-fg-1);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+.configure-btn:hover {
+  background: var(--brand-bg-2-hover);
+  box-shadow: 0 2px 8px rgba(17, 78, 122, 0.15);
+  transform: translateY(-1px);
+}
+.configure-btn:active {
+  transform: scale(0.95);
+  background: var(--brand-bg-2-pressed);
+}
+.configure-btn.open {
+  background: var(--brand-bg);
+  border-color: var(--brand-bg);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(17, 78, 122, 0.25);
+}
+.configure-btn.open:hover {
+  background: var(--brand-bg-hover);
+}
+.configure-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  width: 16px;
+  flex-shrink: 0;
+}
