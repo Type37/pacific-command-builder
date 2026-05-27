@@ -1408,6 +1408,22 @@ function App() {
         <span className="ico"><Icon.Sparkle /></span> Sci-fi
       </button>
 
+      <footer className="game-info-footer">
+        <div className="gif-inner">
+          <span className="gif-title">Pacific Command</span>
+          <span className="gif-sep">·</span>
+          <span>Written by <a href="https://planetsmashergames.com/" target="_blank" rel="noopener">Mike Hutchinson</a></span>
+          <span className="gif-sep">·</span>
+          <span>Published by <a href="https://www.ospreypublishing.com/us/pacific-command-9781472859976/" target="_blank" rel="noopener">Osprey Games</a></span>
+          <span className="gif-sep">·</span>
+          <a href="https://planetsmashergames.com/pacific-command/" target="_blank" rel="noopener">Game page at Planet Smasher Games</a>
+          <span className="gif-sep">·</span>
+          <a href="https://www.amazon.com/Pacific-Command-Wargame-Osprey-Wargames/dp/1472859979" target="_blank" rel="noopener">Buy on Amazon</a>
+          <span className="gif-sep">·</span>
+          <span className="gif-builder">Fleet builder by <a href="https://jetwong.neocities.org" target="_blank" rel="noopener">WarLore</a></span>
+        </div>
+      </footer>
+
     </div>
     </LiteralNamesCtx.Provider>
     </ScifiCtx.Provider>

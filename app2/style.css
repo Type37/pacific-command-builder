@@ -32,16 +32,16 @@
   --neutral-stroke-divider:   #ebebeb;
 
   /* -- Brand (Pacific Command navy) */
-  --brand-bg:                 #1a5c38;
-  --brand-bg-hover:           #164f30;
-  --brand-bg-pressed:         #113f26;
-  --brand-bg-selected:        #164f30;
-  --brand-bg-2:               #edf5f0;
-  --brand-bg-2-hover:         #d9eddf;
-  --brand-bg-2-pressed:       #c3e2cc;
-  --brand-fg-1:               #1a5c38;
-  --brand-fg-link:            #164f30;
-  --brand-stroke-1:           #1a5c38;
+  --brand-bg:                 #114e7a;
+  --brand-bg-hover:           #0e4267;
+  --brand-bg-pressed:         #0a3553;
+  --brand-bg-selected:        #0e4267;
+  --brand-bg-2:               #eef4fa;
+  --brand-bg-2-hover:         #dfeaf4;
+  --brand-bg-2-pressed:       #cfddec;
+  --brand-fg-1:               #114e7a;
+  --brand-fg-link:            #0f4671;
+  --brand-stroke-1:           #114e7a;
 
   /* -- Status */
   --status-danger-fg:         #b10e1c;
@@ -2510,4 +2510,41 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .tf-doctrine-head .chip-add, .doctrine-presets { display: none !important; }
   .page { display: none; }
   .print-area { display: block; }
+}
+
+/* ─── Game info footer ─────────────────────────────────── */
+.game-info-footer {
+  border-top: 1px solid var(--neutral-stroke-2);
+  background: var(--neutral-bg-2);
+  padding: 10px var(--size-200);
+  font-size: 12px;
+  color: var(--neutral-fg-3);
+}
+.gif-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.gif-title {
+  font-weight: 600;
+  color: var(--neutral-fg-2);
+}
+.gif-sep {
+  color: var(--neutral-fg-disabled);
+}
+.game-info-footer a {
+  color: var(--brand-fg-1);
+  text-decoration: none;
+}
+.game-info-footer a:hover {
+  text-decoration: underline;
+}
+.gif-builder {
+  margin-left: auto;
+}
+@media (max-width: 600px) {
+  .gif-builder { margin-left: 0; }
 }
