@@ -1342,17 +1342,9 @@ function RandomTFPanel({ fleet, onAdd, onClose }) {
 }
 
 
-// Circled S as inline SVG: vector circle + letter, anti-aliased crisply at any
-// size, no dependence on font glyph hinting (which pixelates at small sizes).
+// Plain circled-S glyph in the inherited UI font. Simple and stable.
 function CircleS() {
-  return (
-    <svg className="circ-s" viewBox="0 0 100 100" aria-hidden="true">
-      <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="6.5" />
-      <text x="50" y="51" textAnchor="middle" dominantBaseline="central"
-        fontSize="58" fontWeight="700" fill="currentColor"
-        fontFamily="'Segoe UI', system-ui, Arial, sans-serif">S</text>
-    </svg>
-  );
+  return <span className="circ-s">{'\u24C8'}</span>;
 }
 // Render a name, swapping the Ⓢ marker for the drawn CircleS
 function fmtName(name) {

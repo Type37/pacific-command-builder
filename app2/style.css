@@ -3176,13 +3176,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-weight: 400;
 }
 
-/* Circled S as inline SVG — crisp at any size, color follows currentColor */
+/* Circled S — plain glyph in the inherited UI font */
 .circ-s {
-  width: 1em;
-  height: 1em;
-  display: inline-block;
-  vertical-align: -0.13em;
-  flex-shrink: 0;
+  font-family: inherit;
 }
 
 .random-field-label {
