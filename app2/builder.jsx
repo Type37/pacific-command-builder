@@ -1243,8 +1243,10 @@ function generateRandomTF(budget, fleet) {
 
   const nonSquadron = all.filter(c => c.category !== 'squadron');
   const capitals = nonSquadron.filter(c => c.category === 'capital');
+  const fighter = cm['fighter-sqn'];
+  const bomber  = cm['bomber-sqn'];
 
-  const MAX_FLEET_CV  = 2;
+  const MAX_FLEET_CV = 2;
 
   let remaining = budget;
   const units = [];
@@ -1255,33 +1257,29 @@ function generateRandomTF(budget, fleet) {
     else units.push({ id: 'u-' + uid(), classId: cls.id, qty: 1, pennant: '' });
     remaining -= cls.cost;
   };
+  const capacity   = () => units.reduce((s, u) => { const c = cm[u.classId]; return s + (c ? (c.stats?.aircraft || 0) * u.qty : 0); }, 0);
+  const squadrons  = () => qtyOf('fighter-sqn') + qtyOf('bomber-sqn');
 
   // Anchor the force around a capital ship most of the time
   const affordableCap = capitals.filter(c => c.cost <= remaining);
   if (affordableCap.length && Math.random() < 0.85) addOne(rand(affordableCap));
 
-  // Fill out the rest. Any number of a given hull is fine; only the
-  // fleet-carrier-per-task-force rule is enforced so the force stays legal.
-  for (let attempts = 0; attempts < 400 && remaining > 0; attempts++) {
-    const pool = nonSquadron.filter(c => {
-      if (c.cost > remaining) return false;
-      if (c.id === 'fleet-carrier' && qtyOf('fleet-carrier') >= MAX_FLEET_CV) return false;
-      return true;
-    });
+  // Fill until the budget is spent. Air squadrons (cost 1 each) are charged
+  // against the same budget and added only up to the current aircraft
+  // capacity, so the final total respects the points value the user set.
+  for (let attempts = 0; attempts < 800 && remaining > 0; attempts++) {
+    const pool = [];
+    for (const c of nonSquadron) {
+      if (c.cost > remaining) continue;
+      if (c.id === 'fleet-carrier' && qtyOf('fleet-carrier') >= MAX_FLEET_CV) continue;
+      pool.push(c);
+    }
+    if (squadrons() < capacity()) {
+      if (fighter && fighter.cost <= remaining) pool.push(fighter);
+      if (bomber  && bomber.cost  <= remaining) pool.push(bomber);
+    }
     if (!pool.length) break;
     addOne(rand(pool));
-  }
-
-  // Embark air wings up to total aircraft capacity, split fighters/bombers
-  const aircraft = units.reduce((s, u) => {
-    const c = cm[u.classId];
-    return s + (c ? (c.stats?.aircraft || 0) * u.qty : 0);
-  }, 0);
-  if (aircraft > 0) {
-    const f  = Math.ceil(aircraft * 0.5);
-    const bm = Math.floor(aircraft * 0.5);
-    if (f > 0)  units.push({ id: 'u-' + uid(), classId: 'fighter-sqn', qty: f,  pennant: '' });
-    if (bm > 0) units.push({ id: 'u-' + uid(), classId: 'bomber-sqn',  qty: bm, pennant: '' });
   }
 
   const faction = fleet?.faction || null;
