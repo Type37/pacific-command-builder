@@ -263,12 +263,18 @@ function QtyStepper({ value, onChange, min = 1, max = 99, onDelete }) {
 function FactionRoundel({ faction, size = 36 }) {
   const src = faction === 'IJN' ? 'assets/roundel-ijn.svg' :
               faction === 'USN' ? 'assets/roundel-usn.svg' : null;
-  if (!src) return null;
-  return <img src={src} width={size} height={size} alt={faction + ' roundel'} />;
+  if (src) return <img src={src} width={size} height={size} alt={faction + ' roundel'} />;
+  if (faction === 'KK') return (
+    <span className="faction-badge-kk" style={{ width: size, height: size, fontSize: Math.round(size * 0.38) }}>KK</span>
+  );
+  return null;
 }
 
 function FactionToggle({ faction, era, onChange }) {
-  const opts = [
+  const scifi = useScifi();
+  const opts = scifi ? [
+    { f: 'KK', e: 'Standard', label: 'Kalium Kabal' },
+  ] : [
     { f: 'IJN', e: 'Early War', label: 'IJN Early War' },
     { f: 'IJN', e: 'Late War',  label: 'IJN Late War'  },
     { f: 'USN', e: 'Early War', label: 'USN Early War' },
@@ -1022,6 +1028,19 @@ const PENNANT_POOLS = {
     'fighter-sqn':     ['Akagi Hikotai','Kaga Hikotai','Soryu Hikotai','Hiryu Hikotai','Shokaku Hikotai','Zuikaku Hikotai','Tainan Kokutai','251 Kokutai','201 Kokutai','Daitai 1','Daitai 2','Daitai 3','Chutai 1','Chutai 2'],
     'bomber-sqn':      ['Kanbaku 1','Kanbaku 2','Kanko 1','Kanko 3','Akagi Kanbaku','Kaga Kanko','Soryu Kanbaku','Hiryu Kanko','1st Koku Kantai','2nd Koku Kantai'],
   },
+  KK: {
+    'fleet-carrier':   ['First Dominion','Inheritance Clause','Conquistador',"Kabal's Heart",'Magellan','Vespucci','Eminent Domain','Terra Nullius','Right of Discovery','Cortes','Requisition','Lebensraum','Inevitability','Manifest','Corrective','Absorption','Settlement','Protectorate','Charter of Conquest','Charter','Freehold','Annexation'],
+    'light-carrier':   ['Collins','Wasp','Gemini','Eagle','Known Associates','Incident Report',"People's Beneficence","Kabal's Wisdom",'As One','Gladiator','Lord Regent','Junta','Common Cause','Mutual Benefit','Solidarity','Progress Report','Harmonious','Exemplary'],
+    'seaplane-tender': ['Outrider','Early Warning','Vlad Carmichael',"Insurrection's End",'Sender of Will','Spear of Will','Lightbringer','Searcher','Seedling','Nostrum','Sulla','Pathbreaker','Far Hand','Precursor','Leading Edge','Advance Notice'],
+    'battleship':      ['Final Argument','Absolute Majority','Loki','Proud Empress','Black Prince','Scharnhorst','Iowa','Great Founder','Nikola Tesla','Hyperion','Might of Kalium','Steel Fist','Killforge','Our Grace','Our Gaze','Illuminator','Hammer of Reason','Subjugator','Soul Reaver','Executioner','Volcanic','Your Fate','Spear of Onyx','Decapitator','Tirpitz','Terminus','Sovereign','Immovable','Warrant','Thunderous'],
+    'heavy-cruiser':   ['Iron Prefect','Collective Punishment','Proudcore','Industry','Fist of Iron','Incinerator',"Hell's Fury",'Vengefire',"Kabal's Judgement",'Ultimate Certainty','Streetsweeper','Hammer of Might','Decimator','Overseer','Final Notice','Magistrate','Punitive','Adjudicator','Merciless'],
+    'light-cruiser':   ['Interregnum','Dead Reckoning','Hardrada','Necromancer','Purgatory','Limbo','Penumbra','Styx','Charnel','Gallows','Cannae','Crassus','Pyrrhus','Teutoburg','Ney','Adrianople','Isandlwana','Vercingetorix','Jugurtha','Wallenstein','Foolhardy'],
+    'destroyer':       ['Press Gang','Willing Volunteer','Switchblade','Noble Conscript','Guardsman','Pressed Man','Indentured','Impressment','Defaulter','Seconded','Sentinel','Stalwart','Vigilant','Resolute','Warden','Picket','Bulwark','Trenchant','Indefatigable','Intrepid'],
+    'submarine':       ['Bloodwork','Due Diligence','Hellhunter','Poison Dagger',"Kabal's Knife",'First Message','Wrathful','Stiletto','Garotte','Wet Work','Cutthroat','Lancet','Untraceable'],
+    'auxiliary':       ['All-Seeing','Lens of Truth','Nightpiercer','BVK-1','BVK-2','BVK-3','TZhS-4','TZhS-5','OVR-7','OVR-12','VB-19','VB-22','Transport No. 3','Transport No. 8','Tender 441','Tender 883','Project 112','Type II Base Ship','Welfare Check','Oversight','Point of Contact','Duly Noted','Under Review'],
+    'fighter-sqn':     ['Alpha Wing','Beta Wing','Gamma Wing','Delta Wing','Intercept-1','Intercept-2','Intercept-3','Screen Flight','Patrol Wing','Forward Screen'],
+    'bomber-sqn':      ['Strike Wing Alpha','Strike Wing Beta','Strike Wing Gamma','Strike Flight 1','Strike Flight 2','Attack Wing','Assault Wing','Bombard Flight'],
+  },
   USN: {
     'fleet-carrier':   ['Enterprise','Hornet','Yorktown','Lexington','Wasp','Essex','Bunker Hill','Saratoga','Franklin','Intrepid','Reprisal'],
     'light-carrier':   ['Independence','Belleau Wood','Cowpens','Monterey','Cabot','San Jacinto','Princeton'],
@@ -1048,6 +1067,7 @@ function randomPennant(classId, faction) {
 const TF_CALLSIGNS = {
   IJN: ['Kido Butai','Rengo Kantai','Dai-ichi Kido Kantai','Dai-ni Kantai','Dai-roku Kantai','Koku Kantai','Sentai','Hikotai','Suirai Sentai','Zenei Butai','Shuryoku Butai','Ozawa','Nagumo','Mikawa','Tanaka','Goto','Kurita','Nishimura','Shima','Ugaki','Hashimoto','CarDiv 1','CarDiv 2','DesRon 2','DesRon 4','CrusDiv 7','BatDiv 1'],
   USN: ['Halsey','Spruance','Kinkaid','Fletcher','McMorris','Merrill','Burke','Oldendorf','Mitscher','Bogan','Lee','Scott','Callaghan','TF 38','TF 58','TF 77','TF 34','TF 64','TG 77.4','TG 38.1','TG 38.3','CrusDiv 6','DesRon 21','DesRon 45','BatDiv 6','Striking','Screen','Covering','Support','Hunter'],
+  KK: ["Kabal's Heart","Kabal's Judgement","Kabal's Knife","Kabal's Wisdom",'First Dominion','Iron Prefect','Final Argument','Steel Fist','Killforge','Collective Punishment','Might of Kalium','Terminus','Sovereign','Immovable','Spear Group','Hammer Group','Hammer of Reason','Conquest Fleet','Acquisition Fleet','Protectorate Force','Vanguard','Iron Fist'],
   neutral: ['Striking','Covering','Screen','Support','Sweeping','Bombardment','Hunter','Carrier','Surface','Coral Sea','Java Sea','Leyte','Midway','Alpha','Bravo','Delta','Foxtrot','Kilo','Zulu'],
 };
 function randomCallSign(faction) {
@@ -1309,7 +1329,10 @@ function App() {
   const onScaleChange = (n) => setFleet(f => ({ ...f, scale: Math.max(1, Math.min(10, n)) }));
   const onFreePlayChange = (v) => setFleet(f => ({ ...f, freePlay: v }));
 
-  const toggleScifi = () => setScifi(s => !s);
+  const toggleScifi = () => {
+    setScifi(s => !s);
+    setFleet(fl => ({ ...fl, faction: null, era: null, mods: [], setId: null }));
+  };
 
   const faction = fleet.faction;
   const era = fleet.era;

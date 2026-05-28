@@ -2915,3 +2915,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .faction-pill span { display: none; }  /* icon only on tiny screens */
   .faction-pill { padding: 4px 8px; min-height: 32px; }
 }
+
+/* ─── Kalium Kabal faction badge ─────────────────────── */
+.faction-badge-kk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #111;
+  color: #C9A227;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+  line-height: 1;
+}

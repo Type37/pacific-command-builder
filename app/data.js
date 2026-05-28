@@ -31,6 +31,21 @@ window.SPECIAL_RULES = {
     name: 'Squadron',
     text: 'An embarked aircraft unit. The total number of squadrons in a Task Force may not exceed the Task Force\u2019s Aircraft value.',
   },
+  KK: {
+    'Standard': {
+      'fleet-carrier':   ['First Dominion','Inheritance Clause','Conquistador',"Kabal's Heart",'Magellan','Vespucci','Eminent Domain','Terra Nullius','Right of Discovery','Cortes','Requisition','Lebensraum','Inevitability','Manifest','Corrective','Absorption','Settlement','Protectorate','Charter of Conquest','Charter','Freehold','Annexation'],
+      'light-carrier':   ['Collins','Wasp','Gemini','Eagle','Known Associates','Incident Report',"People's Beneficence","Kabal's Wisdom",'As One','Gladiator','Lord Regent','Junta','Common Cause','Mutual Benefit','Solidarity','Progress Report','Harmonious','Exemplary'],
+      'seaplane-tender': ['Outrider','Early Warning','Vlad Carmichael',"Insurrection's End",'Sender of Will','Spear of Will','Lightbringer','Searcher','Seedling','Nostrum','Sulla','Pathbreaker','Far Hand','Precursor','Leading Edge','Advance Notice'],
+      'battleship':      ['Final Argument','Absolute Majority','Loki','Proud Empress','Black Prince','Scharnhorst','Iowa','Great Founder','Nikola Tesla','Hyperion','Might of Kalium','Steel Fist','Killforge','Our Grace','Our Gaze','Illuminator','Hammer of Reason','Subjugator','Soul Reaver','Executioner','Volcanic','Your Fate','Spear of Onyx','Decapitator','Tirpitz','Terminus','Sovereign','Immovable','Warrant','Thunderous'],
+      'heavy-cruiser':   ['Iron Prefect','Collective Punishment','Proudcore','Industry','Fist of Iron','Incinerator',"Hell's Fury",'Vengefire',"Kabal's Judgement",'Ultimate Certainty','Streetsweeper','Hammer of Might','Decimator','Overseer','Final Notice','Magistrate','Punitive','Adjudicator','Merciless'],
+      'light-cruiser':   ['Interregnum','Dead Reckoning','Hardrada','Necromancer','Purgatory','Limbo','Penumbra','Styx','Charnel','Gallows','Cannae','Crassus','Pyrrhus','Teutoburg','Ney','Adrianople','Isandlwana','Vercingetorix','Jugurtha','Wallenstein','Foolhardy'],
+      'destroyer':       ['Press Gang','Willing Volunteer','Switchblade','Noble Conscript','Guardsman','Pressed Man','Indentured','Impressment','Defaulter','Seconded','Sentinel','Stalwart','Vigilant','Resolute','Warden','Picket','Bulwark','Trenchant','Indefatigable','Intrepid'],
+      'submarine':       ['Bloodwork','Due Diligence','Hellhunter','Poison Dagger',"Kabal's Knife",'First Message','Wrathful','Stiletto','Garotte','Wet Work','Cutthroat','Lancet','Untraceable'],
+      'auxiliary':       ['All-Seeing','Lens of Truth','Nightpiercer','BVK-1','BVK-2','BVK-3','TZhS-4','TZhS-5','OVR-7','OVR-12','VB-19','VB-22','Transport No. 3','Transport No. 8','Tender 441','Tender 883','Project 112','Type II Base Ship','Welfare Check','Oversight','Point of Contact','Duly Noted','Under Review'],
+      'fighter-sqn':     ['Alpha Wing','Beta Wing','Gamma Wing','Delta Wing','Intercept-1','Intercept-2','Intercept-3','Screen Flight','Patrol Wing','Forward Screen'],
+      'bomber-sqn':      ['Strike Wing Alpha','Strike Wing Beta','Strike Wing Gamma','Strike Flight 1','Strike Flight 2','Attack Wing','Assault Wing','Bombard Flight'],
+    },
+  },
 };
 
 // Parse "Armoured (2)" → "Armoured"
@@ -172,6 +187,7 @@ window.HISTORICAL_MOD_SETS = [
     mods: ['coordinated-strikes', 'enemy-codes', 'increased-aircraft', 'mobile-force-doctrine'] },
   { id: 'lw-ijn', faction: 'IJN', era: 'Late War', label: 'Late War IJN',
     mods: ['aircraft-shortage', 'coordinated-strikes', 'extended-craft-range', 'ineffective-aa', 'rookie-pilots'] },
+  { id: 'kk-std', faction: 'KK', era: 'Standard', label: 'Kalium Kabal', mods: [] },
 ];
 
 // ─── Historical ship/squadron names ────────────────────
