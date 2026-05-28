@@ -180,18 +180,17 @@ function computeTotals(units, cm) {
   return { cost, guns, aircraft, aa, strike, cap, squadronCount };
 }
 
-// Effective special rules for a class, applying Improved Armour mod
+// Effective special rules for a class, applying class-targeted armour mods.
+// Improved Armour and Torpedo Belts are situational (+1 Armoured in Gun
+// Battles / Strikes respectively), so we annotate rather than rewrite the value.
 function effectiveSpecial(cls, fleet) {
   let special = cls.special || '';
-  const hasMod = (fleet?.mods || []).includes('improved-armour');
-  if (hasMod && fleet?.armourClass === cls.id) {
-    const m = special.match(/Armoured \((\d+)\)/);
-    if (m) {
-      special = special.replace(/Armoured \(\d+\)/, `Armoured (${parseInt(m[1]) + 1})`);
-    } else {
-      special = special ? special + ', Armoured (1)' : 'Armoured (1)';
-    }
-  }
+  const mods = fleet?.mods || [];
+  const sel = fleet?.armourSel || {};
+  const notes = [];
+  if (mods.includes('improved-armour') && sel['improved-armour'] === cls.id) notes.push('Armoured +1 vs Guns');
+  if (mods.includes('torpedo-belts')   && sel['torpedo-belts']   === cls.id) notes.push('Armoured +1 vs Strikes');
+  if (notes.length) special = special ? special + ', ' + notes.join(', ') : notes.join(', ');
   return special;
 }
 
@@ -840,7 +839,7 @@ function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, 
 }
 
 // ─── Improved Armour: class picker modal ───────────────
-function ArmourClassModal({ current, onPick, onClose }) {
+function ArmourClassModal({ title, current, onPick, onClose }) {
   const ref = useRef(null);
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -850,9 +849,9 @@ function ArmourClassModal({ current, onPick, onClose }) {
   const classes = (window.SHIP_CLASSES || []).filter(c => c.category !== 'squadron');
   return (
     <div className="armour-modal-backdrop" onClick={onClose}>
-      <div className="armour-modal" ref={ref} role="dialog" aria-label="Choose class for Improved Armour" onClick={e => e.stopPropagation()}>
+      <div className="armour-modal" ref={ref} role="dialog" aria-label={`Choose class for ${title}`} onClick={e => e.stopPropagation()}>
         <div className="armour-modal-head">
-          <span>Improved Armour — choose a class</span>
+          <span>{title} — choose a class</span>
           <button type="button" className="armour-modal-close" onClick={onClose} aria-label="Close"><Icon.Close /></button>
         </div>
         <div className="armour-modal-body">
@@ -872,9 +871,9 @@ function ArmourClassModal({ current, onPick, onClose }) {
 }
 
 // ─── Fleet Modifications section (top of main content) ─
-function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChange, armourClass, onArmourClassChange }) {
+function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChange, armourSel, onClassSelect }) {
   const [open, setOpen] = useState(false);
-  const [armourModal, setArmourModal] = useState(false);
+  const [classModalFor, setClassModalFor] = useState(null);
   const cmRef = useMemo(classMap, []);
   const mm = useMemo(modMap, []);
   const activeIds = fleet.mods || [];
@@ -883,6 +882,7 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
   const advMods = allMods.filter(m => !m.disadv);
   const disadvMods = allMods.filter(m => m.disadv);
   const sets = window.HISTORICAL_MOD_SETS || [];
+  const sel = armourSel || {};
 
   return (
     <section className="fleet-mods">
@@ -891,11 +891,11 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
 
         {activeMods.map(m => (
           <span key={m.id} className={'chip ' + (m.disadv ? 'warning' : '')} data-tip={m.text}>
-            {m.id === 'improved-armour' && armourClass && cmRef[armourClass]
-              ? `${m.name}: ${cmRef[armourClass].name}`
+            {m.needsClass && sel[m.id] && cmRef[sel[m.id]]
+              ? `${m.name}: ${cmRef[sel[m.id]].name}`
               : m.name}
-            {m.id === 'improved-armour' && (
-              <button type="button" className="chip-edit" onClick={() => setArmourModal(true)} aria-label="Change armoured class">
+            {m.needsClass && (
+              <button type="button" className="chip-edit" onClick={() => setClassModalFor(m.id)} aria-label={`Change class for ${m.name}`}>
                 <Icon.Sliders />
               </button>
             )}
@@ -925,12 +925,8 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
               {advMods.map(m => {
                 const active = activeIds.includes(m.id);
                 const handleClick = () => {
-                  if (m.id === 'improved-armour') {
-                    if (!active) { onToggleMod(m.id); setArmourModal(true); }
-                    else { onToggleMod(m.id); }
-                  } else {
-                    onToggleMod(m.id);
-                  }
+                  if (m.needsClass && !active) { onToggleMod(m.id); setClassModalFor(m.id); }
+                  else { onToggleMod(m.id); }
                 };
                 return (
                   <button type="button" key={m.id}
@@ -972,11 +968,12 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
           </div>
         </div>
       )}
-      {armourModal && (
+      {classModalFor && (
         <ArmourClassModal
-          current={armourClass}
-          onPick={onArmourClassChange}
-          onClose={() => setArmourModal(false)} />
+          title={mm[classModalFor]?.name || 'Choose class'}
+          current={sel[classModalFor]}
+          onPick={(classId) => onClassSelect(classModalFor, classId)}
+          onClose={() => setClassModalFor(null)} />
       )}
     </section>
   );
@@ -1376,11 +1373,16 @@ function App() {
       const removing = cur.includes(id);
       const next = removing ? cur.filter(x => x !== id) : [...cur, id];
       const clearFaction = next.length === 0;
-      const extra = (removing && id === 'improved-armour') ? { armourClass: null } : {};
-      return { ...f, mods: next, setId: null, ...extra, ...(clearFaction ? { faction: null, era: null } : {}) };
+      let armourSel = f.armourSel || {};
+      if (removing && armourSel[id]) {
+        armourSel = { ...armourSel };
+        delete armourSel[id];
+      }
+      return { ...f, mods: next, setId: null, armourSel, ...(clearFaction ? { faction: null, era: null } : {}) };
     });
   };
-  const onArmourClassChange = (classId) => setFleet(f => ({ ...f, armourClass: classId }));
+  const onClassSelect = (modId, classId) =>
+    setFleet(f => ({ ...f, armourSel: { ...(f.armourSel || {}), [modId]: classId } }));
   const onApplySet = (set) => {
     setFleet(f => {
       const taskForces = f.taskForces.map(tf => autoFillForFleet(tf, set.faction, set.era));
@@ -1468,8 +1470,8 @@ function App() {
 
           <FleetMods fleet={fleet} onApplySet={onApplySet} onToggleMod={onToggleMod}
             faction={faction} era={era}
-            armourClass={fleet.armourClass}
-            onArmourClassChange={onArmourClassChange}
+            armourSel={fleet.armourSel}
+            onClassSelect={onClassSelect}
             onFactionChange={(f, e) => {
               if (!f) {
                 setFleet(fl => ({ ...fl, faction: null, era: null, mods: [], setId: null }));

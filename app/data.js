@@ -93,7 +93,10 @@ window.CATEGORIES = [
 // Modifications (verbatim text from rulebook)
 window.MODIFICATIONS = [
   { id: 'improved-armour', name: 'Improved Armour',
-    text: 'Choose one ship class. Ships of that class improve their Armoured (X) rating by +1, gaining Armoured (1) if they had none.',
+    text: 'Ships of the noted class increase the value of their Armoured (X) value by +1 during Gun battles.',
+    effect: { kind: 'armourClass' }, needsClass: true },
+  { id: 'torpedo-belts', name: 'Torpedo Belts',
+    text: 'Ships of the noted class increase the value of their Armoured (X) value by +1 during Strikes.',
     effect: { kind: 'armourClass' }, needsClass: true },
   { id: 'coordinated-strikes', name: 'Coordinated Strikes',
     text: 'In the Declare Strike Step of an Air Action, this fleet can reveal and discard a black Air Group card from another friendly Task Force in the same Stack to add that Task Force Strike value to the active Task Force when amassing Strike dice.',
