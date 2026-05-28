@@ -1,0 +1,10 @@
+<svg width="100%" viewBox="0 0 680 680" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Kalium K logo</title>
+<rect x="140" y="110" width="400" height="460" fill="#111"/>
+<!-- upper lightning bolt -->
+<polygon fill="#e8e4df" points="305,110 355,110 322,195 358,195 312,280 330,205 288,205"/>
+<!-- lower lightning bolt -->
+<polygon fill="#e8e4df" points="305,570 355,570 322,485 358,485 312,400 330,475 288,475"/>
+<!-- right wedge -->
+<polygon fill="#e8e4df" points="540,110 540,570 340,340"/>
+</svg>

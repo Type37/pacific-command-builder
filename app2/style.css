@@ -2917,20 +2917,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 /* ─── Kalium Kabal faction badge ─────────────────────── */
-.faction-badge-kk {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #0d0d0d;
-  color: #B87333;
-  border: 2px solid #0D9488;
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  flex-shrink: 0;
-  line-height: 1;
-  box-shadow: 0 0 6px rgba(13,148,136,0.4);
+.faction-pill[data-faction="KK"] img {
+  border-radius: 2px;
 }
 
 /* KK faction pill active state */

@@ -265,7 +265,7 @@ function FactionRoundel({ faction, size = 36 }) {
               faction === 'USN' ? 'assets/roundel-usn.svg' : null;
   if (src) return <img src={src} width={size} height={size} alt={faction + ' roundel'} />;
   if (faction === 'KK') return (
-    <span className="faction-badge-kk" style={{ width: size, height: size, fontSize: Math.round(size * 0.38) }}>KK</span>
+    <img src="assets/roundel-kk.svg" width={size} height={size} alt="Kalium Kabal roundel" />
   );
   if (faction === 'PR') return (
     <span className="faction-badge-pr" style={{ width: size, height: size, fontSize: Math.round(size * 0.38) }}>PR</span>
