@@ -2961,3 +2961,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
   color: #7A4F1E;
   background: rgba(160,117,42,0.08);
 }
+
+/* ─── Flyout: viewport-clamped, scrollable ───────────── */
+.flyout {
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Suppress tooltips on touch devices ────────────── */
+@media (hover: none) {
+  [data-tip]::after,
+  [data-tip]::before {
+    display: none !important;
+  }
+}
