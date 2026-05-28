@@ -1484,6 +1484,8 @@ function App() {
           <a href="https://www.amazon.com/Pacific-Command-Wargame-Osprey-Wargames/dp/1472859979" target="_blank" rel="noopener">Buy on Amazon</a>
           <span className="gif-sep">·</span>
           <span className="gif-builder">Fleet builder by <a href="https://jetwong.neocities.org" target="_blank" rel="noopener">WarLore</a></span>
+          <span className="gif-sep">·</span>
+          <a href="https://github.com/Type37/pacific-command-builder" target="_blank" rel="noopener">GitHub</a>
         </div>
       </footer>
 
