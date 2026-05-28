@@ -1244,7 +1244,6 @@ function generateRandomTF(budget, fleet) {
   const nonSquadron = all.filter(c => c.category !== 'squadron');
   const capitals = nonSquadron.filter(c => c.category === 'capital');
 
-  const MAX_PER_CLASS = 4;
   const MAX_FLEET_CV  = 2;
 
   let remaining = budget;
@@ -1261,11 +1260,11 @@ function generateRandomTF(budget, fleet) {
   const affordableCap = capitals.filter(c => c.cost <= remaining);
   if (affordableCap.length && Math.random() < 0.85) addOne(rand(affordableCap));
 
-  // Fill out the rest, respecting per-class caps and the fleet-carrier limit
-  for (let attempts = 0; attempts < 300 && remaining > 0; attempts++) {
+  // Fill out the rest. Any number of a given hull is fine; only the
+  // fleet-carrier-per-task-force rule is enforced so the force stays legal.
+  for (let attempts = 0; attempts < 400 && remaining > 0; attempts++) {
     const pool = nonSquadron.filter(c => {
       if (c.cost > remaining) return false;
-      if (qtyOf(c.id) >= MAX_PER_CLASS) return false;
       if (c.id === 'fleet-carrier' && qtyOf('fleet-carrier') >= MAX_FLEET_CV) return false;
       return true;
     });
@@ -1306,6 +1305,11 @@ function generateRandomTF(budget, fleet) {
 function RandomTFPanel({ fleet, onAdd, onClose }) {
   const [budget, setBudget] = React.useState(150);
   const presets = [100, 150, 200, 300];
+  const go = () => {
+    const b = Math.max(1, Math.min(999, parseInt(budget) || 1));
+    onAdd(generateRandomTF(b, fleet));
+    onClose();
+  };
   return (
     <div className="random-panel">
       <div className="random-panel-head">
@@ -1313,19 +1317,23 @@ function RandomTFPanel({ fleet, onAdd, onClose }) {
         <button type="button" className="random-panel-close" onClick={onClose} aria-label="Close"><Icon.Close /></button>
       </div>
       <div className="random-panel-body">
+        <div className="random-field-label">Points budget</div>
         <div className="random-presets">
           {presets.map(p => (
             <button type="button" key={p} className={'random-preset' + (budget === p ? ' active' : '')} onClick={() => setBudget(p)}>{p}</button>
           ))}
         </div>
         <div className="random-custom">
-          <input type="number" min="10" max="999" step="5" value={budget}
-            onChange={e => setBudget(Math.max(10, parseInt(e.target.value) || 10))}
-            className="random-custom-input" />
-          <span className="random-custom-label">pts</span>
+          <input type="number" min="1" max="999" step="1" value={budget}
+            onChange={e => {
+              const v = e.target.value;
+              setBudget(v === '' ? '' : Math.min(999, Math.max(0, parseInt(v) || 0)));
+            }}
+            onKeyDown={e => { if (e.key === 'Enter') go(); }}
+            className="random-custom-input" aria-label="Custom points budget" />
+          <span className="random-custom-label">pts (1–999)</span>
         </div>
-        <button type="button" className="btn btn-primary random-go"
-          onClick={() => { onAdd(generateRandomTF(budget, fleet)); onClose(); }}>
+        <button type="button" className="btn btn-primary random-go" onClick={go}>
           <span className="ico"><Icon.Dice /></span> Generate
         </button>
       </div>
@@ -1334,10 +1342,17 @@ function RandomTFPanel({ fleet, onAdd, onClose }) {
 }
 
 
-// Circled S pinned to Noto Sans Symbols 2 so the glyph renders cleanly and
-// identically at any size, on any OS, regardless of the system font.
+// Circled S as inline SVG: vector circle + letter, anti-aliased crisply at any
+// size, no dependence on font glyph hinting (which pixelates at small sizes).
 function CircleS() {
-  return <span className="circ-s">{'\u24C8'}</span>;
+  return (
+    <svg className="circ-s" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="6.5" />
+      <text x="50" y="51" textAnchor="middle" dominantBaseline="central"
+        fontSize="58" fontWeight="700" fill="currentColor"
+        fontFamily="'Segoe UI', system-ui, Arial, sans-serif">S</text>
+    </svg>
+  );
 }
 // Render a name, swapping the Ⓢ marker for the drawn CircleS
 function fmtName(name) {
