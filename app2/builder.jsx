@@ -616,10 +616,9 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
   const literalNames = useLiteralNames();
   const scifi = useScifi();
   const terms = T(scifi);
-  const P_STATS = [
-    { key: 'cost',     label: 'Cost',    unit: 'pts' },
+  const COMBAT_STATS = [
     { key: 'guns',     label: 'Guns'    },
-    { key: 'aircraft', label: scifi ? 'Capacity' : 'Aircraft' },
+    { key: 'aircraft', label: scifi ? 'Capacity' : 'Air Cap' },
     { key: 'strike',   label: 'Strike'  },
     { key: 'aa',       label: 'AA'      },
     { key: 'cap',      label: 'CAP'     },
@@ -641,20 +640,11 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
       </div>
 
       {mods.length > 0 && (
-        <div className="p-fleet-mods">
-          <strong>Fleet modifications:</strong>{' '}
-          {mods.map((m, i) => (
-            <span key={m.id}>{m.name}{m.disadv ? ' (Disadv.)' : ''}{i < mods.length - 1 ? ', ' : ''}</span>
-          ))}
-        </div>
-      )}
-
-      {mods.length > 0 && (
         <div className="p-fleet-mod-rules">
-          <div className="p-rules-title">Fleet Modification Rules</div>
+          <div className="p-rules-title">Fleet Modifications</div>
           {mods.map(m => (
             <div key={m.id} className="p-rule-entry">
-              <strong>{m.name}:</strong> {m.text}
+              <strong>{m.name}{m.disadv ? ' (Disadvantageous)' : ''}:</strong> {m.text}
             </div>
           ))}
         </div>
@@ -671,47 +661,52 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                 <span className="p-tf-num">Task Force {String(idx + 1).padStart(2, '0')}</span>
                 {tf.callSign && <span className="p-tf-callsign">{literalNames && MEANINGS[tf.callSign] ? MEANINGS[tf.callSign] : tf.callSign}</span>}
               </div>
-              {tf.commander && <div className="p-tf-cmdr">Cmdr: {tf.commander}</div>}
+              <div className="p-tf-head-right">
+                {tf.commander && <span className="p-tf-cmdr">Cmdr: {tf.commander}</span>}
+                <span className="p-tf-cost">{totals.cost || 0} pts</span>
+              </div>
             </header>
 
-            <div className="p-stats-row">
-              {P_STATS.map(s => (
-                <div key={s.key} className="p-stat-box">
-                  <div className="p-stat-val">{totals[s.key] || 0}{s.unit ? <span className="p-stat-unit">{s.unit}</span> : null}</div>
-                  <div className="p-stat-label">{s.label}</div>
-                </div>
-              ))}
-            </div>
+            <div className="p-tf-body">
+              <div className="p-stats-col">
+                {COMBAT_STATS.map(s => (
+                  <div key={s.key} className="p-stat-box">
+                    <div className="p-stat-val">{totals[s.key] || 0}</div>
+                    <div className="p-stat-label">{s.label}</div>
+                  </div>
+                ))}
+              </div>
 
-            <table className="p-roster-table">
-              <thead>
-                <tr>
-                  <th className="p-r-cost-h">Cost</th>
-                  <th>Unit</th>
-                  <th>Role</th>
-                  <th>Special</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sorted.map(u => {
-                  const c = cm[u.classId]; if (!c) return null;
-                  const costStr = u.qty > 1
-                    ? `(${u.qty}x) ${c.cost}pts = ${c.cost * u.qty}`
-                    : `${c.cost}pts`;
-                  return (
-                    <tr key={u.id}>
-                      <td className="p-r-cost">{costStr}</td>
-                      <td className="p-r-name">
-                        <span className="p-r-sprite">{c.sprite}</span>
-                        {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
-                      </td>
-                      <td className="p-r-role">{c.role}</td>
-                      <td className="p-r-special">{c.special || ''}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+              <table className="p-roster-table">
+                <thead>
+                  <tr>
+                    <th>Unit</th>
+                    <th>Role</th>
+                    <th>Special</th>
+                    <th className="p-r-cost-h">Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sorted.map(u => {
+                    const c = cm[u.classId]; if (!c) return null;
+                    const costStr = u.qty > 1
+                      ? `(${u.qty}x) ${c.cost} = ${c.cost * u.qty}`
+                      : `${c.cost}`;
+                    return (
+                      <tr key={u.id}>
+                        <td className="p-r-name">
+                          <span className="p-r-sprite">{c.sprite}</span>
+                          {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
+                        </td>
+                        <td className="p-r-role">{c.role}</td>
+                        <td className="p-r-special">{c.special || ''}</td>
+                        <td className="p-r-cost">{costStr}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </article>
         );
       })}
