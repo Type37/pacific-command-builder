@@ -1568,7 +1568,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   letter-spacing: -0.01em;
 }
 .sb-s {
-  font-family: 'Noto Serif JP', serif;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 500;
   color: var(--neutral-fg-3);
@@ -1741,7 +1741,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   justify-content: center;
 }
 .scale-s {
-  font-family: 'Noto Serif JP', serif;
+  font-family: inherit;
   font-size: 20px;
   font-weight: 400;
   color: rgba(255,255,255,0.75);
@@ -3172,6 +3172,6 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* Circle-S in cmdbar buttons matches the scale control's serif glyph */
 .cmd-s {
-  font-family: 'Noto Serif JP', serif;
+  font-family: inherit;
   font-weight: 400;
 }
