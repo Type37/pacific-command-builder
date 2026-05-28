@@ -1176,22 +1176,31 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* add unit */
 .add-unit { padding: var(--size-120) var(--size-240); }
 .add-unit-btn {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
-  gap: var(--size-60);
+  justify-content: center;
+  gap: var(--size-80);
   color: var(--brand-fg-1);
-  background: transparent;
-  border: 1px solid transparent;
-  padding: 6px 12px 6px 8px;
+  background: var(--brand-bg-2);
+  border: 1.5px dashed var(--brand-stroke-1);
+  padding: 11px 16px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
-  border-radius: var(--r-4);
-  transition: background var(--d-100), border-color var(--d-100);
+  border-radius: var(--r-8);
+  transition: background var(--d-100), border-color var(--d-100), transform var(--d-100);
 }
-.add-unit-btn:hover  { background: var(--brand-bg-2); }
-.add-unit-btn:active { background: var(--brand-bg-2-hover); }
+.add-unit-btn:hover  {
+  background: var(--brand-bg-2-hover);
+  border-style: solid;
+}
+.add-unit-btn:active {
+  background: var(--brand-bg-2-pressed);
+  transform: scale(0.99);
+}
+.add-unit-btn svg { width: 18px; height: 18px; }
 
 /* totals strip - stat icons + value */
 .tf-totals {
@@ -2974,5 +2983,43 @@ button, input, select, textarea { font: inherit; color: inherit; }
   [data-tip]::after,
   [data-tip]::before {
     display: none !important;
+  }
+}
+
+/* ─── Flyout as bottom sheet on mobile ─────────────────── */
+@media (max-width: 700px) {
+  .add-unit { position: static; }
+  .flyout {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    max-height: 75vh;
+    border-radius: var(--r-16) var(--r-16) 0 0;
+    border-bottom: none;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.25);
+    z-index: 200;
+    padding: var(--size-120) var(--size-120) calc(var(--size-200) + env(safe-area-inset-bottom, 0px));
+    animation: sheet-up var(--d-200) var(--ease-out);
+  }
+  /* grab handle */
+  .flyout::before {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 99px;
+    background: var(--neutral-stroke-1);
+    margin: 2px auto 10px;
+    position: sticky;
+    top: 0;
+  }
+  @keyframes sheet-up {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
   }
 }

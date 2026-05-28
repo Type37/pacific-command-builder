@@ -457,7 +457,7 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const squadronOver = totals.squadronCount > totals.aircraft;
-  const tfV = useMemo(() => tfViolations(tf, freePlay), [tf, freePlay]);
+  const tfV = useMemo(() => tfViolations(tf, freePlay, fleet.mods), [tf, freePlay, fleet.mods]);
   const scifi = useScifi();
   const literalNames = useLiteralNames();
   const terms = T(scifi);
@@ -1109,7 +1109,9 @@ function fleetViolations(fleet, cm) {
   const scale = fleet.scale || 3;
   const v = {};
   if (fleet.taskForces.length > scale) v.tooManyTFs = fleet.taskForces.length;
+  const escortCarriers = (fleet.mods || []).includes('escort-carriers');
   for (const hvId of HIGH_VALUE_CLASSES) {
+    if (escortCarriers && hvId === 'light-carrier') continue;
     let count = 0;
     for (const tf of fleet.taskForces)
       for (const u of tf.units) if (u.classId === hvId) count += u.qty;
@@ -1130,11 +1132,12 @@ function fleetViolations(fleet, cm) {
   return v;
 }
 
-function tfViolations(tf, freePlay) {
+function tfViolations(tf, freePlay, mods) {
   if (freePlay) return {};
   const v = {};
+  const noCarrierLimit = (mods || []).includes('mobile-force-doctrine');
   const cvCount = tf.units.filter(u => u.classId === 'fleet-carrier').reduce((s, u) => s + u.qty, 0);
-  if (cvCount > 2) v.tooManyCV = cvCount;
+  if (!noCarrierLimit && cvCount > 2) v.tooManyCV = cvCount;
   return v;
 }
 
