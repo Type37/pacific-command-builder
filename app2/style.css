@@ -1868,10 +1868,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .p-tf { margin-bottom: 24px; page-break-inside: avoid; break-inside: avoid; border: 1px solid #ccc; padding: 12px; }
 .p-tf-head { margin-bottom: 10px; border-bottom: 2px solid #222; padding-bottom: 6px; display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .p-tf-title { display: flex; align-items: baseline; gap: 10px; }
-.p-tf-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; }
+.p-tf-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #000; }
 .p-tf-callsign { font-size: 18px; font-weight: 800; letter-spacing: 0.04em; color: #000; }
 .p-tf-head-right { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
-.p-tf-cmdr { font-size: 10px; color: #444; }
+.p-tf-cmdr { font-size: 10px; color: #000; }
 .p-tf-cost { font-family: 'IBM Plex Mono', Consolas, monospace; font-size: 9px; font-weight: 600; color: #999; }
 
 /* Stat boxes: value LEFT, label RIGHT, gray numbers */
@@ -1911,7 +1911,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #888;
+  color: #000;
   line-height: 1.2;
 }
 
@@ -1927,7 +1927,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #555;
+  color: #000;
   border-bottom: 1px solid #999;
   padding: 3px 6px;
   text-align: left;
@@ -1938,7 +1938,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   vertical-align: middle;
   white-space: nowrap;
 }
-.p-r-name { font-weight: 500; font-size: 10.5px; color: #111; }
+.p-r-name { font-weight: 500; font-size: 10.5px; color: #000; }
 .p-r-sprite {
   display: inline-block;
   width: 26px;
@@ -1950,11 +1950,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-radius: 2px;
   padding: 1px 2px;
   margin-right: 7px;
-  color: #333;
+  color: #000;
 }
-.p-r-pennant { font-weight: 400; font-style: italic; color: #555; }
-.p-r-role { color: #444; font-size: 9.5px; }
-.p-r-special { color: #222; font-size: 9.5px; }
+.p-r-pennant { font-weight: 400; font-style: italic; color: #000; }
+.p-r-role { color: #000; font-size: 9.5px; }
+.p-r-special { color: #000; font-size: 9.5px; }
 .p-r-cost {
   font-family: 'IBM Plex Mono', Consolas, monospace;
   font-size: 9.5px;
@@ -1976,7 +1976,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #333;
+  color: #000;
   margin-bottom: 5px;
 }
 .p-rule-entry {
@@ -1998,7 +1998,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .p-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; border-bottom: 2px solid #111; padding-bottom: 8px; }
 .p-head-text { flex: 1; }
 .p-fleet-name { font-size: 24px; font-weight: 800; color: #111; }
-.p-fleet-meta { font-size: 11px; color: #444; margin-top: 2px; }
+.p-fleet-meta { font-size: 11px; color: #000; margin-top: 2px; }
 .p-fleet-mods { font-size: 11px; color: #444; margin-bottom: 10px; }
 
 /* ═══ Hist preset portal ══════════════════════════════ */
