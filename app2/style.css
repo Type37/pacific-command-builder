@@ -3176,18 +3176,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-weight: 400;
 }
 
-/* Font-independent circled S — drawn, not glyph, so it's identical everywhere */
+/* Circled S pinned to a webfont that ships the glyph, so it's crisp and
+   identical everywhere instead of relying on the system font */
 .circ-s {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.02em;
-  height: 1.02em;
-  border: 0.085em solid currentColor;
-  border-radius: 50%;
-  font-size: 0.82em;
-  font-weight: 600;
-  line-height: 1;
-  vertical-align: -0.06em;
-  box-sizing: border-box;
+  font-family: 'Noto Sans Symbols 2', sans-serif;
+  font-weight: 400;
+  font-feature-settings: normal;
 }

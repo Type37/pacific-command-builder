@@ -1334,9 +1334,10 @@ function RandomTFPanel({ fleet, onAdd, onClose }) {
 }
 
 
-// Font-independent circled S: drawn with CSS, renders identically everywhere
+// Circled S pinned to Noto Sans Symbols 2 so the glyph renders cleanly and
+// identically at any size, on any OS, regardless of the system font.
 function CircleS() {
-  return <span className="circ-s" aria-hidden="true">S</span>;
+  return <span className="circ-s">{'\u24C8'}</span>;
 }
 // Render a name, swapping the Ⓢ marker for the drawn CircleS
 function fmtName(name) {
