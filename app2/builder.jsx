@@ -310,7 +310,6 @@ function UnitPicker({ onPick, onClose }) {
   const ref = useRef(null);
   const scifi = useScifi();
   const terms = T(scifi);
-  useClickOutside(ref, onClose);
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     document.addEventListener('keydown', onKey);
@@ -578,13 +577,12 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
       )}
 
       <div className="add-unit" style={{ position: 'relative' }}>
-        {!pickerOpen ? (
-          <button className="add-unit-btn" onClick={() => setPickerOpen(true)}>
-            <Icon.Add /> <span className="aub-label">Add Unit</span>
-          </button>
-        ) : (
-          <UnitPicker onPick={addUnit} onClose={() => setPickerOpen(false)} />
-        )}
+        <button className={'configure-btn add-unit-cfg' + (pickerOpen ? ' open' : '')}
+          onClick={() => setPickerOpen(o => !o)}>
+          <span className="configure-btn-ico">{pickerOpen ? <Icon.Close /> : <Icon.Add />}</span>
+          <span>{pickerOpen ? 'Close' : 'Add Unit'}</span>
+        </button>
+        {pickerOpen && <UnitPicker onPick={addUnit} onClose={() => setPickerOpen(false)} />}
       </div>
 
       <footer className="tf-totals">
@@ -666,20 +664,6 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
         const totals = totalsByTf[tf.id] || {};
         const sorted = sortUnits(tf.units);
 
-        // Collect all special rules used in this TF
-        const usedRuleKeys = [];
-        const seenKeys = new Set();
-        for (const u of sorted) {
-          const c = cm[u.classId]; if (!c || !c.special) continue;
-          c.special.split(',').map(s => s.trim()).forEach(s => {
-            const key = window.ruleKey(s);
-            if (window.SPECIAL_RULES[key] && !seenKeys.has(key)) {
-              seenKeys.add(key);
-              usedRuleKeys.push(key);
-            }
-          });
-        }
-
         return (
           <article className="p-tf" key={tf.id}>
             <header className="p-tf-head">
@@ -702,10 +686,10 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
             <table className="p-roster-table">
               <thead>
                 <tr>
+                  <th className="p-r-cost-h">Cost</th>
                   <th>Unit</th>
                   <th>Role</th>
                   <th>Special</th>
-                  <th>Cost</th>
                 </tr>
               </thead>
               <tbody>
@@ -716,33 +700,18 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                     : `${c.cost}pts`;
                   return (
                     <tr key={u.id}>
+                      <td className="p-r-cost">{costStr}</td>
                       <td className="p-r-name">
                         <span className="p-r-sprite">{c.sprite}</span>
                         {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
                       </td>
                       <td className="p-r-role">{c.role}</td>
                       <td className="p-r-special">{c.special || ''}</td>
-                      <td className="p-r-cost">{costStr}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-
-            {usedRuleKeys.length > 0 && (
-              <div className="p-rules">
-                <div className="p-rules-title">Special Rules Reference</div>
-                {usedRuleKeys.map(key => {
-                  const rule = window.SPECIAL_RULES[key];
-                  return (
-                    <div key={key} className="p-rule-entry">
-                      <strong>{rule.name}:</strong> {rule.text}
-                    </div>
-                  );
-                })}
-
-              </div>
-            )}
           </article>
         );
       })}

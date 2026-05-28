@@ -1878,7 +1878,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   color: #bbb;
   line-height: 1;
   min-width: 28px;
-  text-align: center;
+  text-align: left;
 }
 .p-stat-unit { font-size: 11px; font-weight: 400; margin-left: 1px; }
 .p-stat-label {
@@ -1929,10 +1929,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .p-r-cost {
   font-family: 'IBM Plex Mono', Consolas, monospace;
   font-size: 11px;
-  text-align: right;
+  text-align: left;
   white-space: nowrap;
   font-weight: 600;
 }
+.p-r-cost-h { width: 1%; white-space: nowrap; }
 
 /* Special rules block */
 .p-rules {
@@ -3038,4 +3039,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
   }
+}
+
+/* ─── Add Unit button (matches Configure, full width) ──── */
+.add-unit-cfg {
+  width: 100%;
+  justify-content: center;
 }
