@@ -3175,3 +3175,19 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-family: inherit;
   font-weight: 400;
 }
+
+/* Font-independent circled S — drawn, not glyph, so it's identical everywhere */
+.circ-s {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.02em;
+  height: 1.02em;
+  border: 0.085em solid currentColor;
+  border-radius: 50%;
+  font-size: 0.82em;
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: -0.06em;
+  box-sizing: border-box;
+}

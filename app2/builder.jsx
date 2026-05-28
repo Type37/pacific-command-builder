@@ -652,7 +652,7 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
       <div className="p-head">
         {fleet.faction && <FactionRoundel faction={fleet.faction} size={32} />}
         <div className="p-head-text">
-          <div className="p-fleet-name">{fleet.name}</div>
+          <div className="p-fleet-name">{fmtName(fleet.name)}</div>
           <div className="p-fleet-meta">
             {fleet.faction && fleet.era && <span>{fleet.faction}, {fleet.era}. </span>}
             {fleet.taskForces.length} task force{fleet.taskForces.length === 1 ? '' : 's'},
@@ -748,7 +748,7 @@ function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, 
 
       <div className="sb-section">
         <div className="sb-label">Fleet</div>
-        <div className="sb-fleet-name">{fleet.name}</div>
+        <div className="sb-fleet-name">{fmtName(fleet.name)}</div>
         <div className="sb-scale-summary">
           <span className="sb-scale-pts">{fleetBudget} pts</span>
           
@@ -1238,39 +1238,51 @@ function seedFromExample() {
 // ─── Random TF generator ──────────────────────────────
 function generateRandomTF(budget, fleet) {
   const all = window.SHIP_CLASSES;
-  const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
+  const cm = classMap();
+  const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+
+  const nonSquadron = all.filter(c => c.category !== 'squadron');
+  const capitals = nonSquadron.filter(c => c.category === 'capital');
+
+  const MAX_PER_CLASS = 4;
+  const MAX_FLEET_CV  = 2;
 
   let remaining = budget;
   const units = [];
+  const qtyOf = id => { const u = units.find(x => x.classId === id); return u ? u.qty : 0; };
+  const addOne = (cls) => {
+    const ex = units.find(u => u.classId === cls.id);
+    if (ex) ex.qty++;
+    else units.push({ id: 'u-' + uid(), classId: cls.id, qty: 1, pennant: '' });
+    remaining -= cls.cost;
+  };
 
-  const ships = all.filter(c => c.category !== 'squadron' && c.cost <= budget);
-  for (const cls of shuffle(ships)) {
-    if (cls.cost <= remaining) {
-      units.push({ id: 'u-' + uid(), classId: cls.id, qty: 1, pennant: '' });
-      remaining -= cls.cost;
-      break;
-    }
+  // Anchor the force around a capital ship most of the time
+  const affordableCap = capitals.filter(c => c.cost <= remaining);
+  if (affordableCap.length && Math.random() < 0.85) addOne(rand(affordableCap));
+
+  // Fill out the rest, respecting per-class caps and the fleet-carrier limit
+  for (let attempts = 0; attempts < 300 && remaining > 0; attempts++) {
+    const pool = nonSquadron.filter(c => {
+      if (c.cost > remaining) return false;
+      if (qtyOf(c.id) >= MAX_PER_CLASS) return false;
+      if (c.id === 'fleet-carrier' && qtyOf('fleet-carrier') >= MAX_FLEET_CV) return false;
+      return true;
+    });
+    if (!pool.length) break;
+    addOne(rand(pool));
   }
 
-  for (let attempts = 0; attempts < 80 && remaining > 0; attempts++) {
-    const affordable = all.filter(c => c.category !== 'squadron' && c.cost <= remaining);
-    if (!affordable.length) break;
-    const pick = affordable[Math.floor(Math.random() * affordable.length)];
-    const ex = units.find(u => u.classId === pick.id);
-    if (ex) { ex.qty++; } else { units.push({ id: 'u-' + uid(), classId: pick.id, qty: 1, pennant: '' }); }
-    remaining -= pick.cost;
-  }
-
+  // Embark air wings up to total aircraft capacity, split fighters/bombers
   const aircraft = units.reduce((s, u) => {
-    const c = all.find(x => x.id === u.classId);
+    const c = cm[u.classId];
     return s + (c ? (c.stats?.aircraft || 0) * u.qty : 0);
   }, 0);
-
   if (aircraft > 0) {
-    const f = Math.ceil(aircraft * 0.5);
+    const f  = Math.ceil(aircraft * 0.5);
     const bm = Math.floor(aircraft * 0.5);
-    if (f > 0) units.push({ id: 'u-' + uid(), classId: 'fighter-sqn', qty: f, pennant: '' });
-    if (bm > 0) units.push({ id: 'u-' + uid(), classId: 'bomber-sqn', qty: bm, pennant: '' });
+    if (f > 0)  units.push({ id: 'u-' + uid(), classId: 'fighter-sqn', qty: f,  pennant: '' });
+    if (bm > 0) units.push({ id: 'u-' + uid(), classId: 'bomber-sqn',  qty: bm, pennant: '' });
   }
 
   const faction = fleet?.faction || null;
@@ -1321,6 +1333,19 @@ function RandomTFPanel({ fleet, onAdd, onClose }) {
   );
 }
 
+
+// Font-independent circled S: drawn with CSS, renders identically everywhere
+function CircleS() {
+  return <span className="circ-s" aria-hidden="true">S</span>;
+}
+// Render a name, swapping the Ⓢ marker for the drawn CircleS
+function fmtName(name) {
+  if (!name || name.indexOf('\u24C8') === -1) return name;
+  const parts = name.split('\u24C8');
+  return parts.map((p, i) => i === 0
+    ? p
+    : <React.Fragment key={i}><CircleS />{p}</React.Fragment>);
+}
 
 // ─── App ───────────────────────────────────────────────
 function App() {
@@ -1423,14 +1448,14 @@ function App() {
         <div className="scale-ctrl">
           <button type="button" className="scale-btn" onClick={() => onScaleChange(scale - 1)} aria-label="Decrease scale"><Icon.Subtract /></button>
           <span className="scale-display">
-            <span className="scale-s">Ⓢ</span>
+            <span className="scale-s"><CircleS /></span>
             <span className="scale-n">{scale}</span>
           </span>
           <button type="button" className="scale-btn" onClick={() => onScaleChange(scale + 1)} aria-label="Increase scale"><Icon.Add /></button>
         </div>
 
         <div className="cmdbar-actions">
-          <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load Ⓢ3 Starter Fleet">Load <span className="cmd-s">Ⓢ</span>3 Starter Fleet</Btn>
+          <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load Ⓢ3 Starter Fleet">Load <CircleS />3 Starter Fleet</Btn>
           <Btn variant="ghost" onClick={newBlank} icon={Icon.Document} dataTip="New blank fleet">New fleet</Btn>
           <div style={{ position: 'relative' }}>
             <Btn variant="ghost" onClick={() => setShowRandom(r => !r)} icon={Icon.Dice}>Random TF</Btn>
