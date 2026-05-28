@@ -316,27 +316,16 @@ function UnitPicker({ onPick, onClose }) {
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [onClose]);
-  const byCat = useMemo(() => {
-    const m = {};
-    for (const c of window.CATEGORIES) m[c.id] = [];
-    for (const u of window.SHIP_CLASSES) (m[u.category] || (m[u.category] = [])).push(u);
-    return m;
-  }, []);
   return (
     <div className="flyout" ref={ref} role="dialog" aria-label="Pick a unit">
-      {window.CATEGORIES.map(cat => (
-        <div className="flyout-group" key={cat.id}>
-          <div className="flyout-group-label">{scifi && cat.id === 'squadron' ? cat.label.replace('Air', 'Aero') : cat.label}</div>
-          {byCat[cat.id].map(u => (
-            <button key={u.id} className="flyout-item" onClick={() => { onPick(u.id); onClose(); }} data-tip={shipClassTip(u)}>
-              <div>
-                <div className="nm"><span className="cls-tag" data-sprite={u.sprite}>{u.sprite}</span>{scifi ? scifiUnitName(u.id, u.name, terms) : u.name}</div>
-                {u.role && <div className="desc">{u.role}{u.special ? ', ' + u.special : ''}</div>}
-              </div>
-              <div className="right">{u.cost} pts</div>
-            </button>
-          ))}
-        </div>
+      {window.SHIP_CLASSES.map(u => (
+        <button key={u.id} className="flyout-item" onClick={() => { onPick(u.id); onClose(); }} data-tip={shipClassTip(u)}>
+          <div>
+            <div className="nm"><span className="cls-tag" data-sprite={u.sprite}>{u.sprite}</span>{scifi ? scifiUnitName(u.id, u.name, terms) : u.name}</div>
+            {u.role && <div className="desc">{u.role}{u.special ? ', ' + u.special : ''}</div>}
+          </div>
+          <div className="right">{u.cost} pts</div>
+        </button>
       ))}
     </div>
   );
