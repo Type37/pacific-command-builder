@@ -2560,7 +2560,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media print {
   body { background: #fff; }
   .cmdbar, .add-tf, .add-unit, .row-delete, .qty-stepper button, .flyout,
-  .tf-doctrine-head .chip-add, .doctrine-presets { display: none !important; }
+  .tf-doctrine-head .chip-add, .doctrine-presets,
+  .game-info-footer, .scifi-fab { display: none !important; }
   .page { display: none; }
   .print-area { display: block; }
   .p-tf { page-break-inside: avoid; break-inside: avoid; }
@@ -3089,3 +3090,82 @@ button, input, select, textarea { font: inherit; color: inherit; }
   width: 100%;
   justify-content: center;
 }
+
+/* ─── Improved Armour: class picker modal ──────────────── */
+.armour-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 16px;
+  animation: panel-in 0.12s ease;
+}
+.armour-modal {
+  background: var(--neutral-bg-1);
+  border-radius: var(--r-12, 12px);
+  box-shadow: var(--shadow-28);
+  width: 100%;
+  max-width: 440px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.armour-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--neutral-stroke-2);
+  font-weight: 600;
+  font-size: 14px;
+}
+.armour-modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--neutral-fg-3);
+  display: flex;
+  padding: 4px;
+  border-radius: var(--r-4);
+}
+.armour-modal-close:hover { background: var(--neutral-bg-3); }
+.armour-modal-body {
+  overflow-y: auto;
+  padding: 8px;
+}
+.armour-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-8);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+.armour-opt:hover { background: var(--brand-bg-2); }
+.armour-opt.active {
+  background: var(--brand-bg-2);
+  border-color: var(--brand-stroke-1);
+}
+.armour-opt-name { font-weight: 600; font-size: 13px; flex: 1; }
+.armour-opt-cur { font-size: 11px; color: var(--neutral-fg-3); }
+.chip-edit {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 2px;
+  opacity: 0.7;
+}
+.chip-edit:hover { opacity: 1; }
+.chip-edit svg { width: 13px; height: 13px; }

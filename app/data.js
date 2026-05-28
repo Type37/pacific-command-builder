@@ -31,36 +31,6 @@ window.SPECIAL_RULES = {
     name: 'Squadron',
     text: 'An embarked aircraft unit. The total number of squadrons in a Task Force may not exceed the Task Force\u2019s Aircraft value.',
   },
-  PR: {
-    'Standard': {
-      'fleet-carrier':   ["Alexander's Ambition",'Socrates','Fireheart','Salamis','Elysium','Thermidor','Pendragon','Aether','Gate of Heaven','Culmination','Acheron','Sovereignty','Iwo Jima','Austerlitz','Sinai','Imperishable','Meridian',"Hannibal's Crossing",'Zenith','Mandate of Heaven','Undying','Crucible','Mount Olympus','Valhalla','Majesty'],
-      'light-carrier':   ['Red Cliffs','Plato','Tower of Knowledge','Dark Prince','Thermopylae','Prometheus','Dangerous Idea','Turing',"Archimedes' Lever",'Faraday','Oppenheimer','Broken Cipher','Giordano Bruno','Calculated Risk','Second Guess',"Faust's Bargain",'Weight of Proof'],
-      'seaplane-tender': ['Young Mother','Columbus','Wright Flyer','Shoal Princess','Kitty Hawk','First Light','Vanguard','Sacagawea','Threshold'],
-      'battleship':      ['Enlightenment','Renaissance','Queen Boudicca','Code Eternal','Progress','Revelations','Great Axiom',"Truth's Instrument",'Triumvir','Four Suns','Shining Path','Dawnglaive',"Destiny's Fist",'Triumph of Shangri-La','Godslayer','Queen of Its Will','Silencer','Expeditious Judgement','Code Enforcer','Lightning Tree','Wrath of Zeus','Thunderbolt','Elemental','Godhammer',"Sphere's Benevolence",'The Vizier','Might of Pearlescent','Imperator','Victorius','Julius Caesar','Dictator','Supreme','Actium',"Cleopatra's Bane",'Long Reign','Starheart','Hammer of Purpose','Deus Ex Machina','Forgefire',"Atom's Mistress",'Purity of Power','Deliverance',"Heaven's Judgement",'Queen of Ends','Apocalypse'],
-      'heavy-cruiser':   ['Searing Truth','Archimedes','Fatal',"Turing's Cipher",'Knowing Virtue','Nikola Tesla',"Hoplite's Helm",'Trident of Neptune','Mind of Asimov','Aristotle','Marathon','Journeyman','Gailileo','Iliad','Unheeled',"Titan's Ire","Einstein's Equation",'Odyssey','Am Become Death','Cicero','Old Boulder','Ruined King',"Ephyra's Fist",'Hubris','A Thousand Fathoms','Marie Curie',"Newton's Apple",'Argo','Great Library','Copernicus','Judgement of Zeus'],
-      'light-cruiser':   ['Hypatia','Phaeton','Voltaire','Bright Mind','Cyclopean Gaze','Brightflame','Lance of Athena','Illuminator','Foe Confounded','Deep Blue','Waves of Lamarr','Inviolate'],
-      'destroyer':       ['Steadfast','Countenance of Janus','Open Future','Cold Warrior','Trident of Poseidon','Harpe','Sword of Damocles','Strikehome','Myrmidon','Known Purpose','Conferred Divinity','Halo Nine','Aegis'],
-      'submarine':       ['Silence','Isolator','Cloudhunter','Mist Cleaver','The Veil','Labyrinth 1','Labyrinth 2','Labyrinth 3','Retiaritus','Ghost Warrior','Longship','Carl Sagan','Neil Armstrong','Yuri Gagarin','Pathfinder','Pegasus','Righteous Blade','Huntress','Mercury'],
-      'auxiliary':       ['Castor','Homeshell','Hellbringer','Alesia','Cogent Reason','Bedrock','Moonshield','Eye of the Sphere','Ornithes Areioi','Nightsun','Fargaze'],
-      'fighter-sqn':     ['Thrust Wing 1','Thrust Wing 2','Thrust Wing 3','Forward Lance','Strike Lance','Intercept Flight'],
-      'bomber-sqn':      ['Bomb Wing 1','Bomb Wing 2','Attack Lance 1','Attack Lance 2','Assault Flight'],
-    },
-  },
-  KK: {
-    'Standard': {
-      'fleet-carrier':   ['First Dominion','Inheritance Clause','Conquistador',"Kabal's Heart",'Magellan','Vespucci','Eminent Domain','Terra Nullius','Right of Discovery','Cortes','Requisition','Lebensraum','Inevitability','Manifest','Corrective','Absorption','Settlement','Protectorate','Charter of Conquest','Charter','Freehold','Annexation'],
-      'light-carrier':   ['Collins','Wasp','Gemini','Eagle','Known Associates','Incident Report',"People's Beneficence","Kabal's Wisdom",'As One','Gladiator','Lord Regent','Junta','Common Cause','Mutual Benefit','Solidarity','Progress Report','Harmonious','Exemplary'],
-      'seaplane-tender': ['Outrider','Early Warning','Vlad Carmichael',"Insurrection's End",'Sender of Will','Spear of Will','Lightbringer','Searcher','Seedling','Nostrum','Sulla','Pathbreaker','Far Hand','Precursor','Leading Edge','Advance Notice'],
-      'battleship':      ['Final Argument','Absolute Majority','Loki','Proud Empress','Black Prince','Scharnhorst','Iowa','Great Founder','Nikola Tesla','Hyperion','Might of Kalium','Steel Fist','Killforge','Our Grace','Our Gaze','Illuminator','Hammer of Reason','Subjugator','Soul Reaver','Executioner','Volcanic','Your Fate','Spear of Onyx','Decapitator','Tirpitz','Terminus','Sovereign','Immovable','Warrant','Thunderous'],
-      'heavy-cruiser':   ['Iron Prefect','Collective Punishment','Proudcore','Industry','Fist of Iron','Incinerator',"Hell's Fury",'Vengefire',"Kabal's Judgement",'Ultimate Certainty','Streetsweeper','Hammer of Might','Decimator','Overseer','Final Notice','Magistrate','Punitive','Adjudicator','Merciless'],
-      'light-cruiser':   ['Interregnum','Dead Reckoning','Hardrada','Necromancer','Purgatory','Limbo','Penumbra','Styx','Charnel','Gallows','Cannae','Crassus','Pyrrhus','Teutoburg','Ney','Adrianople','Isandlwana','Vercingetorix','Jugurtha','Wallenstein','Foolhardy'],
-      'destroyer':       ['Press Gang','Willing Volunteer','Switchblade','Noble Conscript','Guardsman','Pressed Man','Indentured','Impressment','Defaulter','Seconded','Sentinel','Stalwart','Vigilant','Resolute','Warden','Picket','Bulwark','Trenchant','Indefatigable','Intrepid'],
-      'submarine':       ['Bloodwork','Due Diligence','Hellhunter','Poison Dagger',"Kabal's Knife",'First Message','Wrathful','Stiletto','Garotte','Wet Work','Cutthroat','Lancet','Untraceable'],
-      'auxiliary':       ['All-Seeing','Lens of Truth','Nightpiercer','BVK-1','BVK-2','BVK-3','TZhS-4','TZhS-5','OVR-7','OVR-12','VB-19','VB-22','Transport No. 3','Transport No. 8','Tender 441','Tender 883','Project 112','Type II Base Ship','Welfare Check','Oversight','Point of Contact','Duly Noted','Under Review'],
-      'fighter-sqn':     ['Wing-01','Wing-02','Wing-03','Wing-04','Wing-05','Wing-06','Wing-07','Wing-08','Wing-09','Wing-10','Wing-11','Wing-12'],
-      'bomber-sqn':      ['Strike-01','Strike-02','Strike-03','Strike-04','Strike-05','Strike-06','Strike-07','Strike-08'],
-    },
-  },
 };
 
 // Parse "Armoured (2)" → "Armoured"
@@ -122,6 +92,9 @@ window.CATEGORIES = [
 
 // Modifications (verbatim text from rulebook)
 window.MODIFICATIONS = [
+  { id: 'improved-armour', name: 'Improved Armour',
+    text: 'Choose one ship class. Ships of that class improve their Armoured (X) rating by +1, gaining Armoured (1) if they had none.',
+    effect: { kind: 'armourClass' }, needsClass: true },
   { id: 'coordinated-strikes', name: 'Coordinated Strikes',
     text: 'In the Declare Strike Step of an Air Action, this fleet can reveal and discard a black Air Group card from another friendly Task Force in the same Stack to add that Task Force Strike value to the active Task Force when amassing Strike dice.',
     effect: { kind: 'flavour' } },
@@ -262,6 +235,36 @@ window.HISTORICAL_NAMES = {
       'auxiliary':       ['Fleet oiler', 'Ammunition ship'],
       'fighter-sqn':     ['F6F Hellcat and F4U Corsair'],
       'bomber-sqn':      ['SB2C Helldiver and TBM Avenger'],
+    },
+  },
+  PR: {
+    'Standard': {
+      'fleet-carrier':   ["Alexander's Ambition",'Socrates','Fireheart','Salamis','Elysium','Thermidor','Pendragon','Aether','Gate of Heaven','Culmination','Acheron','Sovereignty','Iwo Jima','Austerlitz','Sinai','Imperishable','Meridian',"Hannibal's Crossing",'Zenith','Mandate of Heaven','Undying','Crucible','Mount Olympus','Valhalla','Majesty'],
+      'light-carrier':   ['Red Cliffs','Plato','Tower of Knowledge','Dark Prince','Thermopylae','Prometheus','Dangerous Idea','Turing',"Archimedes' Lever",'Faraday','Oppenheimer','Broken Cipher','Giordano Bruno','Calculated Risk','Second Guess',"Faust's Bargain",'Weight of Proof'],
+      'seaplane-tender': ['Young Mother','Columbus','Wright Flyer','Shoal Princess','Kitty Hawk','First Light','Vanguard','Sacagawea','Threshold'],
+      'battleship':      ['Enlightenment','Renaissance','Queen Boudicca','Code Eternal','Progress','Revelations','Great Axiom',"Truth's Instrument",'Triumvir','Four Suns','Shining Path','Dawnglaive',"Destiny's Fist",'Triumph of Shangri-La','Godslayer','Queen of Its Will','Silencer','Expeditious Judgement','Code Enforcer','Lightning Tree','Wrath of Zeus','Thunderbolt','Elemental','Godhammer',"Sphere's Benevolence",'The Vizier','Might of Pearlescent','Imperator','Victorius','Julius Caesar','Dictator','Supreme','Actium',"Cleopatra's Bane",'Long Reign','Starheart','Hammer of Purpose','Deus Ex Machina','Forgefire',"Atom's Mistress",'Purity of Power','Deliverance',"Heaven's Judgement",'Queen of Ends','Apocalypse'],
+      'heavy-cruiser':   ['Searing Truth','Archimedes','Fatal',"Turing's Cipher",'Knowing Virtue','Nikola Tesla',"Hoplite's Helm",'Trident of Neptune','Mind of Asimov','Aristotle','Marathon','Journeyman','Gailileo','Iliad','Unheeled',"Titan's Ire","Einstein's Equation",'Odyssey','Am Become Death','Cicero','Old Boulder','Ruined King',"Ephyra's Fist",'Hubris','A Thousand Fathoms','Marie Curie',"Newton's Apple",'Argo','Great Library','Copernicus','Judgement of Zeus'],
+      'light-cruiser':   ['Hypatia','Phaeton','Voltaire','Bright Mind','Cyclopean Gaze','Brightflame','Lance of Athena','Illuminator','Foe Confounded','Deep Blue','Waves of Lamarr','Inviolate'],
+      'destroyer':       ['Steadfast','Countenance of Janus','Open Future','Cold Warrior','Trident of Poseidon','Harpe','Sword of Damocles','Strikehome','Myrmidon','Known Purpose','Conferred Divinity','Halo Nine','Aegis'],
+      'submarine':       ['Silence','Isolator','Cloudhunter','Mist Cleaver','The Veil','Labyrinth 1','Labyrinth 2','Labyrinth 3','Retiaritus','Ghost Warrior','Longship','Carl Sagan','Neil Armstrong','Yuri Gagarin','Pathfinder','Pegasus','Righteous Blade','Huntress','Mercury'],
+      'auxiliary':       ['Castor','Homeshell','Hellbringer','Alesia','Cogent Reason','Bedrock','Moonshield','Eye of the Sphere','Ornithes Areioi','Nightsun','Fargaze'],
+      'fighter-sqn':     ['Thrust Wing 1','Thrust Wing 2','Thrust Wing 3','Forward Lance','Strike Lance','Intercept Flight'],
+      'bomber-sqn':      ['Bomb Wing 1','Bomb Wing 2','Attack Lance 1','Attack Lance 2','Assault Flight'],
+    },
+  },
+  KK: {
+    'Standard': {
+      'fleet-carrier':   ['First Dominion','Inheritance Clause','Conquistador',"Kabal's Heart",'Magellan','Vespucci','Eminent Domain','Terra Nullius','Right of Discovery','Cortes','Requisition','Lebensraum','Inevitability','Manifest','Corrective','Absorption','Settlement','Protectorate','Charter of Conquest','Charter','Freehold','Annexation'],
+      'light-carrier':   ['Collins','Wasp','Gemini','Eagle','Known Associates','Incident Report',"People's Beneficence","Kabal's Wisdom",'As One','Gladiator','Lord Regent','Junta','Common Cause','Mutual Benefit','Solidarity','Progress Report','Harmonious','Exemplary'],
+      'seaplane-tender': ['Outrider','Early Warning','Vlad Carmichael',"Insurrection's End",'Sender of Will','Spear of Will','Lightbringer','Searcher','Seedling','Nostrum','Sulla','Pathbreaker','Far Hand','Precursor','Leading Edge','Advance Notice'],
+      'battleship':      ['Final Argument','Absolute Majority','Loki','Proud Empress','Black Prince','Scharnhorst','Iowa','Great Founder','Nikola Tesla','Hyperion','Might of Kalium','Steel Fist','Killforge','Our Grace','Our Gaze','Illuminator','Hammer of Reason','Subjugator','Soul Reaver','Executioner','Volcanic','Your Fate','Spear of Onyx','Decapitator','Tirpitz','Terminus','Sovereign','Immovable','Warrant','Thunderous'],
+      'heavy-cruiser':   ['Iron Prefect','Collective Punishment','Proudcore','Industry','Fist of Iron','Incinerator',"Hell's Fury",'Vengefire',"Kabal's Judgement",'Ultimate Certainty','Streetsweeper','Hammer of Might','Decimator','Overseer','Final Notice','Magistrate','Punitive','Adjudicator','Merciless'],
+      'light-cruiser':   ['Interregnum','Dead Reckoning','Hardrada','Necromancer','Purgatory','Limbo','Penumbra','Styx','Charnel','Gallows','Cannae','Crassus','Pyrrhus','Teutoburg','Ney','Adrianople','Isandlwana','Vercingetorix','Jugurtha','Wallenstein','Foolhardy'],
+      'destroyer':       ['Press Gang','Willing Volunteer','Switchblade','Noble Conscript','Guardsman','Pressed Man','Indentured','Impressment','Defaulter','Seconded','Sentinel','Stalwart','Vigilant','Resolute','Warden','Picket','Bulwark','Trenchant','Indefatigable','Intrepid'],
+      'submarine':       ['Bloodwork','Due Diligence','Hellhunter','Poison Dagger',"Kabal's Knife",'First Message','Wrathful','Stiletto','Garotte','Wet Work','Cutthroat','Lancet','Untraceable'],
+      'auxiliary':       ['All-Seeing','Lens of Truth','Nightpiercer','BVK-1','BVK-2','BVK-3','TZhS-4','TZhS-5','OVR-7','OVR-12','VB-19','VB-22','Transport No. 3','Transport No. 8','Tender 441','Tender 883','Project 112','Type II Base Ship','Welfare Check','Oversight','Point of Contact','Duly Noted','Under Review'],
+      'fighter-sqn':     ['Wing-01','Wing-02','Wing-03','Wing-04','Wing-05','Wing-06','Wing-07','Wing-08','Wing-09','Wing-10','Wing-11','Wing-12'],
+      'bomber-sqn':      ['Strike-01','Strike-02','Strike-03','Strike-04','Strike-05','Strike-06','Strike-07','Strike-08'],
     },
   },
 };
