@@ -1367,7 +1367,7 @@ function App() {
   const addRandomTF = (tf) => setFleet(f => ({ ...f, taskForces: [...f.taskForces, tf] }));
 
   const loadExample = () => {
-    if (!confirm('Replace current fleet with the (S)3 Starter Fleet?')) return;
+    if (!confirm('Replace current fleet with the Ⓢ3 Starter Fleet?')) return;
     setFleet(seedFromExample()); setShowPreview(false);
   };
   const newBlank = () => {
@@ -1430,14 +1430,14 @@ function App() {
         </div>
 
         <div className="cmdbar-actions">
-          <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load (S)3 Starter Fleet">Load (S)3 Starter Fleet</Btn>
+          <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load Ⓢ3 Starter Fleet">Load <span className="cmd-s">Ⓢ</span>3 Starter Fleet</Btn>
           <Btn variant="ghost" onClick={newBlank} icon={Icon.Document} dataTip="New blank fleet">New fleet</Btn>
           <div style={{ position: 'relative' }}>
             <Btn variant="ghost" onClick={() => setShowRandom(r => !r)} icon={Icon.Dice}>Random TF</Btn>
             {showRandom && <RandomTFPanel fleet={fleet} onAdd={addRandomTF} onClose={() => setShowRandom(false)} />}
           </div>
           <Btn variant={showPreview ? 'primary' : 'ghost'} onClick={() => setShowPreview(p => !p)} icon={Icon.Print}>
-            {showPreview ? 'Preview: ON' : 'Print fleet'}
+            {showPreview ? 'Preview: ON' : 'Print preview'}
           </Btn>
         </div>
       </header>
@@ -1513,7 +1513,7 @@ function App() {
           <div className="add-tf">
             <Btn onClick={addTF} icon={Icon.Add}
               disabled={!fleet.freePlay && fleet.taskForces.length >= scale}
-              dataTip={!fleet.freePlay && fleet.taskForces.length >= scale ? `(S)${scale} allows ${scale} task force${scale === 1 ? '' : 's'}` : null}
+              dataTip={!fleet.freePlay && fleet.taskForces.length >= scale ? `Ⓢ${scale} allows ${scale} task force${scale === 1 ? '' : 's'}` : null}
             >Add another task force</Btn>
           </div>
         </main>

@@ -3169,3 +3169,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .chip-edit:hover { opacity: 1; }
 .chip-edit svg { width: 13px; height: 13px; }
+
+/* Circle-S in cmdbar buttons matches the scale control's serif glyph */
+.cmd-s {
+  font-family: 'Noto Serif JP', serif;
+  font-weight: 400;
+}
