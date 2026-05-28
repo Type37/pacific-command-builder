@@ -33,9 +33,9 @@ window.SPECIAL_RULES = {
   },
   PR: {
     'Standard': {
-      'fleet-carrier':   ["Alexander's Ambition",'Socrates','Fireheart','Salamis','Mount Olympus','Valhalla','Majesty'],
-      'light-carrier':   ['Red Cliffs','Plato','Tower of Knowledge','Dark Prince'],
-      'seaplane-tender': ['Young Mother','Columbus','Wright Flyer','Shoal Princess'],
+      'fleet-carrier':   ["Alexander's Ambition",'Socrates','Fireheart','Salamis','Elysium','Thermidor','Pendragon','Aether','Gate of Heaven','Culmination','Acheron','Sovereignty','Iwo Jima','Austerlitz','Sinai','Imperishable','Meridian',"Hannibal's Crossing",'Zenith','Mandate of Heaven','Undying','Crucible','Mount Olympus','Valhalla','Majesty'],
+      'light-carrier':   ['Red Cliffs','Plato','Tower of Knowledge','Dark Prince','Thermopylae','Prometheus','Dangerous Idea','Turing',"Archimedes' Lever",'Faraday','Oppenheimer','Broken Cipher','Giordano Bruno','Calculated Risk','Second Guess',"Faust's Bargain",'Weight of Proof'],
+      'seaplane-tender': ['Young Mother','Columbus','Wright Flyer','Shoal Princess','Kitty Hawk','First Light','Vanguard','Sacagawea','Threshold'],
       'battleship':      ['Enlightenment','Renaissance','Queen Boudicca','Code Eternal','Progress','Revelations','Great Axiom',"Truth's Instrument",'Triumvir','Four Suns','Shining Path','Dawnglaive',"Destiny's Fist",'Triumph of Shangri-La','Godslayer','Queen of Its Will','Silencer','Expeditious Judgement','Code Enforcer','Lightning Tree','Wrath of Zeus','Thunderbolt','Elemental','Godhammer',"Sphere's Benevolence",'The Vizier','Might of Pearlescent','Imperator','Victorius','Julius Caesar','Dictator','Supreme','Actium',"Cleopatra's Bane",'Long Reign','Starheart','Hammer of Purpose','Deus Ex Machina','Forgefire',"Atom's Mistress",'Purity of Power','Deliverance',"Heaven's Judgement",'Queen of Ends','Apocalypse'],
       'heavy-cruiser':   ['Searing Truth','Archimedes','Fatal',"Turing's Cipher",'Knowing Virtue','Nikola Tesla',"Hoplite's Helm",'Trident of Neptune','Mind of Asimov','Aristotle','Marathon','Journeyman','Gailileo','Iliad','Unheeled',"Titan's Ire","Einstein's Equation",'Odyssey','Am Become Death','Cicero','Old Boulder','Ruined King',"Ephyra's Fist",'Hubris','A Thousand Fathoms','Marie Curie','Newton's Apple','Argo','Great Library','Copernicus','Judgement of Zeus'],
       'light-cruiser':   ['Hypatia','Phaeton','Voltaire','Bright Mind','Cyclopean Gaze','Brightflame','Lance of Athena','Illuminator','Foe Confounded','Deep Blue','Waves of Lamarr','Inviolate'],
