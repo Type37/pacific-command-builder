@@ -57,8 +57,8 @@ window.SPECIAL_RULES = {
       'destroyer':       ['Press Gang','Willing Volunteer','Switchblade','Noble Conscript','Guardsman','Pressed Man','Indentured','Impressment','Defaulter','Seconded','Sentinel','Stalwart','Vigilant','Resolute','Warden','Picket','Bulwark','Trenchant','Indefatigable','Intrepid'],
       'submarine':       ['Bloodwork','Due Diligence','Hellhunter','Poison Dagger',"Kabal's Knife",'First Message','Wrathful','Stiletto','Garotte','Wet Work','Cutthroat','Lancet','Untraceable'],
       'auxiliary':       ['All-Seeing','Lens of Truth','Nightpiercer','BVK-1','BVK-2','BVK-3','TZhS-4','TZhS-5','OVR-7','OVR-12','VB-19','VB-22','Transport No. 3','Transport No. 8','Tender 441','Tender 883','Project 112','Type II Base Ship','Welfare Check','Oversight','Point of Contact','Duly Noted','Under Review'],
-      'fighter-sqn':     ['Alpha Wing','Beta Wing','Gamma Wing','Delta Wing','Intercept-1','Intercept-2','Intercept-3','Screen Flight','Patrol Wing','Forward Screen'],
-      'bomber-sqn':      ['Strike Wing Alpha','Strike Wing Beta','Strike Wing Gamma','Strike Flight 1','Strike Flight 2','Attack Wing','Assault Wing','Bombard Flight'],
+      'fighter-sqn':     ['Wing-01','Wing-02','Wing-03','Wing-04','Wing-05','Wing-06','Wing-07','Wing-08','Wing-09','Wing-10','Wing-11','Wing-12'],
+      'bomber-sqn':      ['Strike-01','Strike-02','Strike-03','Strike-04','Strike-05','Strike-06','Strike-07','Strike-08'],
     },
   },
 };

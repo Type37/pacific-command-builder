@@ -1056,8 +1056,8 @@ const PENNANT_POOLS = {
     'destroyer':       ['Press Gang','Willing Volunteer','Switchblade','Noble Conscript','Guardsman','Pressed Man','Indentured','Impressment','Defaulter','Seconded','Sentinel','Stalwart','Vigilant','Resolute','Warden','Picket','Bulwark','Trenchant','Indefatigable','Intrepid'],
     'submarine':       ['Bloodwork','Due Diligence','Hellhunter','Poison Dagger',"Kabal's Knife",'First Message','Wrathful','Stiletto','Garotte','Wet Work','Cutthroat','Lancet','Untraceable'],
     'auxiliary':       ['All-Seeing','Lens of Truth','Nightpiercer','BVK-1','BVK-2','BVK-3','TZhS-4','TZhS-5','OVR-7','OVR-12','VB-19','VB-22','Transport No. 3','Transport No. 8','Tender 441','Tender 883','Project 112','Type II Base Ship','Welfare Check','Oversight','Point of Contact','Duly Noted','Under Review'],
-    'fighter-sqn':     ['Alpha Wing','Beta Wing','Gamma Wing','Delta Wing','Intercept-1','Intercept-2','Intercept-3','Screen Flight','Patrol Wing','Forward Screen'],
-    'bomber-sqn':      ['Strike Wing Alpha','Strike Wing Beta','Strike Wing Gamma','Strike Flight 1','Strike Flight 2','Attack Wing','Assault Wing','Bombard Flight'],
+    'fighter-sqn':     ['Wing-01','Wing-02','Wing-03','Wing-04','Wing-05','Wing-06','Wing-07','Wing-08','Wing-09','Wing-10','Wing-11','Wing-12'],
+    'bomber-sqn':      ['Strike-01','Strike-02','Strike-03','Strike-04','Strike-05','Strike-06','Strike-07','Strike-08'],
   },
   USN: {
     'fleet-carrier':   ['Enterprise','Hornet','Yorktown','Lexington','Wasp','Essex','Bunker Hill','Saratoga','Franklin','Intrepid','Reprisal'],
@@ -1086,7 +1086,7 @@ const TF_CALLSIGNS = {
   IJN: ['Kido Butai','Rengo Kantai','Dai-ichi Kido Kantai','Dai-ni Kantai','Dai-roku Kantai','Koku Kantai','Sentai','Hikotai','Suirai Sentai','Zenei Butai','Shuryoku Butai','Ozawa','Nagumo','Mikawa','Tanaka','Goto','Kurita','Nishimura','Shima','Ugaki','Hashimoto','CarDiv 1','CarDiv 2','DesRon 2','DesRon 4','CrusDiv 7','BatDiv 1'],
   USN: ['Halsey','Spruance','Kinkaid','Fletcher','McMorris','Merrill','Burke','Oldendorf','Mitscher','Bogan','Lee','Scott','Callaghan','TF 38','TF 58','TF 77','TF 34','TF 64','TG 77.4','TG 38.1','TG 38.3','CrusDiv 6','DesRon 21','DesRon 45','BatDiv 6','Striking','Screen','Covering','Support','Hunter'],
   PR: ['Starheart','Hammer of Purpose','Enlightenment','Apocalypse','Deliverance','Purity of Power','Deus Ex Machina','Forgefire','Godslayer','Triumvir','Code Enforcer','Expeditious Judgement','Great Axiom','Renaissance','Wrath of Zeus','Thunderbolt','Imperator','Supreme','Actium','Long Reign','Might of Pearlescent'],
-  KK: ["Kabal's Heart","Kabal's Judgement","Kabal's Knife","Kabal's Wisdom",'First Dominion','Iron Prefect','Final Argument','Steel Fist','Killforge','Collective Punishment','Might of Kalium','Terminus','Sovereign','Immovable','Spear Group','Hammer Group','Hammer of Reason','Conquest Fleet','Acquisition Fleet','Protectorate Force','Vanguard','Iron Fist'],
+  KK: ['TF-01','TF-02','TF-03','TF-04','TF-05','TF-06','TF-07','TF-08','TF-09','TF-10','TF-11','TF-12','TF-13','TF-14','TF-15','TF-16','TF-17','TF-18','TF-19','TF-20'],
   neutral: ['Striking','Covering','Screen','Support','Sweeping','Bombardment','Hunter','Carrier','Surface','Coral Sea','Java Sea','Leyte','Midway','Alpha','Bravo','Delta','Foxtrot','Kilo','Zulu'],
 };
 function randomCallSign(faction) {
