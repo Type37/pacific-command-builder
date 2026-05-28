@@ -580,7 +580,7 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
       <div className="add-unit" style={{ position: 'relative' }}>
         {!pickerOpen ? (
           <button className="add-unit-btn" onClick={() => setPickerOpen(true)}>
-            <Icon.Add /> Add unit
+            <Icon.Add /> <span className="aub-label">Add Unit</span>
           </button>
         ) : (
           <UnitPicker onPick={addUnit} onClose={() => setPickerOpen(false)} />
