@@ -887,7 +887,7 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
   const activeIds = fleet.mods || [];
   const activeMods = activeIds.map(id => mm[id]).filter(Boolean);
   const allMods = window.MODIFICATIONS || [];
-  const advMods = allMods.filter(m => !m.disadv);
+  const advMods = allMods.filter(m => !m.disadv).sort((a, b) => a.name.localeCompare(b.name));
   const disadvMods = allMods.filter(m => m.disadv);
   const sets = window.HISTORICAL_MOD_SETS || [];
   const sel = armourSel || {};
