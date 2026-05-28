@@ -272,13 +272,12 @@ function FactionRoundel({ faction, size = 36 }) {
 
 function FactionToggle({ faction, era, onChange }) {
   const scifi = useScifi();
-  const opts = scifi ? [
-    { f: 'KK', e: 'Standard', label: 'Kalium Kabal' },
-  ] : [
+  const opts = [
     { f: 'IJN', e: 'Early War', label: 'IJN Early War' },
     { f: 'IJN', e: 'Late War',  label: 'IJN Late War'  },
     { f: 'USN', e: 'Early War', label: 'USN Early War' },
     { f: 'USN', e: 'Late War',  label: 'USN Late War'  },
+    ...(scifi ? [{ f: 'KK', e: 'Standard', label: 'Kalium Kabal' }] : []),
   ];
   return (
     <div className="faction-toggle" role="group" aria-label="Faction and era">
