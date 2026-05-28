@@ -1,0 +1,17 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Posthuman Republic</title>
+<desc>Four octagonal petals around a circular sun centre</desc>
+<defs>
+  <mask id="phr-center">
+    <rect width="600" height="600" fill="white"/>
+    <circle cx="300" cy="300" r="150" fill="black"/>
+  </mask>
+</defs>
+<g mask="url(#phr-center)" fill="#5c6b78">
+  <polygon points="75,0 210,0 285,75 285,210 210,285 75,285 0,210 0,75"/>
+  <polygon points="390,0 525,0 600,75 600,210 525,285 390,285 315,210 315,75"/>
+  <polygon points="75,315 210,315 285,390 285,525 210,600 75,600 0,525 0,390"/>
+  <polygon points="390,315 525,315 600,390 600,525 525,600 390,600 315,525 315,390"/>
+</g>
+<circle cx="300" cy="300" r="96" fill="#5c6b78"/>
+</svg>
