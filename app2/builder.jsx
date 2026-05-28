@@ -1086,7 +1086,7 @@ const TF_CALLSIGNS = {
   IJN: ['Kido Butai','Rengo Kantai','Dai-ichi Kido Kantai','Dai-ni Kantai','Dai-roku Kantai','Koku Kantai','Sentai','Hikotai','Suirai Sentai','Zenei Butai','Shuryoku Butai','Ozawa','Nagumo','Mikawa','Tanaka','Goto','Kurita','Nishimura','Shima','Ugaki','Hashimoto','CarDiv 1','CarDiv 2','DesRon 2','DesRon 4','CrusDiv 7','BatDiv 1'],
   USN: ['Halsey','Spruance','Kinkaid','Fletcher','McMorris','Merrill','Burke','Oldendorf','Mitscher','Bogan','Lee','Scott','Callaghan','TF 38','TF 58','TF 77','TF 34','TF 64','TG 77.4','TG 38.1','TG 38.3','CrusDiv 6','DesRon 21','DesRon 45','BatDiv 6','Striking','Screen','Covering','Support','Hunter'],
   PR: ['Starheart','Hammer of Purpose','Enlightenment','Apocalypse','Deliverance','Purity of Power','Deus Ex Machina','Forgefire','Godslayer','Triumvir','Code Enforcer','Expeditious Judgement','Great Axiom','Renaissance','Wrath of Zeus','Thunderbolt','Imperator','Supreme','Actium','Long Reign','Might of Pearlescent'],
-  KK: ['TF-01','TF-02','TF-03','TF-04','TF-05','TF-06','TF-07','TF-08','TF-09','TF-10','TF-11','TF-12','TF-13','TF-14','TF-15','TF-16','TF-17','TF-18','TF-19','TF-20'],
+  KK: ['TF01','TF02','TF03','TF04','TF05','TF06','TF07','TF08','TF09','TF10','TF11','TF12','TF13','TF14','TF15','TF16','TF17','TF18','TF19','TF20'],
   neutral: ['Striking','Covering','Screen','Support','Sweeping','Bombardment','Hunter','Carrier','Surface','Coral Sea','Java Sea','Leyte','Midway','Alpha','Bravo','Delta','Foxtrot','Kilo','Zulu'],
 };
 function randomCallSign(faction) {
