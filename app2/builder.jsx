@@ -267,6 +267,9 @@ function FactionRoundel({ faction, size = 36 }) {
   if (faction === 'KK') return (
     <span className="faction-badge-kk" style={{ width: size, height: size, fontSize: Math.round(size * 0.38) }}>KK</span>
   );
+  if (faction === 'PR') return (
+    <span className="faction-badge-pr" style={{ width: size, height: size, fontSize: Math.round(size * 0.38) }}>PR</span>
+  );
   return null;
 }
 
@@ -277,7 +280,10 @@ function FactionToggle({ faction, era, onChange }) {
     { f: 'IJN', e: 'Late War',  label: 'IJN Late War'  },
     { f: 'USN', e: 'Early War', label: 'USN Early War' },
     { f: 'USN', e: 'Late War',  label: 'USN Late War'  },
-    ...(scifi ? [{ f: 'KK', e: 'Standard', label: 'Kalium Kabal' }] : []),
+    ...(scifi ? [
+      { f: 'KK', e: 'Standard', label: 'Kalium Kabal' },
+      { f: 'PR', e: 'Standard', label: 'Postman Republic' },
+    ] : []),
   ];
   return (
     <div className="faction-toggle" role="group" aria-label="Faction and era">
@@ -1027,6 +1033,19 @@ const PENNANT_POOLS = {
     'fighter-sqn':     ['Akagi Hikotai','Kaga Hikotai','Soryu Hikotai','Hiryu Hikotai','Shokaku Hikotai','Zuikaku Hikotai','Tainan Kokutai','251 Kokutai','201 Kokutai','Daitai 1','Daitai 2','Daitai 3','Chutai 1','Chutai 2'],
     'bomber-sqn':      ['Kanbaku 1','Kanbaku 2','Kanko 1','Kanko 3','Akagi Kanbaku','Kaga Kanko','Soryu Kanbaku','Hiryu Kanko','1st Koku Kantai','2nd Koku Kantai'],
   },
+  PR: {
+    'fleet-carrier':   ["Alexander's Ambition",'Socrates','Fireheart','Salamis','Mount Olympus','Valhalla','Majesty'],
+    'light-carrier':   ['Red Cliffs','Plato','Tower of Knowledge','Dark Prince'],
+    'seaplane-tender': ['Young Mother','Columbus','Wright Flyer','Shoal Princess'],
+    'battleship':      ['Enlightenment','Renaissance','Queen Boudicca','Code Eternal','Progress','Revelations','Great Axiom',"Truth's Instrument",'Triumvir','Four Suns','Shining Path','Dawnglaive',"Destiny's Fist",'Triumph of Shangri-La','Godslayer','Queen of Its Will','Silencer','Expeditious Judgement','Code Enforcer','Lightning Tree','Wrath of Zeus','Thunderbolt','Elemental','Godhammer',"Sphere's Benevolence",'The Vizier','Might of Pearlescent','Imperator','Victorius','Julius Caesar','Dictator','Supreme','Actium',"Cleopatra's Bane",'Long Reign','Starheart','Hammer of Purpose','Deus Ex Machina','Forgefire',"Atom's Mistress",'Purity of Power','Deliverance',"Heaven's Judgement",'Queen of Ends','Apocalypse'],
+    'heavy-cruiser':   ['Searing Truth','Archimedes','Fatal',"Turing's Cipher",'Knowing Virtue','Nikola Tesla',"Hoplite's Helm",'Trident of Neptune','Mind of Asimov','Aristotle','Marathon','Journeyman','Gailileo','Iliad','Unheeled',"Titan's Ire","Einstein's Equation",'Odyssey','Am Become Death','Cicero','Old Boulder','Ruined King',"Ephyra's Fist",'Hubris','A Thousand Fathoms','Marie Curie',"Newton's Apple",'Argo','Great Library','Copernicus','Judgement of Zeus'],
+    'light-cruiser':   ['Hypatia','Phaeton','Voltaire','Bright Mind','Cyclopean Gaze','Brightflame','Lance of Athena','Illuminator','Foe Confounded','Deep Blue','Waves of Lamarr','Inviolate'],
+    'destroyer':       ['Steadfast','Countenance of Janus','Open Future','Cold Warrior','Trident of Poseidon','Harpe','Sword of Damocles','Strikehome','Myrmidon','Known Purpose','Conferred Divinity','Halo Nine','Aegis'],
+    'submarine':       ['Silence','Isolator','Cloudhunter','Mist Cleaver','The Veil','Labyrinth 1','Labyrinth 2','Labyrinth 3','Retiaritus','Ghost Warrior','Longship','Carl Sagan','Neil Armstrong','Yuri Gagarin','Pathfinder','Pegasus','Righteous Blade','Huntress','Mercury'],
+    'auxiliary':       ['Castor','Homeshell','Hellbringer','Alesia','Cogent Reason','Bedrock','Moonshield','Eye of the Sphere','Ornithes Areioi','Nightsun','Fargaze'],
+    'fighter-sqn':     ['Thrust Wing 1','Thrust Wing 2','Thrust Wing 3','Forward Lance','Strike Lance','Intercept Flight'],
+    'bomber-sqn':      ['Bomb Wing 1','Bomb Wing 2','Attack Lance 1','Attack Lance 2','Assault Flight'],
+  },
   KK: {
     'fleet-carrier':   ['First Dominion','Inheritance Clause','Conquistador',"Kabal's Heart",'Magellan','Vespucci','Eminent Domain','Terra Nullius','Right of Discovery','Cortes','Requisition','Lebensraum','Inevitability','Manifest','Corrective','Absorption','Settlement','Protectorate','Charter of Conquest','Charter','Freehold','Annexation'],
     'light-carrier':   ['Collins','Wasp','Gemini','Eagle','Known Associates','Incident Report',"People's Beneficence","Kabal's Wisdom",'As One','Gladiator','Lord Regent','Junta','Common Cause','Mutual Benefit','Solidarity','Progress Report','Harmonious','Exemplary'],
@@ -1066,6 +1085,7 @@ function randomPennant(classId, faction) {
 const TF_CALLSIGNS = {
   IJN: ['Kido Butai','Rengo Kantai','Dai-ichi Kido Kantai','Dai-ni Kantai','Dai-roku Kantai','Koku Kantai','Sentai','Hikotai','Suirai Sentai','Zenei Butai','Shuryoku Butai','Ozawa','Nagumo','Mikawa','Tanaka','Goto','Kurita','Nishimura','Shima','Ugaki','Hashimoto','CarDiv 1','CarDiv 2','DesRon 2','DesRon 4','CrusDiv 7','BatDiv 1'],
   USN: ['Halsey','Spruance','Kinkaid','Fletcher','McMorris','Merrill','Burke','Oldendorf','Mitscher','Bogan','Lee','Scott','Callaghan','TF 38','TF 58','TF 77','TF 34','TF 64','TG 77.4','TG 38.1','TG 38.3','CrusDiv 6','DesRon 21','DesRon 45','BatDiv 6','Striking','Screen','Covering','Support','Hunter'],
+  PR: ['Starheart','Hammer of Purpose','Enlightenment','Apocalypse','Deliverance','Purity of Power','Deus Ex Machina','Forgefire','Godslayer','Triumvir','Code Enforcer','Expeditious Judgement','Great Axiom','Renaissance','Wrath of Zeus','Thunderbolt','Imperator','Supreme','Actium','Long Reign','Might of Pearlescent'],
   KK: ["Kabal's Heart","Kabal's Judgement","Kabal's Knife","Kabal's Wisdom",'First Dominion','Iron Prefect','Final Argument','Steel Fist','Killforge','Collective Punishment','Might of Kalium','Terminus','Sovereign','Immovable','Spear Group','Hammer Group','Hammer of Reason','Conquest Fleet','Acquisition Fleet','Protectorate Force','Vanguard','Iron Fist'],
   neutral: ['Striking','Covering','Screen','Support','Sweeping','Bombardment','Hunter','Carrier','Surface','Coral Sea','Java Sea','Leyte','Midway','Alpha','Bravo','Delta','Foxtrot','Kilo','Zulu'],
 };

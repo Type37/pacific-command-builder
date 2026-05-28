@@ -31,6 +31,21 @@ window.SPECIAL_RULES = {
     name: 'Squadron',
     text: 'An embarked aircraft unit. The total number of squadrons in a Task Force may not exceed the Task Force\u2019s Aircraft value.',
   },
+  PR: {
+    'Standard': {
+      'fleet-carrier':   ["Alexander's Ambition",'Socrates','Fireheart','Salamis','Mount Olympus','Valhalla','Majesty'],
+      'light-carrier':   ['Red Cliffs','Plato','Tower of Knowledge','Dark Prince'],
+      'seaplane-tender': ['Young Mother','Columbus','Wright Flyer','Shoal Princess'],
+      'battleship':      ['Enlightenment','Renaissance','Queen Boudicca','Code Eternal','Progress','Revelations','Great Axiom',"Truth's Instrument",'Triumvir','Four Suns','Shining Path','Dawnglaive',"Destiny's Fist",'Triumph of Shangri-La','Godslayer','Queen of Its Will','Silencer','Expeditious Judgement','Code Enforcer','Lightning Tree','Wrath of Zeus','Thunderbolt','Elemental','Godhammer',"Sphere's Benevolence",'The Vizier','Might of Pearlescent','Imperator','Victorius','Julius Caesar','Dictator','Supreme','Actium',"Cleopatra's Bane",'Long Reign','Starheart','Hammer of Purpose','Deus Ex Machina','Forgefire',"Atom's Mistress",'Purity of Power','Deliverance',"Heaven's Judgement",'Queen of Ends','Apocalypse'],
+      'heavy-cruiser':   ['Searing Truth','Archimedes','Fatal',"Turing's Cipher",'Knowing Virtue','Nikola Tesla',"Hoplite's Helm",'Trident of Neptune','Mind of Asimov','Aristotle','Marathon','Journeyman','Gailileo','Iliad','Unheeled',"Titan's Ire","Einstein's Equation",'Odyssey','Am Become Death','Cicero','Old Boulder','Ruined King',"Ephyra's Fist",'Hubris','A Thousand Fathoms','Marie Curie','Newton's Apple','Argo','Great Library','Copernicus','Judgement of Zeus'],
+      'light-cruiser':   ['Hypatia','Phaeton','Voltaire','Bright Mind','Cyclopean Gaze','Brightflame','Lance of Athena','Illuminator','Foe Confounded','Deep Blue','Waves of Lamarr','Inviolate'],
+      'destroyer':       ['Steadfast','Countenance of Janus','Open Future','Cold Warrior','Trident of Poseidon','Harpe','Sword of Damocles','Strikehome','Myrmidon','Known Purpose','Conferred Divinity','Halo Nine','Aegis'],
+      'submarine':       ['Silence','Isolator','Cloudhunter','Mist Cleaver','The Veil','Labyrinth 1','Labyrinth 2','Labyrinth 3','Retiaritus','Ghost Warrior','Longship','Carl Sagan','Neil Armstrong','Yuri Gagarin','Pathfinder','Pegasus','Righteous Blade','Huntress','Mercury'],
+      'auxiliary':       ['Castor','Homeshell','Hellbringer','Alesia','Cogent Reason','Bedrock','Moonshield','Eye of the Sphere','Ornithes Areioi','Nightsun','Fargaze'],
+      'fighter-sqn':     ['Thrust Wing 1','Thrust Wing 2','Thrust Wing 3','Forward Lance','Strike Lance','Intercept Flight'],
+      'bomber-sqn':      ['Bomb Wing 1','Bomb Wing 2','Attack Lance 1','Attack Lance 2','Assault Flight'],
+    },
+  },
   KK: {
     'Standard': {
       'fleet-carrier':   ['First Dominion','Inheritance Clause','Conquistador',"Kabal's Heart",'Magellan','Vespucci','Eminent Domain','Terra Nullius','Right of Discovery','Cortes','Requisition','Lebensraum','Inevitability','Manifest','Corrective','Absorption','Settlement','Protectorate','Charter of Conquest','Charter','Freehold','Annexation'],
@@ -188,6 +203,7 @@ window.HISTORICAL_MOD_SETS = [
   { id: 'lw-ijn', faction: 'IJN', era: 'Late War', label: 'Late War IJN',
     mods: ['aircraft-shortage', 'coordinated-strikes', 'extended-craft-range', 'ineffective-aa', 'rookie-pilots'] },
   { id: 'kk-std', faction: 'KK', era: 'Standard', label: 'Kalium Kabal', mods: [] },
+  { id: 'pr-std', faction: 'PR', era: 'Standard', label: 'Postman Republic', mods: [] },
 ];
 
 // ─── Historical ship/squadron names ────────────────────
