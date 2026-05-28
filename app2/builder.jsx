@@ -180,6 +180,14 @@ function computeTotals(units, cm) {
   return { cost, guns, aircraft, aa, strike, cap, squadronCount };
 }
 
+// Render mod text with a leading "Disadvantageous." set in italics
+function renderModText(text) {
+  if (text && text.startsWith('Disadvantageous.')) {
+    return <><em>Disadvantageous.</em>{text.slice('Disadvantageous.'.length)}</>;
+  }
+  return text;
+}
+
 // Effective special rules for a class, applying class-targeted armour mods.
 // Improved Armour and Torpedo Belts are situational (+1 Armoured in Gun
 // Battles / Strikes respectively), so we annotate rather than rewrite the value.
@@ -363,8 +371,8 @@ function ModPicker({ activeIds, onToggle, onClose }) {
             <button key={m.id} className="flyout-item" onClick={() => onToggle(m.id)} aria-pressed={active}
               style={active ? { background: 'var(--brand-bg-2)' } : null}>
               <div>
-                <div className="nm">{m.name}{m.disadv && <span className="badge-warn">Disadvantageous</span>}</div>
-                <div className="desc">{m.text}</div>
+                <div className="nm">{m.name}{m.disadv && <span className="badge-warn"><em>Disadvantageous</em></span>}</div>
+                <div className="desc">{renderModText(m.text)}</div>
               </div>
               <div className="right">{active ? <span className="applied-pill">Applied</span> : <span className="add-pill">Add</span>}</div>
             </button>
@@ -658,7 +666,7 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
           <div className="p-rules-title">Fleet Modifications</div>
           {mods.map(m => (
             <div key={m.id} className="p-rule-entry">
-              <strong>{m.name}{m.disadv ? ' (Disadvantageous)' : ''}:</strong> {m.text}
+              <strong>{m.name}{m.disadv ? <em> (Disadvantageous)</em> : ''}:</strong> {renderModText(m.text)}
             </div>
           ))}
         </div>
@@ -938,7 +946,7 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
                       </span>
                       <span className="mcg-name">{m.name}</span>
                     </div>
-                    <div className="mcg-text">{m.text}</div>
+                    <div className="mcg-text">{renderModText(m.text)}</div>
                   </button>
                 );
               })}
@@ -946,7 +954,7 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
           </div>
 
           <div className="mgp-section">
-            <div className="mgp-section-head mgp-disadv-head">Disadvantageous</div>
+            <div className="mgp-section-head mgp-disadv-head"><em>Disadvantageous</em></div>
             <div className="mgp-grid">
               {disadvMods.map(m => {
                 const active = activeIds.includes(m.id);
@@ -960,7 +968,7 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
                       </span>
                       <span className="mcg-name">{m.name}</span>
                     </div>
-                    <div className="mcg-text">{m.text}</div>
+                    <div className="mcg-text">{renderModText(m.text)}</div>
                   </button>
                 );
               })}
