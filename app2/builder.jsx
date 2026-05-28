@@ -127,18 +127,18 @@ const Icon = {
 const STAT_META = (scifi) => {
   const terms = T(scifi);
   return [
-    { key: 'cost',     label: 'Cost',     icon: Icon.Cost,     accent: true,
-      tip: 'Sum of the points cost of every unit in this task force.' },
     { key: 'aircraft', label: terms.aircraftCapacity, icon: Icon.Aircraft, iconScifi: Icon.Aerospace,
       tip: `${terms.aircraft} capacity. Total embarked squadrons may not exceed this value.` },
     { key: 'guns',     label: 'Guns',     icon: Icon.Guns,
       tip: 'Total Guns dice the task force rolls in a Gun Battle.' },
     { key: 'strike',   label: 'Strike',   icon: Icon.Strike,
       tip: `Strike dice this task force can amass on an ${terms.air} Group card during a Strike.` },
-    { key: 'aa',       label: 'AA',       icon: Icon.AA,
-      tip: `Anti-${scifi ? 'Aerospace' : 'Aircraft'} dice rolled during the AA Step of an ${terms.air} Action targeting this task force.` },
     { key: 'cap',      label: 'CAP',      icon: Icon.CAP,
       tip: `Combat ${terms.air} Patrol. Dice rolled during the Interception Step to discard incoming Strike dice.` },
+    { key: 'aa',       label: 'AA',       icon: Icon.AA,
+      tip: `Anti-${scifi ? 'Aerospace' : 'Aircraft'} dice rolled during the AA Step of an ${terms.air} Action targeting this task force.` },
+    { key: 'cost',     label: 'Cost',     icon: Icon.Cost,     accent: true,
+      tip: 'Sum of the points cost of every unit in this task force.' },
   ];
 };
 
@@ -617,11 +617,11 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
   const scifi = useScifi();
   const terms = T(scifi);
   const COMBAT_STATS = [
-    { key: 'guns',     label: 'Guns'    },
     { key: 'aircraft', label: scifi ? 'Capacity' : 'Air Cap' },
+    { key: 'guns',     label: 'Guns'    },
     { key: 'strike',   label: 'Strike'  },
-    { key: 'aa',       label: 'AA'      },
     { key: 'cap',      label: 'CAP'     },
+    { key: 'aa',       label: 'AA'      },
   ];
   const mods = (fleet.mods || []).map(id => mm[id]).filter(Boolean);
 
@@ -1199,6 +1199,20 @@ function generateRandomTF(budget, fleet) {
   }
 
   const faction = fleet?.faction || null;
+
+  // Assign random names to every unit, avoiding duplicates within the TF
+  const taken = new Set();
+  for (const u of units) {
+    const pool = (PENNANT_POOLS[faction] || PENNANT_POOLS.IJN)[u.classId] || [];
+    const fresh = pool.filter(n => !taken.has(n));
+    const choice = (fresh.length ? fresh : pool);
+    if (choice.length) {
+      const nm = choice[Math.floor(Math.random() * choice.length)];
+      u.pennant = nm;
+      taken.add(nm);
+    }
+  }
+
   return { id: 'tf-' + uid(), callSign: randomCallSign(faction), commander: '', units };
 }
 

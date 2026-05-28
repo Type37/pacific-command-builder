@@ -1277,6 +1277,24 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .app.preview-mode .page { display: none; }
 .app.preview-mode .print-area.preview { display: block; }
 
+/* Preview as a realistic Letter sheet (8.5in @ 96dpi) so line
+   lengths and breaks match what actually prints */
+.app.preview-mode {
+  background: var(--neutral-bg-3);
+}
+.print-area.preview {
+  width: 816px;
+  max-width: 100%;
+  margin: 24px auto;
+  padding: 45px 48px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  box-sizing: border-box;
+}
+@media (max-width: 860px) {
+  .print-area.preview { padding: 24px; margin: 12px auto; }
+}
+
 /* --- PRINT --------------------------------------------- */
 
 /* --- Per-TF mini progress bars in sidebar ----------- */
@@ -1915,27 +1933,31 @@ button, input, select, textarea { font: inherit; color: inherit; }
   text-align: left;
 }
 .p-roster-table td {
-  padding: 3px 6px;
+  padding: 2.5px 6px;
   border-bottom: 1px solid #eee;
-  vertical-align: top;
+  vertical-align: middle;
+  white-space: nowrap;
 }
-.p-r-name { font-weight: 600; font-size: 12px; }
+.p-r-name { font-weight: 500; font-size: 10.5px; color: #333; }
 .p-r-sprite {
   display: inline-block;
-  font-size: 9px;
+  width: 30px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 8.5px;
   font-weight: 700;
   background: #eee;
   border-radius: 2px;
-  padding: 1px 4px;
-  margin-right: 5px;
+  padding: 1px 2px;
+  margin-right: 7px;
   color: #555;
 }
-.p-r-pennant { font-weight: 400; font-style: italic; }
-.p-r-role { color: #666; }
-.p-r-special { color: #444; font-size: 10px; }
+.p-r-pennant { font-weight: 400; font-style: italic; color: #777; }
+.p-r-role { color: #666; font-size: 9.5px; }
+.p-r-special { color: #444; font-size: 9.5px; }
 .p-r-cost {
   font-family: 'IBM Plex Mono', Consolas, monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   text-align: right;
   white-space: nowrap;
   font-weight: 600;
