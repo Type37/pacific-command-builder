@@ -78,7 +78,7 @@ window.SHIP_CLASSES = [
     isCarrier: true, sprite: 'CVL' },
   { id: 'seaplane-tender', name: 'Seaplane Tender', category: 'capital', cost: 3,
     role: '', special: 'Catapult',
-    stats: { guns: 0, aircraft: 1, aa: 1, strike: 0, cap: 0 }, sprite: 'AV' },
+    stats: { guns: 0, aircraft: 0, aa: 1, strike: 0, cap: 0 }, sprite: 'AV' },
 
   // Capital — surface
   { id: 'battleship', name: 'Battleship', category: 'surface', cost: 15,
