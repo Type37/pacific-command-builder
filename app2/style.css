@@ -3189,3 +3189,35 @@ button, input, select, textarea { font: inherit; color: inherit; }
   color: var(--neutral-fg-3);
   margin-bottom: 6px;
 }
+
+/* ─── Scale control caption ──────────────────────────── */
+.scale-caption {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-right: 4px;
+  align-self: center;
+}
+
+/* ─── Print running footer (repeats on every page) ───── */
+.p-running-foot { display: none; }
+@media print {
+  .p-running-foot {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 4px 12mm;
+    font-size: 9px;
+    color: #000;
+    border-top: 1px solid #999;
+  }
+  .p-rf-name { font-weight: 700; }
+  .p-rf-mid  { font-family: 'IBM Plex Mono', monospace; }
+  .p-rf-date { color: #555; }
+}

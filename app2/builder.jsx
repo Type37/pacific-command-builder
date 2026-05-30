@@ -425,9 +425,6 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
   if (!cls) return null;
   return (
     <tr className={'unit-row ' + (overCapacity ? 'over-capacity' : '')}>
-      <td className="col-qty">
-        <QtyStepper value={unit.qty} onChange={(v) => onUpdate({ ...unit, qty: v })} />
-      </td>
       <td className="col-class">
         <div className="cls-cell">
           <div className="cls-name">
@@ -450,6 +447,9 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
             )}
           </div>
         </div>
+      </td>
+      <td className="col-qty">
+        <QtyStepper value={unit.qty} onChange={(v) => onUpdate({ ...unit, qty: v })} />
       </td>
       <td className="col-role">
         <div className="role-cell">
@@ -539,7 +539,7 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
           />
         </div>
         <div className="pts" data-tip="Total points cost of this task force">{totals.cost}<span className="lbl">pts</span></div>
-        <Btn variant="subtle" onClick={onDelete} title="Delete task force" icon={Icon.Delete} dataTip="Delete this task force">Delete</Btn>
+        <Btn variant="subtle" onClick={() => { if (window.confirm(`Delete ${tf.callSign || 'this task force'}? This can't be undone.`)) onDelete(); }} title="Delete task force" icon={Icon.Delete} dataTip="Delete this task force">Delete</Btn>
       </header>
 
       <div className="tf-units-head">
@@ -570,8 +570,8 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
         <table className="units-table">
           <thead>
             <tr>
-              <th className="col-qty">Qty</th>
               <th className="col-class">Class and pennant</th>
+              <th className="col-qty">Qty</th>
               <th className="col-role">Role and special</th>
               <th className="col-cost">Cost</th>
               <th></th>
@@ -649,8 +649,13 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
 
   return (
     <div className={'print-area ' + (showPreview ? 'preview' : '')}>
+      <div className="p-running-foot" aria-hidden="true">
+        <span className="p-rf-name">{fmtName(fleet.name) || 'Untitled fleet'}</span>
+        <span className="p-rf-mid">{fleet.taskForces.reduce((s, t) => s + (totalsByTf[t.id]?.cost || 0), 0)} pts</span>
+        <span className="p-rf-date">{new Date().toLocaleDateString('en-CA')}</span>
+      </div>
       <div className="p-head">
-        {fleet.faction && <FactionRoundel faction={fleet.faction} size={32} />}
+        {fleet.faction && <FactionRoundel faction={fleet.faction} size={52} />}
         <div className="p-head-text">
           <div className="p-fleet-name">{fmtName(fleet.name)}</div>
           <div className="p-fleet-meta">
@@ -1451,7 +1456,8 @@ function App() {
           <span className="brand-name">{scifi ? 'Space Command' : 'Pacific Command'}</span>
         </div>
 
-        <div className="scale-ctrl">
+        <div className="scale-ctrl" data-tip="Scale sets how many task forces and high-value ships your fleet may field">
+          <span className="scale-caption">Scale</span>
           <button type="button" className="scale-btn" onClick={() => onScaleChange(scale - 1)} aria-label="Decrease scale"><Icon.Subtract /></button>
           <span className="scale-display">
             <span className="scale-s"><CircleS /></span>
