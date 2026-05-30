@@ -3221,3 +3221,20 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .p-rf-mid  { font-family: 'IBM Plex Mono', monospace; }
   .p-rf-date { color: #555; }
 }
+
+/* ─── Glossary modal ─────────────────────────────────── */
+.glossary-modal { max-width: 560px; }
+.gloss-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-fg-1);
+  margin: 14px 4px 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--neutral-stroke-2);
+}
+.gloss-section-title:first-child { margin-top: 0; }
+.gloss-entry { padding: 7px 4px; }
+.gloss-term { font-weight: 600; font-size: 13px; }
+.gloss-def { font-size: 12.5px; color: var(--neutral-fg-2); line-height: 1.45; margin-top: 1px; }

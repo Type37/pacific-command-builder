@@ -103,6 +103,12 @@ const Icon = {
     <circle cx="13" cy="13" r="1.1" fill="currentColor" stroke="none"/>
   </svg>,
 
+  Help: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
+    <circle cx="10" cy="10" r="7.5" {...S}/>
+    <path d="M7.8 7.5a2.2 2.2 0 1 1 3.2 2c-.8.5-1 .9-1 1.6" {...S}/>
+    <circle cx="10" cy="14" r="0.9" fill="currentColor" stroke="none"/>
+  </svg>,
+
   Cost: (p) => <svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" {...p}>
     <circle cx="10" cy="10" r="7" {...S}/>
     <path d="M10 5.5v9M7.5 8h5M7.5 12h5" {...S}/>
@@ -852,6 +858,44 @@ function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, 
 }
 
 // ─── Improved Armour: class picker modal ───────────────
+// ─── Glossary: in-app rules reference, tap to open ─────
+function GlossaryModal({ onClose }) {
+  const scifi = useScifi();
+  const stats = STAT_META(scifi);
+  const rules = window.SPECIAL_RULES || {};
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <div className="armour-modal-backdrop" onClick={onClose}>
+      <div className="armour-modal glossary-modal" role="dialog" aria-label="Glossary" onClick={e => e.stopPropagation()}>
+        <div className="armour-modal-head">
+          <span>Glossary &amp; rules reference</span>
+          <button type="button" className="armour-modal-close" onClick={onClose} aria-label="Close"><Icon.Close /></button>
+        </div>
+        <div className="armour-modal-body">
+          <div className="gloss-section-title">Task force stats</div>
+          {stats.map(s => (
+            <div key={s.key} className="gloss-entry">
+              <div className="gloss-term">{s.label}</div>
+              <div className="gloss-def">{s.tip}</div>
+            </div>
+          ))}
+          <div className="gloss-section-title">Special rules</div>
+          {Object.keys(rules).map(k => (
+            <div key={k} className="gloss-entry">
+              <div className="gloss-term">{rules[k].name}</div>
+              <div className="gloss-def">{rules[k].text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ArmourClassModal({ title, current, onPick, onClose }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -1368,6 +1412,7 @@ function App() {
   const [scifi, setScifi] = useState(() => localStorage.getItem('pc2-scifi') === '1');
   const [literalNames, setLiteralNames] = useState(() => localStorage.getItem('pc2-literal') === '1');
   const [showRandom, setShowRandom] = useState(false);
+  const [showGlossary, setShowGlossary] = useState(false);
 
   useEffect(() => { if (fleet) localStorage.setItem('pc2-fleet', JSON.stringify(fleet)); }, [fleet]);
   useEffect(() => { localStorage.setItem('pc2-scifi', scifi ? '1' : '0'); }, [scifi]);
@@ -1473,6 +1518,7 @@ function App() {
             <Btn variant="ghost" onClick={() => setShowRandom(r => !r)} icon={Icon.Dice}>Random TF</Btn>
             {showRandom && <RandomTFPanel fleet={fleet} onAdd={addRandomTF} onClose={() => setShowRandom(false)} />}
           </div>
+          <Btn variant="ghost" onClick={() => setShowGlossary(true)} icon={Icon.Help} dataTip="Glossary and rules reference">Glossary</Btn>
           <Btn variant={showPreview ? 'primary' : 'ghost'} onClick={() => setShowPreview(p => !p)} icon={Icon.Print}>
             {showPreview ? 'Preview: ON' : 'Print preview'}
           </Btn>
@@ -1558,6 +1604,8 @@ function App() {
 
       <PrintArea fleet={fleet} totalsByTf={totalsByTf} showPreview={showPreview} />
 
+
+      {showGlossary && <GlossaryModal onClose={() => setShowGlossary(false)} />}
 
       <button className={'scifi-fab' + (scifi ? ' active' : '')} onClick={toggleScifi} title="Sci-fi mode">
         <span className="ico"><Icon.Sparkle /></span> Sci-fi
