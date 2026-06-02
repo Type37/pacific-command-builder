@@ -1512,7 +1512,7 @@ function App() {
         </div>
 
         <div className="cmdbar-actions">
-          <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load Ⓢ3 Starter Fleet">Load <CircleS />3 Starter Fleet</Btn>
+          <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load the Ⓢ3 Starter Fleet">Starter fleet</Btn>
           <Btn variant="ghost" onClick={newBlank} icon={Icon.Document} dataTip="New blank fleet">New fleet</Btn>
           <div style={{ position: 'relative' }}>
             <Btn variant="ghost" onClick={() => setShowRandom(r => !r)} icon={Icon.Dice}>Random TF</Btn>
