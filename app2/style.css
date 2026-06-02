@@ -3298,3 +3298,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .camp-running strong { font-size: 18px; color: var(--brand-fg-1); }
 .camp-running .btn { margin-left: auto; }
+
+.camp-target { width: 56px; margin: 0 2px; }
+.camp-target-label { font-size: 12px; color: var(--neutral-fg-3); }
+.camp-reached {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--status-success-fg, #0a7); background: var(--status-success-bg, #e7f7ef);
+  padding: 2px 8px; border-radius: 99px;
+}
+.camp-running { flex-wrap: wrap; }

@@ -906,6 +906,7 @@ function CampaignModal({ onClose }) {
   const [vp6, setVp6] = useState(false);
   const [sunk, setSunk] = useState(0);
   const [total, setTotal] = useState(0);
+  const [target, setTarget] = useState(50);
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
@@ -939,7 +940,7 @@ function CampaignModal({ onClose }) {
 
           <div className="gloss-section-title">Setup</div>
           <div className="camp-note">
-            Build a 700pt National Fleet Roster split into Task Forces, none over 200pts. Task Forces can't be changed once the campaign starts. Ignore national mod lists; draw two starting modifications below and keep both, even if disadvantageous. The campaign ends after an agreed number of games or when someone reaches a target Campaign Point total.
+            Build a 700pt National Fleet Roster split into Task Forces, none over 200pts. Task Forces can't be changed once the campaign starts. Ignore national mod lists; draw two starting modifications below and keep both, even if disadvantageous. The campaign ends after an agreed number of games (the book suggests five) or when someone reaches a target Campaign Point total (the book suggests 50).
           </div>
 
           <div className="gloss-section-title">Before each game — roll the scale</div>
@@ -1001,7 +1002,10 @@ function CampaignModal({ onClose }) {
               <button type="button" className="btn btn-primary camp-add" onClick={() => { setTotal(t => t + gameCP); setWon(false); setVp6(false); setSunk(0); }}>Add to total</button>
             </div>
             <div className="camp-running">
-              Campaign total: <strong>{total} CP</strong>
+              Campaign total: <strong>{total}</strong> / 
+              <input type="number" min="1" max="999" value={target} onChange={e => setTarget(Math.max(1, parseInt(e.target.value) || 1))} className="camp-num camp-target" aria-label="Target campaign points" />
+              <span className="camp-target-label">CP target</span>
+              {total >= target && <span className="camp-reached">Target reached</span>}
               {total !== 0 && <button type="button" className="btn btn-subtle" onClick={() => setTotal(0)}>Reset</button>}
             </div>
           </div>
