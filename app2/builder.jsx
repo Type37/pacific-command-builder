@@ -1653,6 +1653,46 @@ function App() {
   const faction = fleet.faction;
   const era = fleet.era;
 
+
+  const exportFleetText = () => {
+    const cm2 = cm;
+    const lines = [];
+    lines.push(fleet.name || 'My Fleet');
+    if (fleet.faction) lines.push(`${fleet.faction}${fleet.era ? ' · ' + fleet.era : ''}`);
+    if (fleet.mods && fleet.mods.length > 0) {
+      const mm = modMap();
+      lines.push('Mods: ' + fleet.mods.map(id => mm[id]?.name || id).join(', '));
+    }
+    lines.push('');
+    fleet.taskForces.forEach((tf, i) => {
+      lines.push(`Task Force ${i + 1}${tf.callSign ? ' — ' + tf.callSign : ''}`);
+      tf.units.forEach(u => {
+        const cls = cm2[u.classId];
+        if (!cls) return;
+        const name = u.pennant ? `${u.pennant} (${cls.name})` : cls.name;
+        const qty = u.qty > 1 ? `×${u.qty}  ` : '   ';
+        lines.push(`  ${qty}${name}  ${cls.cost * u.qty} pts`);
+      });
+      const tot = totalsByTf[tf.id]?.cost || 0;
+      lines.push(`  — ${tot} pts`);
+      lines.push('');
+    });
+    lines.push(`Total: ${grandTotal} pts`);
+    const text = lines.join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Fleet copied to clipboard!');
+    }).catch(() => {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('Fleet copied to clipboard!');
+    });
+  };
+
   return (
     <ScifiCtx.Provider value={scifi}>
     <LiteralNamesCtx.Provider value={literalNames}>
@@ -1791,6 +1831,10 @@ function App() {
           <span className="gif-builder">Fleet builder by <a href="https://jetwong.neocities.org" target="_blank" rel="noopener">WarLore</a></span>
           <span className="gif-sep">·</span>
           <a href="https://github.com/Type37/pacific-command-builder" target="_blank" rel="noopener">Source on GitHub</a>
+          <span className="gif-sep">·</span>
+          <a href="assets/pacific-command-quickref.pdf" target="_blank" rel="noopener">Quick Reference</a>
+          <span className="gif-sep">·</span>
+          <button className="export-btn" onClick={exportFleetText}>Export Fleet</button>
         </div>
       </footer>
 
