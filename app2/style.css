@@ -3313,3 +3313,19 @@ button, input, select, textarea { font: inherit; color: inherit; }
   padding: 2px 8px; border-radius: 99px;
 }
 .camp-running { flex-wrap: wrap; }
+
+.export-btn {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0.8;
+}
+.export-btn:hover {
+  opacity: 1;
+}
