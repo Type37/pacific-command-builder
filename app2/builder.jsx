@@ -1790,7 +1790,7 @@ function App() {
           <span className="gif-sep">·</span>
           <span className="gif-builder">Fleet builder by <a href="https://jetwong.neocities.org" target="_blank" rel="noopener">WarLore</a></span>
           <span className="gif-sep">·</span>
-          <a href="https://github.com/Type37/pacific-command-builder" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/Type37/pacific-command-builder" target="_blank" rel="noopener">Source on GitHub</a>
         </div>
       </footer>
 
