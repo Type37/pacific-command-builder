@@ -28,7 +28,6 @@ const STORE_KEY = 'pacific-command:v6';
 const classMap = () => Object.fromEntries(window.SHIP_CLASSES.map(c => [c.id, c]));
 const modMap   = () => Object.fromEntries(window.MODIFICATIONS.map(m => [m.id, m]));
 
-// Campaign random-modification card table (rulebook, p. Campaign Mode).
 // Each black/red rank maps to one modification; Aces are wildcards.
 // classPick entries may be drawn more than once (applied to a different class).
 const CAMPAIGN_CARDS = [
@@ -139,12 +138,6 @@ const Icon = {
     <circle cx="10" cy="10" r="7.5" {...S}/>
     <path d="M7.8 7.5a2.2 2.2 0 1 1 3.2 2c-.8.5-1 .9-1 1.6" {...S}/>
     <circle cx="10" cy="14" r="0.9" fill="currentColor" stroke="none"/>
-  </svg>,
-
-  Campaign: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
-    <circle cx="10" cy="8" r="4.5" {...S}/>
-    <path d="M10 6.2l0.9 1.4 1.6 0.2-1.2 1.1 0.3 1.6-1.6-0.8-1.6 0.8 0.3-1.6-1.2-1.1 1.6-0.2z" fill="currentColor" stroke="none"/>
-    <path d="M7.5 12.2 6 18l4-2 4 2-1.5-5.8" {...S}/>
   </svg>,
 
   Cost: (p) => <svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" {...p}>
@@ -897,129 +890,6 @@ function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, 
 
 // ─── Improved Armour: class picker modal ───────────────
 // ─── Glossary: in-app rules reference, tap to open ─────
-// ─── Campaign companion: scale roll, mod draws, CP scoring ──
-function CampaignModal({ onClose }) {
-  const mm = useMemo(modMap, []);
-  const [scale, setScale] = useState(null);
-  const [draws, setDraws] = useState([]);   // [{card, id, wild}]
-  const [won, setWon] = useState(false);
-  const [vp6, setVp6] = useState(false);
-  const [sunk, setSunk] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [target, setTarget] = useState(50);
-
-  useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
-
-  const rollScale = () => setScale(Math.floor(Math.random() * 6) + 2); // D6+1 → 2..7
-
-  const drawCard = () => {
-    // Avoid repeating a non-class, non-wild mod already drawn this session
-    const heldFixed = new Set(draws.filter(d => !d.wild && !d.classPick).map(d => d.id));
-    let pick, guard = 0;
-    do {
-      pick = CAMPAIGN_CARDS[Math.floor(Math.random() * CAMPAIGN_CARDS.length)];
-      guard++;
-    } while (!pick.wild && !pick.classPick && heldFixed.has(pick.id) && guard < 100);
-    setDraws(d => [...d, pick]);
-  };
-
-  const gameCP = (won ? 15 : 0) + (vp6 ? 5 : 0) - (sunk || 0);
-
-  return (
-    <div className="armour-modal-backdrop" onClick={onClose}>
-      <div className="armour-modal glossary-modal" role="dialog" aria-label="Campaign mode" onClick={e => e.stopPropagation()}>
-        <div className="armour-modal-head">
-          <span>Campaign companion</span>
-          <button type="button" className="armour-modal-close" onClick={onClose} aria-label="Close"><Icon.Close /></button>
-        </div>
-        <div className="armour-modal-body">
-
-          <div className="gloss-section-title">Setup</div>
-          <div className="camp-note">
-            Build a 700pt National Fleet Roster split into Task Forces, none over 200pts. Task Forces can't be changed once the campaign starts. Ignore national mod lists; draw two starting modifications below and keep both, even if disadvantageous. The campaign ends after an agreed number of games (the book suggests five) or when someone reaches a target Campaign Point total (the book suggests 50).
-          </div>
-
-          <div className="gloss-section-title">Before each game — roll the scale</div>
-          <div className="camp-tool">
-            <button type="button" className="btn btn-primary" onClick={rollScale}>
-              <span className="ico"><Icon.Dice /></span> Roll D6+1
-            </button>
-            {scale != null && (
-              <div className="camp-result">
-                <span className="camp-scale-big"><CircleS />{scale}</span>
-                <span className="camp-scale-cap">Select Task Forces up to <strong>{100 * scale} pts</strong></span>
-              </div>
-            )}
-          </div>
-
-          <div className="gloss-section-title">Draw modifications</div>
-          <div className="camp-tool">
-            <div className="camp-tool-row">
-              <button type="button" className="btn btn-primary" onClick={drawCard}>
-                <span className="ico"><Icon.Dice /></span> Draw a card
-              </button>
-              {draws.length > 0 && (
-                <button type="button" className="btn btn-subtle" onClick={() => setDraws([])}>Clear</button>
-              )}
-            </div>
-            <div className="camp-draws">
-              {draws.map((d, i) => {
-                const m = d.wild ? null : mm[d.id];
-                return (
-                  <div key={i} className="camp-draw">
-                    <div className="camp-draw-card">{d.card}</div>
-                    <div className="camp-draw-body">
-                      {d.wild
-                        ? <div className="camp-draw-name">Choose any modification</div>
-                        : <>
-                            <div className="camp-draw-name">{m ? m.name : d.id}{d.classPick ? ' (Ship Class)' : ''}{m && m.disadv ? <em> — Disadvantageous</em> : ''}</div>
-                            {m && <div className="camp-draw-text">{m.text}</div>}
-                          </>}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="camp-note camp-note-sm">
-              Starting out, draw two and keep both. After each game (Research &amp; Development), draw two and keep one; if you won, you may hand the other to your opponent. Duplicate non-class mods are re-drawn automatically.
-            </div>
-          </div>
-
-          <div className="gloss-section-title">Campaign points — after each game</div>
-          <div className="camp-tool">
-            <label className="camp-check"><input type="checkbox" checked={won} onChange={e => setWon(e.target.checked)} /> Won the game <span className="camp-cp">+15</span></label>
-            <label className="camp-check"><input type="checkbox" checked={vp6} onChange={e => setVp6(e.target.checked)} /> Scored 6 VP or more <span className="camp-cp">+5</span></label>
-            <label className="camp-check camp-check-num">
-              High Value ships sunk <span className="camp-cp">−1 each</span>
-              <input type="number" min="0" max="20" value={sunk} onChange={e => setSunk(Math.max(0, parseInt(e.target.value) || 0))} className="camp-num" />
-            </label>
-            <div className="camp-game-total">
-              This game: <strong>{gameCP >= 0 ? '+' : ''}{gameCP} CP</strong>
-              <button type="button" className="btn btn-primary camp-add" onClick={() => { setTotal(t => t + gameCP); setWon(false); setVp6(false); setSunk(0); }}>Add to total</button>
-            </div>
-            <div className="camp-running">
-              Campaign total: <strong>{total}</strong> / 
-              <input type="number" min="1" max="999" value={target} onChange={e => setTarget(Math.max(1, parseInt(e.target.value) || 1))} className="camp-num camp-target" aria-label="Target campaign points" />
-              <span className="camp-target-label">CP target</span>
-              {total >= target && <span className="camp-reached">Target reached</span>}
-              {total !== 0 && <button type="button" className="btn btn-subtle" onClick={() => setTotal(0)}>Reset</button>}
-            </div>
-          </div>
-
-          <div className="gloss-section-title">Hardcore mode (optional)</div>
-          <div className="camp-note">
-            Instead of repairing every ship between games, roll 2D6 for each High Value ship sunk: 2–5 minor damage (plays next game), 6–9 major damage (misses next game), 10+ destroyed (out for the rest of the campaign).
-          </div>
-
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function GlossaryModal({ onClose }) {
   const scifi = useScifi();
@@ -1575,7 +1445,6 @@ function App() {
   const [literalNames, setLiteralNames] = useState(() => localStorage.getItem('pc2-literal') === '1');
   const [showRandom, setShowRandom] = useState(false);
   const [showGlossary, setShowGlossary] = useState(false);
-  const [showCampaign, setShowCampaign] = useState(false);
 
   useEffect(() => { if (fleet) localStorage.setItem('pc2-fleet', JSON.stringify(fleet)); }, [fleet]);
   useEffect(() => { localStorage.setItem('pc2-scifi', scifi ? '1' : '0'); }, [scifi]);
@@ -1721,7 +1590,6 @@ function App() {
             <Btn variant="ghost" onClick={() => setShowRandom(r => !r)} icon={Icon.Dice}>Random TF</Btn>
             {showRandom && <RandomTFPanel fleet={fleet} onAdd={addRandomTF} onClose={() => setShowRandom(false)} />}
           </div>
-          <Btn variant="ghost" onClick={() => setShowCampaign(true)} icon={Icon.Campaign} dataTip="Campaign companion: scale rolls, modification draws, points">Campaign</Btn>
           <Btn variant="ghost" onClick={() => setShowGlossary(true)} icon={Icon.Help} dataTip="Glossary and rules reference">Glossary</Btn>
           <Btn variant={showPreview ? 'primary' : 'ghost'} onClick={() => setShowPreview(p => !p)} icon={Icon.Print}>
             {showPreview ? 'Preview: ON' : 'Print preview'}
@@ -1810,7 +1678,6 @@ function App() {
 
 
       {showGlossary && <GlossaryModal onClose={() => setShowGlossary(false)} />}
-      {showCampaign && <CampaignModal onClose={() => setShowCampaign(false)} />}
 
       <button className={'scifi-fab' + (scifi ? ' active' : '')} onClick={toggleScifi} title="Sci-fi mode">
         <span className="ico"><Icon.Sparkle /></span> Sci-fi
