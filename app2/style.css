@@ -2604,6 +2604,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .gif-builder {
   margin-left: auto;
 }
+.gif-builder a {
+  font-family: 'Terminal Grotesque Open', 'Terminal Grotesque', monospace;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 @media (max-width: 600px) {
   .gif-builder { margin-left: 0; }
 }
