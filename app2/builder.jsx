@@ -685,7 +685,7 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
   const scifi = useScifi();
   const terms = T(scifi);
   const COMBAT_STATS = [
-    { key: 'aircraft', label: scifi ? 'Capacity' : 'Aircraft Capacity', icon: scifi ? Icon.Aerospace : Icon.Aircraft },
+    { key: 'aircraft', label: scifi ? 'Capacity' : 'Aircraft', icon: scifi ? Icon.Aerospace : Icon.Aircraft },
     { key: 'guns',     label: 'Guns',    icon: Icon.Guns   },
     { key: 'strike',   label: 'Strike',  icon: Icon.Strike },
     { key: 'cap',      label: 'CAP',     icon: Icon.CAP    },

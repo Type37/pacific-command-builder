@@ -1887,7 +1887,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   flex-direction: column;
   gap: 4px;
   flex-shrink: 0;
-  width: 96px;
+  width: 120px;
 }
 .p-stat-box {
   display: flex;
@@ -1966,6 +1966,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
   color: #888;
 }
 .p-r-cost-h { text-align: right; width: 1%; white-space: nowrap; }
+.p-r-lost-h { text-align: center; width: 1%; white-space: nowrap; padding-left: 14px; }
+.p-r-lost { text-align: center; padding-left: 14px; }
+.p-lost-box {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border: 1.2px solid #b0b0b0;
+  border-radius: 2px;
+  vertical-align: middle;
+}
 
 /* Special rules block */
 .p-rules {
