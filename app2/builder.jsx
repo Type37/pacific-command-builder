@@ -769,8 +769,17 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
               </div>
 
               <table className="p-roster-table">
+                <colgroup>
+                  <col style={{ width: '6%' }} />
+                  <col style={{ width: '40%' }} />
+                  <col style={{ width: '13%' }} />
+                  <col style={{ width: '25%' }} />
+                  <col style={{ width: '8%' }} />
+                  <col style={{ width: '8%' }} />
+                </colgroup>
                 <thead>
                   <tr>
+                    <th className="p-r-qty-h">Qty</th>
                     <th>Unit</th>
                     <th>Role</th>
                     <th>Special</th>
@@ -781,14 +790,12 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                 <tbody>
                   {sorted.map(u => {
                     const c = cm[u.classId]; if (!c) return null;
-                    const costStr = u.qty > 1
-                      ? `(${u.qty}x) ${c.cost} = ${c.cost * u.qty}`
-                      : `${c.cost}`;
+                    const costStr = `${c.cost * u.qty}`;
                     return (
                       <tr key={u.id}>
+                        <td className="p-r-qtycol">{u.qty}</td>
                         <td className="p-r-name">
                           <span className="p-r-sprite">{c.sprite}</span>
-                          <span className="p-r-qty">{u.qty}&times;</span>
                           {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
                         </td>
                         <td className="p-r-role">{c.role}</td>
