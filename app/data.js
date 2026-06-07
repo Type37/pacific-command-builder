@@ -193,14 +193,20 @@ window.HISTORICAL_NAMES = {
         "Hiryu",
         "Shokaku",
         "Zuikaku",
-        "Junyo"
+        "Junyo",
+        "Soryu-class",
+        "Shokaku-class",
+        "Junyo-class"
       ],
       "light-carrier": [
         "Hosho",
         "Ryujo",
         "Shoho",
         "Zuiho",
-        "Taiyo"
+        "Taiyo",
+        "Zuiho-class",
+        "Taiyo-class",
+        "Chitose-class"
       ],
       "seaplane-tender": [
         "Chiyoda",
@@ -211,7 +217,8 @@ window.HISTORICAL_NAMES = {
         "Kamoi",
         "Kamikawa Maru",
         "Sanuki Maru",
-        "Akitsushima"
+        "Akitsushima",
+        "Chitose-class"
       ],
       "battleship": [
         "Yamato",
@@ -224,7 +231,12 @@ window.HISTORICAL_NAMES = {
         "Fuso",
         "Yamashiro",
         "Ise",
-        "Hyuga"
+        "Hyuga",
+        "Yamato-class",
+        "Nagato-class",
+        "Kongo-class",
+        "Fuso-class",
+        "Ise-class"
       ],
       "heavy-cruiser": [
         "Atago",
@@ -244,7 +256,13 @@ window.HISTORICAL_NAMES = {
         "Furutaka",
         "Kako",
         "Aoba",
-        "Kinugasa"
+        "Kinugasa",
+        "Takao-class",
+        "Tone-class",
+        "Mogami-class",
+        "Myoko-class",
+        "Furutaka-class",
+        "Aoba-class"
       ],
       "light-cruiser": [
         "Sendai",
@@ -265,7 +283,12 @@ window.HISTORICAL_NAMES = {
         "Kiso",
         "Yubari",
         "Katori",
-        "Kashima"
+        "Kashima",
+        "Sendai-class",
+        "Nagara-class",
+        "Kuma-class",
+        "Tenryu-class",
+        "Katori-class"
       ],
       "destroyer": [
         "Fubuki",
@@ -335,7 +358,17 @@ window.HISTORICAL_NAMES = {
         "Wakatake",
         "Kuretake",
         "Sanae",
-        "Fuyo"
+        "Fuyo",
+        "Fubuki-class",
+        "Ayanami-class",
+        "Akatsuki-class",
+        "Kagero-class",
+        "Shiratsuyu-class",
+        "Asashio-class",
+        "Hatsuharu-class",
+        "Mutsuki-class",
+        "Kamikaze-class",
+        "Wakatake-class"
       ],
       "submarine": [
         "I-15",
@@ -345,7 +378,10 @@ window.HISTORICAL_NAMES = {
         "I-26",
         "I-168",
         "RO-33",
-        "RO-34"
+        "RO-34",
+        "Kaidai-class",
+        "I-15-class",
+        "Junsen-class"
       ],
       "auxiliary": [
         "Patrol Boat",
@@ -390,7 +426,10 @@ window.HISTORICAL_NAMES = {
         "Shinano",
         "Kasagi",
         "Aso",
-        "Ikoma"
+        "Ikoma",
+        "Shokaku-class",
+        "Unryu-class",
+        "Junyo-class"
       ],
       "light-carrier": [
         "Chiyoda",
@@ -401,7 +440,9 @@ window.HISTORICAL_NAMES = {
         "Unyo",
         "Chuyo",
         "Kaiyo",
-        "Shinyo"
+        "Shinyo",
+        "Chitose-class",
+        "Taiyo-class"
       ],
       "seaplane-tender": [
         "Akitsushima",
@@ -419,7 +460,12 @@ window.HISTORICAL_NAMES = {
         "Ise (hybrid)",
         "Hyuga (hybrid)",
         "Fuso",
-        "Yamashiro"
+        "Yamashiro",
+        "Yamato-class",
+        "Nagato-class",
+        "Kongo-class",
+        "Ise-class",
+        "Fuso-class"
       ],
       "heavy-cruiser": [
         "Atago",
@@ -435,7 +481,12 @@ window.HISTORICAL_NAMES = {
         "Ashigara",
         "Aoba",
         "Suzuya",
-        "Kumano"
+        "Kumano",
+        "Takao-class",
+        "Myoko-class",
+        "Mogami-class",
+        "Tone-class",
+        "Aoba-class"
       ],
       "light-cruiser": [
         "Oyodo",
@@ -448,7 +499,10 @@ window.HISTORICAL_NAMES = {
         "Kiso",
         "Tama",
         "Isuzu",
-        "Yubari"
+        "Yubari",
+        "Agano-class",
+        "Kuma-class",
+        "Oyodo-class"
       ],
       "destroyer": [
         "Yugumo",
@@ -471,7 +525,10 @@ window.HISTORICAL_NAMES = {
         "Suzutsuki",
         "Fuyutsuki",
         "Harutsuki",
-        "Shimakaze"
+        "Shimakaze",
+        "Yugumo-class",
+        "Akizuki-class",
+        "Shimakaze-class"
       ],
       "submarine": [
         "I-58",
@@ -479,7 +536,10 @@ window.HISTORICAL_NAMES = {
         "I-13",
         "I-400",
         "I-401",
-        "RO-100"
+        "RO-100",
+        "I-400-class",
+        "RO-100-class",
+        "Kaidai-class"
       ],
       "auxiliary": [
         "Convoy escort",
@@ -521,7 +581,9 @@ window.HISTORICAL_NAMES = {
         "Hornet",
         "Saratoga",
         "Wasp",
-        "Ranger"
+        "Ranger",
+        "Lexington-class",
+        "Yorktown-class"
       ],
       "light-carrier": [
         "Long Island",
@@ -530,7 +592,10 @@ window.HISTORICAL_NAMES = {
         "Suwannee",
         "Santee",
         "Chenango",
-        "Charger"
+        "Charger",
+        "Long Island-class",
+        "Bogue-class",
+        "Sangamon-class"
       ],
       "seaplane-tender": [
         "Curtiss",
@@ -539,7 +604,8 @@ window.HISTORICAL_NAMES = {
         "Wright",
         "Pocomoke",
         "Childs",
-        "Heron"
+        "Heron",
+        "Curtiss-class"
       ],
       "battleship": [
         "North Carolina",
@@ -562,7 +628,15 @@ window.HISTORICAL_NAMES = {
         "Idaho",
         "New York",
         "Texas",
-        "Arkansas"
+        "Arkansas",
+        "North Carolina-class",
+        "South Dakota-class",
+        "Colorado-class",
+        "Tennessee-class",
+        "New Mexico-class",
+        "Nevada-class",
+        "Pennsylvania-class",
+        "New York-class"
       ],
       "heavy-cruiser": [
         "Astoria",
@@ -582,7 +656,11 @@ window.HISTORICAL_NAMES = {
         "Tuscaloosa",
         "Portland",
         "Indianapolis",
-        "Wichita"
+        "Wichita",
+        "Pensacola-class",
+        "Northampton-class",
+        "Portland-class",
+        "New Orleans-class"
       ],
       "light-cruiser": [
         "Atlanta",
@@ -604,7 +682,10 @@ window.HISTORICAL_NAMES = {
         "Concord",
         "Richmond",
         "Omaha",
-        "Trenton"
+        "Trenton",
+        "Omaha-class",
+        "Brooklyn-class",
+        "Atlanta-class"
       ],
       "destroyer": [
         "Farragut",
@@ -660,7 +741,17 @@ window.HISTORICAL_NAMES = {
         "Gwin",
         "Monssen",
         "Laffey",
-        "Aaron Ward"
+        "Aaron Ward",
+        "Farragut-class",
+        "Mahan-class",
+        "Gridley-class",
+        "Bagley-class",
+        "Porter-class",
+        "Somers-class",
+        "Benham-class",
+        "Sims-class",
+        "Benson-class",
+        "Gleaves-class"
       ],
       "submarine": [
         "Tautog",
@@ -669,7 +760,12 @@ window.HISTORICAL_NAMES = {
         "Wahoo",
         "Silversides",
         "Nautilus",
-        "Argonaut"
+        "Argonaut",
+        "Gato-class",
+        "Tambor-class",
+        "Salmon-class",
+        "Sargo-class",
+        "Porpoise-class"
       ],
       "auxiliary": [
         "Fleet tanker",
@@ -694,7 +790,6 @@ window.HISTORICAL_NAMES = {
         "TBD Devastator (torpedo bomber)",
         "TBF Avenger",
         "PBY Catalina",
-        "B-17 Flying Fortress (land-based)",
         "B-25 Mitchell (land-based)"
       ]
     },
@@ -724,7 +819,9 @@ window.HISTORICAL_NAMES = {
         "Midway",
         "Franklin D. Roosevelt",
         "Saratoga",
-        "Enterprise (CV-6)"
+        "Enterprise (CV-6)",
+        "Essex-class",
+        "Midway-class"
       ],
       "light-carrier": [
         "Independence",
@@ -743,14 +840,18 @@ window.HISTORICAL_NAMES = {
         "Kalinin Bay",
         "Guadalcanal",
         "Block Island",
-        "Card"
+        "Card",
+        "Independence-class",
+        "Casablanca-class",
+        "Commencement Bay-class"
       ],
       "seaplane-tender": [
         "Currituck",
         "Hamlin",
         "Norton Sound",
         "Pine Island",
-        "Salisbury Sound"
+        "Salisbury Sound",
+        "Currituck-class"
       ],
       "battleship": [
         "Iowa",
@@ -771,7 +872,12 @@ window.HISTORICAL_NAMES = {
         "Pennsylvania",
         "New Mexico",
         "Mississippi",
-        "Idaho"
+        "Idaho",
+        "Iowa-class",
+        "North Carolina-class",
+        "South Dakota-class",
+        "Colorado-class",
+        "Tennessee-class"
       ],
       "heavy-cruiser": [
         "Baltimore",
@@ -795,7 +901,10 @@ window.HISTORICAL_NAMES = {
         "Macon",
         "Fall River",
         "Alaska",
-        "Guam"
+        "Guam",
+        "Baltimore-class",
+        "Alaska-class",
+        "Oregon City-class"
       ],
       "light-cruiser": [
         "Cleveland",
@@ -819,7 +928,11 @@ window.HISTORICAL_NAMES = {
         "Oakland",
         "Reno",
         "Flint",
-        "Tucson"
+        "Tucson",
+        "Cleveland-class",
+        "Atlanta-class",
+        "Fargo-class",
+        "Brooklyn-class"
       ],
       "destroyer": [
         "Fletcher",
@@ -867,7 +980,12 @@ window.HISTORICAL_NAMES = {
         "Raymond",
         "Dennis",
         "Buckley",
-        "Tabberer"
+        "Tabberer",
+        "Fletcher-class",
+        "Allen M. Sumner-class",
+        "Gearing-class",
+        "Buckley-class",
+        "John C. Butler-class"
       ],
       "submarine": [
         "Tang",
@@ -880,7 +998,10 @@ window.HISTORICAL_NAMES = {
         "Darter",
         "Sealion",
         "Scamp",
-        "Torsk"
+        "Torsk",
+        "Balao-class",
+        "Gato-class",
+        "Tench-class"
       ],
       "auxiliary": [
         "Fleet oiler",
@@ -1368,7 +1489,8 @@ window.PAPER_NAMES = {
         "Kii",
         "Owari",
         "Tosa",
-        "Super Yamato (A-150)"
+        "Super Yamato (A-150)",
+        "Kii-class"
       ]
     },
     "Late War": {
@@ -1376,12 +1498,15 @@ window.PAPER_NAMES = {
         "Kii",
         "Owari",
         "Tosa",
-        "Super Yamato (A-150)"
+        "Super Yamato (A-150)",
+        "Kii-class",
+        "A-150 class"
       ],
       "heavy-cruiser": [
         "Ibuki",
         "Kurama",
-        "B-65 super cruiser"
+        "B-65 super cruiser",
+        "Ibuki-class"
       ]
     }
   },
@@ -1397,17 +1522,21 @@ window.PAPER_NAMES = {
         "Kentucky",
         "Constellation",
         "Constitution",
-        "United States"
+        "United States",
+        "Montana-class",
+        "Lexington-class battlecruiser"
       ],
       "heavy-cruiser": [
         "Hawaii",
         "Philippines",
         "Puerto Rico",
-        "Samoa"
+        "Samoa",
+        "Alaska-class"
       ],
       "fleet-carrier": [
         "Reprisal",
-        "Iwo Jima"
+        "Iwo Jima",
+        "Essex-class"
       ]
     }
   }
