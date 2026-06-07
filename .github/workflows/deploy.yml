@@ -1,26 +1,26 @@
-name: Deploy to Neocities
+name: Sync Neocities front door
 
 on:
   push:
     branches: [main]
 
+# GitHub Pages (Settings > Pages, source: main /) serves the canonical app at
+# https://type37.github.io/pacific-command-builder/ . Neocities is a WarLore-branded
+# doorway only: this job keeps its entry pages redirecting to Pages so there is never
+# a second, drifting copy of the builder.
 jobs:
-  deploy:
+  point-neocities-at-pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Upload to Neocities
+      - name: Point Neocities front door at GitHub Pages
         env:
           NEOCITIES_TOKEN: ${{ secrets.NEOCITIES_TOKEN }}
         run: |
           curl -s -X POST \
             -H "Authorization: Bearer $NEOCITIES_TOKEN" \
-            -F "wargaming/historicals/index.html=@index.html" \
-            -F "wargaming/historicals/app2/builder.jsx=@app2/builder.jsx" \
-            -F "wargaming/historicals/app2/style.css=@app2/style.css" \
-            -F "wargaming/historicals/app/data.js=@app/data.js" \
-            -F "wargaming/historicals/app/print.css=@app/print.css" \
-            -F "wargaming/historicals/assets/roundel-ijn.svg=@assets/roundel-ijn.svg" \
-            -F "wargaming/historicals/assets/roundel-usn.svg=@assets/roundel-usn.svg" \
+            -F "wargaming/historicals/index.html=@neocities-redirect.html" \
+            -F "wargaming/historicals/pacific-command-builder.html=@neocities-redirect.html" \
+            -F "wargaming/historicals/pacific-command-builder-2.html=@neocities-redirect.html" \
             https://neocities.org/api/upload
