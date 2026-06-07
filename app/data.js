@@ -634,7 +634,9 @@ window.HISTORICAL_NAMES = {
         "Toledo",
         "Columbus",
         "Macon",
-        "Fall River"
+        "Fall River",
+        "Alaska",
+        "Guam"
       ],
       "light-cruiser": [
         "Cleveland",
@@ -1143,6 +1145,54 @@ window.HISTORICAL_NAMES = {
     }
   }
 };
+
+// ─── Never-built / unfinished hulls (shown unless "Historical Ships Only") ──
+window.PAPER_NAMES = {
+  "IJN": {
+    "Early War": {
+      "battleship": [
+        "Kii",
+        "Owari",
+        "Tosa"
+      ]
+    },
+    "Late War": {
+      "battleship": [
+        "Kii",
+        "Owari",
+        "Tosa"
+      ],
+      "heavy-cruiser": [
+        "Ibuki",
+        "Kurama"
+      ]
+    }
+  },
+  "USN": {
+    "Late War": {
+      "battleship": [
+        "Montana",
+        "Ohio",
+        "Maine",
+        "New Hampshire",
+        "Louisiana",
+        "Illinois",
+        "Kentucky"
+      ],
+      "heavy-cruiser": [
+        "Hawaii",
+        "Philippines",
+        "Puerto Rico",
+        "Samoa"
+      ],
+      "fleet-carrier": [
+        "Reprisal",
+        "Iwo Jima"
+      ]
+    }
+  }
+};
+
 
 // ─── Java Sea example fleet (verbatim from user spec) ──
 window.EXAMPLE_FLEET = {

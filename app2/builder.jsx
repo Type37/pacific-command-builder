@@ -11,7 +11,7 @@ const useLiteralNames = () => React.useContext(LiteralNamesCtx);
 // Terminology map
 const T = (scifi) => ({
   aircraft:         scifi ? 'Aerospace Craft'      : 'Aircraft',
-  aircraftCapacity: scifi ? 'Capacity'             : 'Air Capacity',
+  aircraftCapacity: scifi ? 'Capacity'             : 'Aircraft Capacity',
   submarine:        scifi ? 'Stealth Frigate'       : 'Submarine',
   depthCharges:     scifi ? 'De-Stealth Charges'   : 'Depth Charges',
   seaplaneTender:   scifi ? 'Scout Ship Tender'    : 'Seaplane Tender',
@@ -182,19 +182,21 @@ const STAT_META = (scifi) => {
 // ─── Effects engine ────────────────────────────────────
 function applyModEffects(activeMods, baseTotals, units, cm) {
   let { cost, guns, aircraft, aa, strike, cap } = baseTotals;
-  let aircraftDelta = 0;
-  for (const m of activeMods) {
-    const e = m.effect;
-    if (!e) continue;
-    if (e.kind === 'aircraftCarrierBonus') {
-      let carriers = 0;
-      for (const u of units) { const c = cm[u.classId]; if (c && c.isCarrier) carriers += u.qty; }
-      aircraftDelta += e.amount * carriers;
+  const carrierBonus = activeMods.reduce((s, m) =>
+    s + (m.effect?.kind === 'aircraftCarrierBonus' ? (m.effect.amount || 0) : 0), 0);
+  const halve = activeMods.some(m => m.effect?.kind === 'aircraftHalveCeil');
+  // Aircraft is resolved per ship: carriers gain the bonus, then each ship's
+  // value is halved (rounding up) under a shortage, before summing.
+  let aircraftAfter = 0;
+  for (const u of units) {
+    const c = cm[u.classId];
+    if (!c) continue;
+    let per = c.stats.aircraft || 0;
+    if (per > 0) {
+      if (c.isCarrier) per += carrierBonus;
+      if (halve) per = Math.ceil(per / 2);
     }
-  }
-  let aircraftAfter = aircraft + aircraftDelta;
-  if (activeMods.some(m => m.effect?.kind === 'aircraftHalveCeil')) {
-    aircraftAfter = Math.ceil(aircraftAfter / 2);
+    aircraftAfter += per * u.qty;
   }
   return {
     cost, guns, aircraft: aircraftAfter, aa, strike, cap,
@@ -261,8 +263,15 @@ function shipClassTip(cls) {
 }
 
 // ─── Historical names ──────────────────────────────────
+let HISTORICAL_ONLY = (typeof localStorage !== 'undefined' && localStorage.getItem('pc2-histonly') === '1');
+function setHistFlag(v) { HISTORICAL_ONLY = !!v; }
 function namePool(faction, era, classId) {
-  return window.HISTORICAL_NAMES?.[faction]?.[era]?.[classId] || [];
+  const real = window.HISTORICAL_NAMES?.[faction]?.[era]?.[classId] || [];
+  if (HISTORICAL_ONLY) return real;
+  const paper = window.PAPER_NAMES?.[faction]?.[era]?.[classId] || [];
+  if (!paper.length) return real;
+  const seen = new Set(real.map(s => s.toLowerCase()));
+  return real.concat(paper.filter(s => !seen.has(s.toLowerCase())));
 }
 function suggestPennantFor(classId, faction, era, takenSet) {
   const pool = namePool(faction, era, classId);
@@ -676,16 +685,39 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
   const scifi = useScifi();
   const terms = T(scifi);
   const COMBAT_STATS = [
-    { key: 'aircraft', label: scifi ? 'Capacity' : 'Air Cap' },
-    { key: 'guns',     label: 'Guns'    },
-    { key: 'strike',   label: 'Strike'  },
-    { key: 'cap',      label: 'CAP'     },
-    { key: 'aa',       label: 'AA'      },
+    { key: 'aircraft', label: scifi ? 'Capacity' : 'Aircraft Capacity', icon: scifi ? Icon.Aerospace : Icon.Aircraft },
+    { key: 'guns',     label: 'Guns',    icon: Icon.Guns   },
+    { key: 'strike',   label: 'Strike',  icon: Icon.Strike },
+    { key: 'cap',      label: 'CAP',     icon: Icon.CAP    },
+    { key: 'aa',       label: 'AA',      icon: Icon.AA     },
   ];
   const mods = (fleet.mods || []).map(id => mm[id]).filter(Boolean);
 
+  // Screen-only: shrink the fixed-width sheet to fit its pane so it never
+  // spills past the preview area. Reset to 1 for print via CSS @media print.
+  const previewRef = React.useRef(null);
+  const [previewZoom, setPreviewZoom] = React.useState(1);
+  React.useLayoutEffect(() => {
+    if (!showPreview) { setPreviewZoom(1); return; }
+    const el = previewRef.current;
+    const parent = el && el.parentElement;
+    if (!parent) return;
+    const SHEET = 816;
+    const measure = () => {
+      const avail = parent.clientWidth - 24;
+      setPreviewZoom(Math.min(1, avail / SHEET));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(parent);
+    window.addEventListener('resize', measure);
+    return () => { ro.disconnect(); window.removeEventListener('resize', measure); };
+  }, [showPreview]);
+
   return (
-    <div className={'print-area ' + (showPreview ? 'preview' : '')}>
+    <div className={'print-area ' + (showPreview ? 'preview' : '')}
+      ref={previewRef}
+      style={showPreview ? { '--preview-zoom': previewZoom } : undefined}>
       <div className="p-running-foot" aria-hidden="true">
         <span className="p-rf-name">{fmtName(fleet.name) || 'Untitled fleet'}</span>
         <span className="p-rf-mid">{fleet.taskForces.reduce((s, t) => s + (totalsByTf[t.id]?.cost || 0), 0)} pts</span>
@@ -702,17 +734,6 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
           </div>
         </div>
       </div>
-
-      {mods.length > 0 && (
-        <div className="p-fleet-mod-rules">
-          <div className="p-rules-title">Fleet Modifications</div>
-          {mods.map(m => (
-            <div key={m.id} className="p-rule-entry">
-              <strong>{m.name}{m.disadv ? <em> (Disadvantageous)</em> : ''}:</strong> {renderModText(m.text)}
-            </div>
-          ))}
-        </div>
-      )}
 
       {fleet.taskForces.map((tf, idx) => {
         const totals = totalsByTf[tf.id] || {};
@@ -733,12 +754,16 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
 
             <div className="p-tf-body">
               <div className="p-stats-col">
-                {COMBAT_STATS.map(s => (
-                  <div key={s.key} className="p-stat-box">
-                    <div className="p-stat-val">{totals[s.key] || 0}</div>
-                    <div className="p-stat-label">{s.label}</div>
-                  </div>
-                ))}
+                {COMBAT_STATS.map(s => {
+                  const IconC = s.icon;
+                  return (
+                    <div key={s.key} className="p-stat-box">
+                      {IconC && <span className="p-stat-ico" aria-hidden="true"><IconC /></span>}
+                      <div className="p-stat-val">{totals[s.key] || 0}</div>
+                      <div className="p-stat-label">{s.label}</div>
+                    </div>
+                  );
+                })}
               </div>
 
               <table className="p-roster-table">
@@ -748,6 +773,7 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                     <th>Role</th>
                     <th>Special</th>
                     <th className="p-r-cost-h">Cost</th>
+                    <th className="p-r-lost-h">Lost</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -760,11 +786,13 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                       <tr key={u.id}>
                         <td className="p-r-name">
                           <span className="p-r-sprite">{c.sprite}</span>
+                          <span className="p-r-qty">{u.qty}&times;</span>
                           {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
                         </td>
                         <td className="p-r-role">{c.role}</td>
                         <td className="p-r-special">{effectiveSpecial(c, fleet)}</td>
                         <td className="p-r-cost">{costStr}</td>
+                        <td className="p-r-lost"><span className="p-lost-box" /></td>
                       </tr>
                     );
                   })}
@@ -774,12 +802,23 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
           </article>
         );
       })}
+
+      {mods.length > 0 && (
+        <div className="p-fleet-mod-rules">
+          <div className="p-rules-title">Fleet Modifications</div>
+          {mods.map(m => (
+            <div key={m.id} className="p-rule-entry">
+              <strong>{m.name}{m.disadv ? <em> (Disadvantageous)</em> : ''}:</strong> {renderModText(m.text)}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 // ─── Fleet Sidebar ────────────────────────────────────
-function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, fv, onBudgetChange, onScaleChange, onFreePlayChange, literalNames, setLiteralNames }) {
+function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, fv, onBudgetChange, onScaleChange, onFreePlayChange, literalNames, setLiteralNames, historicalOnly, setHistoricalOnly }) {
   const scale = fleet.scale || 3;
   const pct = fleetBudget ? Math.min(100, Math.round((grandTotal / fleetBudget) * 100)) : 0;
   const over = fleetBudget && grandTotal > fleetBudget;
@@ -811,6 +850,13 @@ function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, 
             Literal Names
           </label>
           {literalNames && <span className="sb-freeplay-tag">IJN translated</span>}
+        </div>
+        <div className="sb-freeplay" style={{ marginTop: 4 }} data-tip="On: only ships that actually served. Off: also include never-built and unfinished hulls.">
+          <label className="sb-freeplay-label">
+            <input type="checkbox" checked={historicalOnly}
+              onChange={e => setHistoricalOnly(e.target.checked)} />
+            Historical Ships Only
+          </label>
         </div>
       </div>
 
@@ -1478,12 +1524,15 @@ function App() {
   const [showPreview, setShowPreview] = useState(false);
   const [scifi, setScifi] = useState(() => localStorage.getItem('pc2-scifi') === '1');
   const [literalNames, setLiteralNames] = useState(() => localStorage.getItem('pc2-literal') === '1');
+  const [historicalOnly, setHistoricalOnly] = useState(() => localStorage.getItem('pc2-histonly') === '1');
+  setHistFlag(historicalOnly);
   const [showRandom, setShowRandom] = useState(false);
   const [showGlossary, setShowGlossary] = useState(false);
 
   useEffect(() => { if (fleet) localStorage.setItem('pc2-fleet', JSON.stringify(fleet)); }, [fleet]);
   useEffect(() => { localStorage.setItem('pc2-scifi', scifi ? '1' : '0'); }, [scifi]);
   useEffect(() => { localStorage.setItem('pc-literal', literalNames ? '1' : '0'); }, [literalNames]);
+  useEffect(() => { localStorage.setItem('pc2-histonly', historicalOnly ? '1' : '0'); setHistFlag(historicalOnly); }, [historicalOnly]);
 
   const cm = useMemo(classMap, []);
 
@@ -1644,6 +1693,8 @@ function App() {
         onFreePlayChange={onFreePlayChange}
         literalNames={literalNames}
         setLiteralNames={setLiteralNames}
+        historicalOnly={historicalOnly}
+        setHistoricalOnly={setHistoricalOnly}
       />
 
       {!showPreview && (
