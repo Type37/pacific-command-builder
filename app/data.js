@@ -276,13 +276,31 @@ window.HISTORICAL_NAMES = {
         "DesDiv 12, Shiratsuyu class",
         "DesDiv 2, Minekaze class",
         "DesDiv 5, Kamikaze class",
-        "DesDiv 16, Asashio class"
+        "DesDiv 16, Asashio class",
+        "DesRon 2, Kagero class",
+        "DesDiv 18, Kagero class",
+        "DesDiv 8, Asashio class",
+        "DesDiv 20, Fubuki class",
+        "DesDiv 23, Shiratsuyu class",
+        "DesDiv 27, Shiratsuyu class",
+        "DesDiv 30, Mutsuki class",
+        "DesDiv 21, Hatsuharu class",
+        "DesDiv 13, Wakatake class",
+        "DesDiv 29, Momi class",
+        "DesRon 3, Fubuki class",
+        "DesDiv 7, Akatsuki class"
       ],
       "submarine": [
         "SubRon 3, I-class",
         "SubDiv 8, I-15 class",
         "SubDiv 2, I-16 class",
-        "SubRon 1, Kaidai class"
+        "SubRon 1, Kaidai class",
+        "SubRon 2, I-class",
+        "SubDiv 11, I-7 class",
+        "SubDiv 30, I-153 class",
+        "SubRon 6, RO-class",
+        "SubDiv 12, I-121 class (minelayer)",
+        "SubDiv 18, I-68 class"
       ],
       "auxiliary": [
         "Patrol Boat",
@@ -290,17 +308,28 @@ window.HISTORICAL_NAMES = {
         "Repair Tender",
         "Minelayer Okinoshima",
         "Fleet collier",
-        "Hospital ship Hikawa Maru"
+        "Hospital ship Hikawa Maru",
+        "Submarine tender Taigei",
+        "Ammunition ship",
+        "Aircraft transport",
+        "Survey ship Tsukushi"
       ],
       "fighter-sqn": [
         "A6M2 Reisen (Zero)",
+        "A6M3 Reisen (Hamp)",
         "A5M4 Claude",
-        "A6M2 Reisen, Tainan Kokutai"
+        "A6M2-N Rufe (floatplane)",
+        "A6M2 Reisen, Tainan Kokutai",
+        "Ki-43 Hayabusa (Oscar, land-based)",
+        "Ki-27 Nate (land-based)"
       ],
       "bomber-sqn": [
-        "D3A1 Val and B5N2 Kate",
+        "D3A1 Val (dive bomber)",
+        "B5N2 Kate (torpedo bomber)",
         "G3M Nell (land-based)",
-        "G4M Betty (land-based)"
+        "G4M Betty (land-based)",
+        "H6K Mavis (flying boat)",
+        "E13A Jake (floatplane)"
       ]
     },
     "Late War": {
@@ -384,29 +413,55 @@ window.HISTORICAL_NAMES = {
         "DesDiv 17, Kagero class",
         "DesRon 2, Yugumo class",
         "DesDiv 43, Matsu class",
-        "DesRon 11, Shimakaze class"
+        "DesRon 11, Shimakaze class",
+        "DesRon 10, Kagero class",
+        "DesDiv 32, Yugumo class",
+        "DesDiv 52, Akizuki class",
+        "DesDiv 7, Matsu class",
+        "DesDiv 53, Tachibana class",
+        "DesRon 31, Matsu class",
+        "DesDiv 42, Yugumo class",
+        "DesDiv 11, Fubuki class",
+        "DesDiv 4, Akizuki class"
       ],
       "submarine": [
         "SubRon 7, I-400 class",
         "SubRon 1, I-400 class (Sen Toku)",
-        "SubDiv 15, I-13 class"
+        "SubDiv 15, I-13 class",
+        "SubDiv 12, I-200 class (Sen Taka)",
+        "SubRon 11, I-class",
+        "SubDiv 34, RO-100 class",
+        "SubDiv 7, I-9 class",
+        "SubRon 8, I-15 class"
       ],
       "auxiliary": [
         "Convoy escort",
         "Fleet oiler",
         "Escort Matsuwa (Kaibokan)",
         "Repair ship Akashi",
-        "Fast transport No. 1"
+        "Fast transport No. 1",
+        "Kaibokan escort Etorofu",
+        "Kaibokan escort Mikura",
+        "Transport submarine",
+        "Fleet tug"
       ],
       "fighter-sqn": [
-        "A6M5 Zero and N1K Shiden",
+        "A6M5 Zero",
+        "N1K1-J Shiden (George)",
         "N1K2-J Shiden-Kai (George)",
-        "J2M Raiden (Jack)"
+        "J2M Raiden (Jack)",
+        "A7M Reppu (Sam)",
+        "N1K1 Kyofu (Rex, floatplane)",
+        "Ki-84 Hayate (Frank, land-based)"
       ],
       "bomber-sqn": [
-        "D4Y Suisei and B6N Tenzan",
+        "D4Y Suisei (Judy)",
+        "B6N Tenzan (Jill)",
+        "B7A Ryusei (Grace)",
         "P1Y Ginga (Frances)",
-        "B7A Ryusei (Grace)"
+        "D3A2 Val",
+        "E16A Zuiun (Paul, floatplane)",
+        "MXY-7 Ohka (rocket, land-based)"
       ]
     }
   },
@@ -512,31 +567,56 @@ window.HISTORICAL_NAMES = {
         "DesRon 1, Bagley class",
         "DesDiv 8, Gridley class",
         "DesRon 5, Porter class",
-        "DesDiv 17, Bristol class"
+        "DesDiv 17, Bristol class",
+        "DesDiv 12, Gleaves class",
+        "DesRon 2, Benham class",
+        "DesDiv 7, Somers class",
+        "DesDiv 3, Farragut class",
+        "DesRon 6, Dunlap class",
+        "DesDiv 19, Bristol class",
+        "DesDiv 24, Benson class",
+        "DesRon 10, Fletcher class",
+        "DesDiv 9, Gridley class",
+        "DesRon 3, Clemson class",
+        "DesDiv 5, Wickes class"
       ],
       "submarine": [
         "SubDiv 51, Gato class",
         "SubDiv 43, Tambor class",
         "SubDiv 53, Sargo class",
         "SubRon 5, Salmon class",
-        "SubDiv 41, Porpoise class"
+        "SubDiv 41, Porpoise class",
+        "SubDiv 42, Tambor class",
+        "SubRon 4, Gar class",
+        "SubDiv 44, Sargo class",
+        "SubRon 2, Porpoise class",
+        "SubDiv 52, Gato class"
       ],
       "auxiliary": [
         "Fleet tanker",
         "Repair ship",
         "Fleet tug",
         "Seaplane oiler",
-        "Minelayer Oglala"
+        "Minelayer Oglala",
+        "Destroyer tender",
+        "Submarine tender",
+        "Cargo ship",
+        "Hospital ship Solace"
       ],
       "fighter-sqn": [
         "F4F-3 Wildcat",
+        "F4F-4 Wildcat",
         "F2A Buffalo",
-        "P-40 Warhawk (land-based)"
+        "P-40 Warhawk (land-based)",
+        "P-39 Airacobra (land-based)"
       ],
       "bomber-sqn": [
-        "SBD Dauntless and TBD Devastator",
+        "SBD Dauntless (dive bomber)",
+        "TBD Devastator (torpedo bomber)",
+        "TBF Avenger",
+        "PBY Catalina",
         "B-17 Flying Fortress (land-based)",
-        "PBY Catalina"
+        "B-25 Mitchell (land-based)"
       ]
     },
     "Late War": {
@@ -669,31 +749,57 @@ window.HISTORICAL_NAMES = {
         "DesRon 21, Fletcher class",
         "DesRon 54, Sumner class",
         "DesRon 62, Gearing class",
-        "DesDiv 90, Fletcher class"
+        "DesDiv 90, Fletcher class",
+        "DesRon 25, Fletcher class",
+        "DesDiv 100, Fletcher class",
+        "DesRon 61, Sumner class",
+        "DesDiv 122, Gearing class",
+        "DesRon 66, Gearing class",
+        "DesDiv 119, Sumner class",
+        "DesDiv 80, Buckley class (DE)",
+        "DesDiv 70, Cannon class (DE)",
+        "DesDiv 75, John C. Butler class (DE)",
+        "DesDiv 60, Evarts class (DE)",
+        "DesRon 40, Rudderow class (DE)"
       ],
       "submarine": [
         "SubDiv 161, Balao class",
         "SubDiv 201, Tench class",
         "SubDiv 121, Balao class",
         "SubRon 18, Gato class",
-        "SubDiv 202, Tench class"
+        "SubDiv 202, Tench class",
+        "SubDiv 122, Balao class",
+        "SubRon 20, Gato class",
+        "SubDiv 203, Tench class",
+        "SubDiv 162, Balao class",
+        "SubRon 12, Gato class"
       ],
       "auxiliary": [
         "Fleet oiler",
         "Ammunition ship",
         "Fast transport (APD)",
         "Ammunition ship Mount Hood",
-        "Destroyer tender Cascade"
+        "Destroyer tender Cascade",
+        "Fleet oiler Cimarron",
+        "Repair ship Vestal",
+        "Submarine tender Fulton",
+        "Attack cargo ship"
       ],
       "fighter-sqn": [
-        "F6F Hellcat and F4U Corsair",
+        "F6F-3 Hellcat",
         "F6F-5 Hellcat",
-        "F4U-1D Corsair"
+        "F4U-1D Corsair",
+        "F4U-4 Corsair",
+        "FM-2 Wildcat",
+        "F8F Bearcat",
+        "P-38 Lightning (land-based)"
       ],
       "bomber-sqn": [
-        "SB2C Helldiver and TBM Avenger",
         "SB2C-4 Helldiver",
-        "TBM-3 Avenger"
+        "SBD-5 Dauntless",
+        "TBM-3 Avenger",
+        "PB4Y Privateer (land-based)",
+        "B-29 Superfortress (land-based)"
       ]
     }
   },
@@ -863,7 +969,17 @@ window.HISTORICAL_NAMES = {
         "Known Purpose",
         "Conferred Divinity",
         "Halo Nine",
-        "Aegis"
+        "Aegis",
+        "Phalanx",
+        "Gladius",
+        "Resolve",
+        "Bulwark of Reason",
+        "Leonidas",
+        "Hold the Line",
+        "Xiphos",
+        "Clear Verdict",
+        "Steadfast Truth",
+        "Spartan"
       ],
       "submarine": [
         "Silence",
@@ -905,14 +1021,31 @@ window.HISTORICAL_NAMES = {
         "Thrust Wing 3",
         "Forward Lance",
         "Strike Lance",
-        "Intercept Flight"
+        "Intercept Flight",
+        "Vanguard Lance",
+        "Aegis Flight",
+        "Phalanx Wing",
+        "Hoplite Squadron",
+        "Falcon Lance",
+        "Spear of Athena",
+        "Interdiction Wing",
+        "Sentinel Flight",
+        "Pilum Squadron",
+        "Skyward Lance"
       ],
       "bomber-sqn": [
         "Bomb Wing 1",
         "Bomb Wing 2",
         "Attack Lance 1",
         "Attack Lance 2",
-        "Assault Flight"
+        "Assault Flight",
+        "Heavy Lance 1",
+        "Heavy Lance 2",
+        "Siege Wing",
+        "Hammerfall Flight",
+        "Onager Squadron",
+        "Ballista Wing",
+        "Sunder Flight"
       ]
     }
   },
@@ -1076,7 +1209,17 @@ window.HISTORICAL_NAMES = {
         "Bulwark",
         "Trenchant",
         "Indefatigable",
-        "Intrepid"
+        "Intrepid",
+        "Levy",
+        "Quota",
+        "Tithe",
+        "Garnishment",
+        "Lien",
+        "Forfeiture",
+        "Distraint",
+        "Subpoena",
+        "Writ",
+        "Requisition Order"
       ],
       "submarine": [
         "Bloodwork",
@@ -1130,7 +1273,15 @@ window.HISTORICAL_NAMES = {
         "Wing-09",
         "Wing-10",
         "Wing-11",
-        "Wing-12"
+        "Wing-12",
+        "Wing-13",
+        "Wing-14",
+        "Wing-15",
+        "Wing-16",
+        "Talon Flight",
+        "Enforcer Wing",
+        "Overwatch Squadron",
+        "Compliance Flight"
       ],
       "bomber-sqn": [
         "Strike-01",
@@ -1140,7 +1291,14 @@ window.HISTORICAL_NAMES = {
         "Strike-05",
         "Strike-06",
         "Strike-07",
-        "Strike-08"
+        "Strike-08",
+        "Strike-09",
+        "Strike-10",
+        "Strike-11",
+        "Strike-12",
+        "Hammer Flight",
+        "Sledge Wing",
+        "Mandate Strike"
       ]
     }
   }
