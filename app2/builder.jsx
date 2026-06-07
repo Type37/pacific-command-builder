@@ -758,9 +758,11 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                   const IconC = s.icon;
                   return (
                     <div key={s.key} className="p-stat-box">
-                      {IconC && <span className="p-stat-ico" aria-hidden="true"><IconC /></span>}
+                      <div className="p-stat-id">
+                        {IconC && <span className="p-stat-ico" aria-hidden="true"><IconC /></span>}
+                        <div className="p-stat-label">{s.label}</div>
+                      </div>
                       <div className="p-stat-val">{totals[s.key] || 0}</div>
-                      <div className="p-stat-label">{s.label}</div>
                     </div>
                   );
                 })}

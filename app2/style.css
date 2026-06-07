@@ -1892,29 +1892,38 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .p-stat-box {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   border: 1.5px solid #bbb;
   border-radius: 3px;
-  padding: 4px 8px;
+  padding: 6px 10px;
   background: #fff;
 }
+.p-stat-id {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+}
+.p-stat-ico { display: flex; color: #000; }
 .p-stat-val {
   font-family: 'IBM Plex Mono', Consolas, monospace;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: #bbb;
   line-height: 1;
-  min-width: 24px;
-  text-align: center;
+  text-align: right;
 }
 .p-stat-unit { font-size: 11px; font-weight: 400; margin-left: 1px; }
 .p-stat-label {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #000;
-  line-height: 1.2;
+  line-height: 1.15;
+  text-align: center;
 }
 
 /* Roster table */
