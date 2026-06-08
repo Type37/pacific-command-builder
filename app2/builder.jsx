@@ -273,11 +273,15 @@ function namePool(faction, era, classId) {
   const seen = new Set(real.map(s => s.toLowerCase()));
   return real.concat(paper.filter(s => !seen.has(s.toLowerCase())));
 }
+// Pick a random entry from a pool, preferring names not already taken in the TF.
+function pickFromPool(pool, takenSet) {
+  if (!pool || !pool.length) return '';
+  const fresh = takenSet ? pool.filter(n => !takenSet.has(n)) : pool;
+  const choice = fresh.length ? fresh : pool;
+  return choice[Math.floor(Math.random() * choice.length)];
+}
 function suggestPennantFor(classId, faction, era, takenSet) {
-  const pool = namePool(faction, era, classId);
-  if (pool.length === 0) return '';
-  for (const n of pool) if (!takenSet.has(n)) return n;
-  return pool[0];
+  return pickFromPool(namePool(faction, era, classId), takenSet);
 }
 function autoFillEmpty(tf) {
   if (!tf.faction || !tf.era) return tf;
@@ -309,6 +313,20 @@ function Btn({ children, variant = 'default', onClick, title, type = 'button', i
   );
 }
 
+// Pill toggle button for the upper-left mode cluster.
+function ToggleBtn({ active, onClick, icon: IconC, children, dataTip }) {
+  return (
+    <button type="button"
+      className={'toggle-btn' + (active ? ' active' : '')}
+      aria-pressed={active}
+      onClick={onClick}
+      data-tip={dataTip}>
+      {IconC && <span className="tb-ico"><IconC /></span>}
+      <span className="tb-label">{children}</span>
+    </button>
+  );
+}
+
 function useClickOutside(ref, onOutside) {
   useEffect(() => {
     const onDown = (e) => { if (ref.current && !ref.current.contains(e.target)) onOutside(); };
@@ -328,15 +346,26 @@ function QtyStepper({ value, onChange, min = 1, max = 99, onDelete }) {
 }
 
 // ─── Faction roundels ──────────────────────────────────
+const FACTION_ICON = {
+  IJN:  'assets/roundel-ijn.svg',
+  USN:  'assets/roundel-usn.svg',
+  KK:   'assets/roundel-kk.svg',
+  PR:   'assets/roundel-pr.svg',
+  UCM:  'assets/faction-ucm.webp',
+  PHR:  'assets/faction-phr.webp',
+  SCRG: 'assets/faction-scrg.webp',
+  SHLT: 'assets/faction-shlt.webp',
+  RES:  'assets/faction-res.webp',
+};
 function FactionRoundel({ faction, size = 36 }) {
-  const src = faction === 'IJN' ? 'assets/roundel-ijn.svg' :
-              faction === 'USN' ? 'assets/roundel-usn.svg' : null;
-  if (src) return <img src={src} width={size} height={size} alt={faction + ' roundel'} />;
-  if (faction === 'KK') return (
-    <img src="assets/roundel-kk.svg" width={size} height={size} alt="Kalium Kabal roundel" />
-  );
-  if (faction === 'PR') return (
-    <img src="assets/roundel-pr.svg" width={size} height={size} alt="Posthuman Republic roundel" />
+  const src = FACTION_ICON[faction];
+  if (src) return <img className="faction-roundel-img" src={src} width={size} height={size} alt={faction + ' roundel'} />;
+  // No logo on hand (e.g. Bioficer) — circular initials badge.
+  if (faction) return (
+    <span className="faction-badge" data-faction={faction}
+      style={{ width: size, height: size, fontSize: Math.max(7, Math.round(size * 0.42)) }}>
+      {faction.slice(0, 2)}
+    </span>
   );
   return null;
 }
@@ -349,6 +378,12 @@ function FactionToggle({ faction, era, onChange }) {
     { f: 'USN', e: 'Early War', label: 'USN Early War' },
     { f: 'USN', e: 'Late War',  label: 'USN Late War'  },
     ...(scifi ? [
+      { f: 'UCM',  e: 'Standard', label: 'United Colonies' },
+      { f: 'PHR',  e: 'Standard', label: 'Posthuman Republic' },
+      { f: 'SCRG', e: 'Standard', label: 'Scourge' },
+      { f: 'SHLT', e: 'Standard', label: 'Shaltari' },
+      { f: 'RES',  e: 'Standard', label: 'Resistance' },
+      { f: 'BFCR', e: 'Standard', label: 'Bioficer' },
       { f: 'KK', e: 'Standard', label: 'Kalium Kabal' },
       { f: 'PR', e: 'Standard', label: 'Postman Republic' },
     ] : []),
@@ -483,11 +518,11 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
               placeholder="Click to name"
               value={literalNames && MEANINGS[unit.pennant] ? MEANINGS[unit.pennant] : (unit.pennant || '')}
               onChange={(e) => onUpdate({ ...unit, pennant: e.target.value })}
-              onFocus={(e) => { if (!unit.pennant && cls) onUpdate({ ...unit, pennant: randomPennant(cls.id, faction) }); }}
+              onFocus={(e) => { if (!unit.pennant && cls) onUpdate({ ...unit, pennant: randomPennant(cls.id, faction, fleet?.era) }); }}
               title={unit.pennant && MEANINGS[unit.pennant] ? (literalNames ? unit.pennant : MEANINGS[unit.pennant]) : undefined}
             />
             {unit.pennant && (
-              <button className="reroll-btn" onClick={() => onUpdate({ ...unit, pennant: randomPennant(cls.id, faction) })} title="Random name" aria-label="Random name">
+              <button className="reroll-btn" onClick={() => onUpdate({ ...unit, pennant: randomPennant(cls.id, faction, fleet?.era) })} title="Random name" aria-label="Random name">
                 <Icon.Reroll />
               </button>
             )}
@@ -852,21 +887,6 @@ function FleetSidebar({ fleet, totalsByTf, grandTotal, totalHulls, fleetBudget, 
           </label>
           {fleet.freePlay && <span className="sb-freeplay-tag">Restrictions off</span>}
         </div>
-        <div className="sb-freeplay" style={{ marginTop: 4 }} data-tip="Show English translations of Japanese ship and task force names">
-          <label className="sb-freeplay-label">
-            <input type="checkbox" checked={literalNames}
-              onChange={e => setLiteralNames(e.target.checked)} />
-            Literal Names
-          </label>
-          {literalNames && <span className="sb-freeplay-tag">IJN translated</span>}
-        </div>
-        <div className="sb-freeplay" style={{ marginTop: 4 }} data-tip="On: only ships that actually served. Off: also include never-built and unfinished hulls.">
-          <label className="sb-freeplay-label">
-            <input type="checkbox" checked={historicalOnly}
-              onChange={e => setHistoricalOnly(e.target.checked)} />
-            Historical Ships Only
-          </label>
-        </div>
       </div>
 
       <div className="sb-section sb-budget">
@@ -1224,67 +1244,19 @@ const MEANINGS = {
   'Ryusei': 'Shooting Star',
 };
 
-const PENNANT_POOLS = {
-  IJN: {
-    'fleet-carrier':   ['Akagi','Kaga','Soryu','Hiryu','Shokaku','Zuikaku','Taiho','Shinano','Unryu','Amagi','Kasagi','Aso','Ikoma'],
-    'light-carrier':   ['Zuiho','Shoho','Ryujo','Chitose','Chiyoda','Junyo','Hiyo','Ibuki','Zuiho-class','Shoho-class','Ryujo-class','Chitose-class','Junyo-class'],
-    'seaplane-tender': ['Chitose','Chiyoda','Mizuho','Kamikawa Maru','Sanuki Maru','Chitose-class','Kamikawa Maru-class'],
-    'battleship':      ['Yamato','Musashi','Nagato','Mutsu','Yamashiro','Fuso','Kongo','Haruna','Hiei','Kirishima','Ise','Hyuga'],
-    'heavy-cruiser':   ['Atago','Maya','Takao','Chokai','Myoko','Haguro','Kumano','Suzuya','Tone','Chikuma','Takao-class','Myoko-class','Tone-class','Mogami-class'],
-    'light-cruiser':   ['Jintsu','Sendai','Naka','Nagara','Yura','Agano','Noshiro','Oyodo','Sendai-class','Nagara-class','Agano-class'],
-    'destroyer':       ['Fubuki','Ayanami','Kagero','Nowaki','Makigumo','Yukikaze','Shigure','Hamakaze','Isokaze','Urakaze','Mutsuki-class','Fubuki-class','Hatsuharu-class','Shiratsuyu-class','Asashio-class','Kagero-class','Yugumo-class','Akizuki-class','Matsu-class'],
-    'submarine':       ['I-19','I-26','I-168','I-58','I-400','I-401','Ro-34','I-176','I-47','I-class','Ro-class','Sen Toku-class'],
-    'auxiliary':       ['Kamoi','Hayasui','Notoro','Tsurugisaki','Toho Maru','Hayasui-class'],
-    'fighter-sqn':     ['Akagi Hikotai','Kaga Hikotai','Soryu Hikotai','Hiryu Hikotai','Shokaku Hikotai','Zuikaku Hikotai','Tainan Kokutai','251 Kokutai','201 Kokutai','Daitai 1','Daitai 2','Daitai 3','Chutai 1','Chutai 2'],
-    'bomber-sqn':      ['Kanbaku 1','Kanbaku 2','Kanko 1','Kanko 3','Akagi Kanbaku','Kaga Kanko','Soryu Kanbaku','Hiryu Kanko','1st Koku Kantai','2nd Koku Kantai'],
-  },
-  PR: {
-    'fleet-carrier':   ["Alexander's Ambition",'Socrates','Fireheart','Salamis','Elysium','Thermidor','Pendragon','Aether','Gate of Heaven','Culmination','Acheron','Sovereignty','Iwo Jima','Austerlitz','Sinai','Imperishable','Meridian',"Hannibal's Crossing",'Zenith','Mandate of Heaven','Undying','Crucible','Mount Olympus','Valhalla','Majesty'],
-    'light-carrier':   ['Red Cliffs','Plato','Tower of Knowledge','Dark Prince','Thermopylae','Prometheus','Dangerous Idea','Turing',"Archimedes' Lever",'Faraday','Oppenheimer','Broken Cipher','Giordano Bruno','Calculated Risk','Second Guess',"Faust's Bargain",'Weight of Proof'],
-    'seaplane-tender': ['Young Mother','Columbus','Wright Flyer','Shoal Princess','Kitty Hawk','First Light','Vanguard','Sacagawea','Threshold'],
-    'battleship':      ['Enlightenment','Renaissance','Queen Boudicca','Code Eternal','Progress','Revelations','Great Axiom',"Truth's Instrument",'Triumvir','Four Suns','Shining Path','Dawnglaive',"Destiny's Fist",'Triumph of Shangri-La','Godslayer','Queen of Its Will','Silencer','Expeditious Judgement','Code Enforcer','Lightning Tree','Wrath of Zeus','Thunderbolt','Elemental','Godhammer',"Sphere's Benevolence",'The Vizier','Might of Pearlescent','Imperator','Victorius','Julius Caesar','Dictator','Supreme','Actium',"Cleopatra's Bane",'Long Reign','Starheart','Hammer of Purpose','Deus Ex Machina','Forgefire',"Atom's Mistress",'Purity of Power','Deliverance',"Heaven's Judgement",'Queen of Ends','Apocalypse'],
-    'heavy-cruiser':   ['Searing Truth','Archimedes','Fatal',"Turing's Cipher",'Knowing Virtue','Nikola Tesla',"Hoplite's Helm",'Trident of Neptune','Mind of Asimov','Aristotle','Marathon','Journeyman','Gailileo','Iliad','Unheeled',"Titan's Ire","Einstein's Equation",'Odyssey','Am Become Death','Cicero','Old Boulder','Ruined King',"Ephyra's Fist",'Hubris','A Thousand Fathoms','Marie Curie',"Newton's Apple",'Argo','Great Library','Copernicus','Judgement of Zeus'],
-    'light-cruiser':   ['Hypatia','Phaeton','Voltaire','Bright Mind','Cyclopean Gaze','Brightflame','Lance of Athena','Illuminator','Foe Confounded','Deep Blue','Waves of Lamarr','Inviolate'],
-    'destroyer':       ['Steadfast','Countenance of Janus','Open Future','Cold Warrior','Trident of Poseidon','Harpe','Sword of Damocles','Strikehome','Myrmidon','Known Purpose','Conferred Divinity','Halo Nine','Aegis'],
-    'submarine':       ['Silence','Isolator','Cloudhunter','Mist Cleaver','The Veil','Labyrinth 1','Labyrinth 2','Labyrinth 3','Retiaritus','Ghost Warrior','Longship','Carl Sagan','Neil Armstrong','Yuri Gagarin','Pathfinder','Pegasus','Righteous Blade','Huntress','Mercury'],
-    'auxiliary':       ['Castor','Homeshell','Hellbringer','Alesia','Cogent Reason','Bedrock','Moonshield','Eye of the Sphere','Ornithes Areioi','Nightsun','Fargaze'],
-    'fighter-sqn':     ['Thrust Wing 1','Thrust Wing 2','Thrust Wing 3','Forward Lance','Strike Lance','Intercept Flight'],
-    'bomber-sqn':      ['Bomb Wing 1','Bomb Wing 2','Attack Lance 1','Attack Lance 2','Assault Flight'],
-  },
-  KK: {
-    'fleet-carrier':   ['First Dominion','Inheritance Clause','Conquistador',"Kabal's Heart",'Magellan','Vespucci','Eminent Domain','Terra Nullius','Right of Discovery','Cortes','Requisition','Lebensraum','Inevitability','Manifest','Corrective','Absorption','Settlement','Protectorate','Charter of Conquest','Charter','Freehold','Annexation'],
-    'light-carrier':   ['Collins','Wasp','Gemini','Eagle','Known Associates','Incident Report',"People's Beneficence","Kabal's Wisdom",'As One','Gladiator','Lord Regent','Junta','Common Cause','Mutual Benefit','Solidarity','Progress Report','Harmonious','Exemplary'],
-    'seaplane-tender': ['Outrider','Early Warning','Vlad Carmichael',"Insurrection's End",'Sender of Will','Spear of Will','Lightbringer','Searcher','Seedling','Nostrum','Sulla','Pathbreaker','Far Hand','Precursor','Leading Edge','Advance Notice'],
-    'battleship':      ['Final Argument','Absolute Majority','Loki','Proud Empress','Black Prince','Scharnhorst','Iowa','Great Founder','Nikola Tesla','Hyperion','Might of Kalium','Steel Fist','Killforge','Our Grace','Our Gaze','Illuminator','Hammer of Reason','Subjugator','Soul Reaver','Executioner','Volcanic','Your Fate','Spear of Onyx','Decapitator','Tirpitz','Terminus','Sovereign','Immovable','Warrant','Thunderous'],
-    'heavy-cruiser':   ['Iron Prefect','Collective Punishment','Proudcore','Industry','Fist of Iron','Incinerator',"Hell's Fury",'Vengefire',"Kabal's Judgement",'Ultimate Certainty','Streetsweeper','Hammer of Might','Decimator','Overseer','Final Notice','Magistrate','Punitive','Adjudicator','Merciless'],
-    'light-cruiser':   ['Interregnum','Dead Reckoning','Hardrada','Necromancer','Purgatory','Limbo','Penumbra','Styx','Charnel','Gallows','Cannae','Crassus','Pyrrhus','Teutoburg','Ney','Adrianople','Isandlwana','Vercingetorix','Jugurtha','Wallenstein','Foolhardy'],
-    'destroyer':       ['Press Gang','Willing Volunteer','Switchblade','Noble Conscript','Guardsman','Pressed Man','Indentured','Impressment','Defaulter','Seconded','Sentinel','Stalwart','Vigilant','Resolute','Warden','Picket','Bulwark','Trenchant','Indefatigable','Intrepid'],
-    'submarine':       ['Bloodwork','Due Diligence','Hellhunter','Poison Dagger',"Kabal's Knife",'First Message','Wrathful','Stiletto','Garotte','Wet Work','Cutthroat','Lancet','Untraceable'],
-    'auxiliary':       ['All-Seeing','Lens of Truth','Nightpiercer','BVK-1','BVK-2','BVK-3','TZhS-4','TZhS-5','OVR-7','OVR-12','VB-19','VB-22','Transport No. 3','Transport No. 8','Tender 441','Tender 883','Project 112','Type II Base Ship','Welfare Check','Oversight','Point of Contact','Duly Noted','Under Review'],
-    'fighter-sqn':     ['Wing-01','Wing-02','Wing-03','Wing-04','Wing-05','Wing-06','Wing-07','Wing-08','Wing-09','Wing-10','Wing-11','Wing-12'],
-    'bomber-sqn':      ['Strike-01','Strike-02','Strike-03','Strike-04','Strike-05','Strike-06','Strike-07','Strike-08'],
-  },
-  USN: {
-    'fleet-carrier':   ['Enterprise','Hornet','Yorktown','Lexington','Wasp','Essex','Bunker Hill','Saratoga','Franklin','Intrepid','Reprisal'],
-    'light-carrier':   ['Independence','Belleau Wood','Cowpens','Monterey','Cabot','San Jacinto','Princeton'],
-    'seaplane-tender': ['Langley','Albemarle','Curtiss','Tangier','Wright','Curtiss-class','Barnegat-class'],
-    'battleship':      ['Washington','North Carolina','South Dakota','Iowa','New Jersey','Missouri','Wisconsin','Indiana','West Virginia','Tennessee','California','Maryland','Mississippi','Hawaii','Philippines','Puerto Rico'],
-    'heavy-cruiser':   ['Indianapolis','Houston','Pensacola','Salt Lake City','New Orleans','Quincy','Vincennes','Northampton','Pensacola-class','Northampton-class','New Orleans-class','Portland-class','Wichita-class'],
-    'light-cruiser':   ['Helena','Boise','Atlanta','Juneau','San Diego','Cleveland','Columbia','Denver','Atlanta-class','Cleveland-class','Brooklyn-class'],
-    'destroyer':       ['Fletcher',"O'Bannon",'Sims','Laffey','Sullivan','Kidd','Johnston','Hoel','Evans','Monssen','Farragut-class','Mahan-class','Sims-class','Benson-class','Fletcher-class','Sumner-class','Gearing-class','Buckley-class','Butler-class'],
-    'submarine':       ['Wahoo','Tang','Harder','Flasher','Tautog','Gato','Albacore','Barb','Bowfin','Gato-class','Balao-class','Tench-class'],
-    'auxiliary':       ['Cimarron','Neosho','Platte','Sabine','Guadalupe','Cimarron-class','Kennebec-class'],
-    'fighter-sqn':     ['VF-2','VF-3','VF-5','VF-6','VF-8','VF-9','VF-15','VF-17','VF-18','VF-19','VF-20','VF-27','VF-31','VF-33','VF-80','VF-84'],
-    'bomber-sqn':      ['VB-2','VB-3','VB-5','VB-6','VB-8','VB-10','VB-15','VT-3','VT-6','VT-8','VT-10','VS-2','VS-5','VS-6'],
-  },
-};
-function randomPennant(classId, faction) {
-  if (!faction) {
-    const all = [...(PENNANT_POOLS.IJN[classId] || []), ...(PENNANT_POOLS.USN[classId] || [])];
-    return all.length ? all[Math.floor(Math.random() * all.length)] : '';
+// PENNANT_POOLS removed — names now come from HISTORICAL_NAMES via namePool().
+
+function randomPennant(classId, faction, era) {
+  let pool = namePool(faction, era, classId);
+  if (!pool.length && !faction) {
+    // No faction chosen yet — fall back to a sensible historical default.
+    const H = window.HISTORICAL_NAMES || {};
+    pool = [
+      ...(((H.IJN || {})['Early War'] || {})[classId] || []),
+      ...(((H.USN || {})['Early War'] || {})[classId] || []),
+    ];
   }
-  const pool = (PENNANT_POOLS[faction] || {})[classId] || [];
-  return pool.length ? pool[Math.floor(Math.random() * pool.length)] : '';
+  return pickFromPool(pool, null);
 }
 
 const TF_CALLSIGNS = {
@@ -1460,18 +1432,13 @@ function generateRandomTF(budget, fleet) {
   }
 
   const faction = fleet?.faction || null;
+  const era = fleet?.era || null;
 
   // Assign random names to every unit, avoiding duplicates within the TF
   const taken = new Set();
   for (const u of units) {
-    const pool = (PENNANT_POOLS[faction] || PENNANT_POOLS.IJN)[u.classId] || [];
-    const fresh = pool.filter(n => !taken.has(n));
-    const choice = (fresh.length ? fresh : pool);
-    if (choice.length) {
-      const nm = choice[Math.floor(Math.random() * choice.length)];
-      u.pennant = nm;
-      taken.add(nm);
-    }
+    const nm = pickFromPool(namePool(faction, era, u.classId), taken);
+    if (nm) { u.pennant = nm; taken.add(nm); }
   }
 
   return { id: 'tf-' + uid(), callSign: randomCallSign(faction), commander: '', units };
@@ -1667,9 +1634,21 @@ function App() {
     <div className={'app ' + (showPreview ? 'preview-mode ' : '') + (scifi ? 'scifi-mode' : '')}>
 
       <header className="cmdbar">
-        <div className="brand">
-          <span className="brand-icon"><Icon.Flag /></span>
-          <span className="brand-name">{scifi ? 'Space Command' : 'Pacific Command'}</span>
+        <div className="cmdbar-left">
+          <div className="brand">
+            <span className="brand-icon"><Icon.Flag /></span>
+            <span className="brand-name">{scifi ? 'Space Command' : 'Pacific Command'}</span>
+          </div>
+          <div className="mode-toggles" role="group" aria-label="Modes">
+            <ToggleBtn active={scifi} onClick={toggleScifi} icon={Icon.Sparkle}
+              dataTip="Sci-fi mode: adds Dropfleet factions and renames terms">Sci-fi</ToggleBtn>
+            <ToggleBtn active={showPreview} onClick={() => setShowPreview(p => !p)} icon={Icon.Print}
+              dataTip="Print preview">Preview</ToggleBtn>
+            <ToggleBtn active={literalNames} onClick={() => setLiteralNames(v => !v)}
+              dataTip="Show English translations of Japanese ship and task force names">Literal</ToggleBtn>
+            <ToggleBtn active={historicalOnly} onClick={() => setHistoricalOnly(v => !v)}
+              dataTip="On: only ships that actually served. Off: also include never-built and unfinished hulls.">Historical</ToggleBtn>
+          </div>
         </div>
 
         <div className="scale-ctrl" data-tip="Scale sets how many task forces and high-value ships your fleet may field">
@@ -1690,9 +1669,6 @@ function App() {
             {showRandom && <RandomTFPanel fleet={fleet} onAdd={addRandomTF} onClose={() => setShowRandom(false)} />}
           </div>
           <Btn variant="ghost" onClick={() => setShowGlossary(true)} icon={Icon.Help} dataTip="Glossary and rules reference">Glossary</Btn>
-          <Btn variant={showPreview ? 'primary' : 'ghost'} onClick={() => setShowPreview(p => !p)} icon={Icon.Print}>
-            {showPreview ? 'Preview: ON' : 'Print preview'}
-          </Btn>
         </div>
       </header>
 
@@ -1779,10 +1755,6 @@ function App() {
 
 
       {showGlossary && <GlossaryModal onClose={() => setShowGlossary(false)} />}
-
-      <button className={'scifi-fab' + (scifi ? ' active' : '')} onClick={toggleScifi} title="Sci-fi mode">
-        <span className="ico"><Icon.Sparkle /></span> Sci-fi
-      </button>
 
       <footer className="game-info-footer">
         <div className="gif-inner">

@@ -1,0 +1,9 @@
+# Local agent/editor tooling
+.claude/
+
+# Intermediate build artifact from scripts/gen_scifi_pools.py
+scripts/_scifi_pools.json
+
+# OS cruft
+.DS_Store
+Thumbs.db
