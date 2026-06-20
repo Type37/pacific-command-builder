@@ -768,12 +768,22 @@ button, input, select, textarea { font: inherit; color: inherit; }
   min-width: 200px;
 }
 .tf-head .tf-id .commander::placeholder { color: var(--neutral-fg-disabled); }
-.tf-head .tf-id .commander:hover { background: var(--neutral-bg-1-hover); }
+/* animated underline that draws in from the left on focus */
+.tf-head .tf-id .commander {
+  background-color: transparent;
+  background-image: linear-gradient(var(--brand-bg), var(--brand-bg));
+  background-repeat: no-repeat;
+  background-position: 6px 100%;
+  background-size: 0 2px;
+  transition: background-size var(--d-200) var(--ease-out), background-color var(--d-100);
+}
+.tf-head .tf-id .commander:hover { background-color: var(--neutral-bg-1-hover); }
 .tf-head .tf-id .commander:focus {
   outline: none;
-  background: var(--neutral-bg-1);
-  border-color: var(--neutral-stroke-1);
-  box-shadow: inset 0 -2px 0 0 var(--brand-bg);
+  background-color: var(--neutral-bg-1);
+  border-color: transparent;
+  box-shadow: none;
+  background-size: calc(100% - 12px) 2px;
 }
 .tf-head .title .commander {
   font-size: 16px;
@@ -1050,17 +1060,40 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .fleet-row-load.hist::after {
   content: '';
   position: absolute;
-  right: 8px; top: 50%;
-  width: 42px; height: 42px;
+  right: 10px; top: 50%;
+  width: 56px; height: 56px;
   transform: translateY(-50%);
-  background: no-repeat center / contain;
-  opacity: 0.13;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.34;
   pointer-events: none;
 }
 .fleet-row-load.hist[data-faction="IJN"]::after { background-image: url(../assets/roundel-ijn.svg); }
 .fleet-row-load.hist[data-faction="USN"]::after { background-image: url(../assets/roundel-usn.svg); }
+.fleet-row-load.hist:hover::after { opacity: 0.5; }
 .fleet-row-load.hist .fleet-row-name,
 .fleet-row-load.hist .fleet-row-sub { position: relative; z-index: 1; }
+
+/* command bar separator + View menu toggle rows */
+.cmdbar-sep { width: 1px; height: 20px; background: var(--neutral-stroke-2); margin: 0 4px; align-self: center; flex: none; }
+.view-row {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 8px 10px;
+  border: none; background: transparent; cursor: pointer; text-align: left;
+  border-radius: var(--r-4);
+}
+.view-row:hover { background: var(--neutral-bg-3); }
+.view-check {
+  width: 18px; height: 18px; flex: none;
+  display: grid; place-items: center;
+  border: 1px solid var(--neutral-stroke-1); border-radius: var(--r-4);
+  color: var(--neutral-fg-on-brand);
+}
+.view-row.on .view-check { background: var(--brand-bg); border-color: var(--brand-bg); }
+.view-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.view-label { font-size: 13px; font-weight: 600; color: var(--neutral-fg-1); }
+.view-desc { font-size: 11px; color: var(--neutral-fg-3); }
 
 .fleet-row-name { font-size: 13px; font-weight: 600; color: var(--neutral-fg-1); }
 .fleet-row-sub { font-size: 11px; color: var(--neutral-fg-3); }

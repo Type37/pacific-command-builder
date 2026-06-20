@@ -1614,7 +1614,7 @@ function fmtName(name) {
 }
 
 // ─── Fleet menu: save / load / historical / import-export ──
-function FleetMenu({ fleet, grandTotal, onLoad, onClose }) {
+function FleetMenu({ fleet, grandTotal, onLoad, onNew, onStarter, onClose }) {
   const ref = useRef(null);
   const fileRef = useRef(null);
   const [saves, setSaves] = useState(() => readSaves());
@@ -1668,6 +1668,14 @@ function FleetMenu({ fleet, grandTotal, onLoad, onClose }) {
   return (
     <div className="flyout fleet-menu" ref={ref} role="dialog" aria-label="Fleets" style={{ minWidth: 340, maxWidth: 420 }}>
       <div className="flyout-group">
+        <div className="flyout-group-label">Start a fleet</div>
+        <div className="fleet-io-row">
+          <button className="fleet-io-btn" onClick={onNew}><Icon.Document /> New blank</button>
+          <button className="fleet-io-btn" onClick={onStarter}><Icon.Flag /> Starter Ⓢ3</button>
+        </div>
+      </div>
+
+      <div className="flyout-group">
         <div className="flyout-group-label">Save current fleet</div>
         <div className="fleet-save-row">
           <input className="fleet-save-name" value={nameInput} onChange={e => setNameInput(e.target.value)} placeholder="Fleet name" />
@@ -1713,6 +1721,36 @@ function FleetMenu({ fleet, grandTotal, onLoad, onClose }) {
   );
 }
 
+// ─── View menu: display toggles grouped together ───────
+function ViewMenu({ scifi, onScifi, literal, onLiteral, histOnly, onHistOnly, onClose }) {
+  const ref = useRef(null);
+  useClickOutside(ref, onClose);
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  const Row = ({ active, onClick, label, desc }) => (
+    <button className={'view-row' + (active ? ' on' : '')} onClick={onClick} role="switch" aria-checked={active}>
+      <span className="view-check">{active ? <Icon.Check /> : null}</span>
+      <span className="view-text">
+        <span className="view-label">{label}</span>
+        <span className="view-desc">{desc}</span>
+      </span>
+    </button>
+  );
+  return (
+    <div className="flyout fleet-menu view-menu" ref={ref} role="dialog" aria-label="View options" style={{ minWidth: 280, maxWidth: 320 }}>
+      <div className="flyout-group">
+        <div className="flyout-group-label">Display</div>
+        <Row active={scifi} onClick={onScifi} label="Sci-fi mode" desc="Dropfleet factions, renamed terms" />
+        <Row active={literal} onClick={onLiteral} label="Literal names" desc="English translations of Japanese names" />
+        <Row active={histOnly} onClick={onHistOnly} label="Historical ships only" desc="Hide never-built / unfinished hulls" />
+      </div>
+    </div>
+  );
+}
+
 // ─── App ───────────────────────────────────────────────
 function App() {
   const [fleet, setFleet] = useState(() => {
@@ -1727,6 +1765,7 @@ function App() {
   const [showRandom, setShowRandom] = useState(false);
   const [showGlossary, setShowGlossary] = useState(false);
   const [showFleetMenu, setShowFleetMenu] = useState(false);
+  const [showView, setShowView] = useState(false);
 
   useEffect(() => { if (fleet) localStorage.setItem('pc2-fleet', JSON.stringify(fleet)); }, [fleet]);
   useEffect(() => { localStorage.setItem('pc2-scifi', scifi ? '1' : '0'); }, [scifi]);
@@ -1860,16 +1899,6 @@ function App() {
             <span className="brand-icon"><Icon.Flag /></span>
             <span className="brand-name">{scifi ? 'Space Command' : 'Pacific Command'}</span>
           </div>
-          <div className="mode-toggles" role="group" aria-label="Modes">
-            <ToggleBtn active={scifi} onClick={toggleScifi} icon={Icon.Sparkle}
-              dataTip="Sci-fi mode: adds Dropfleet factions and renames terms">Sci-fi</ToggleBtn>
-            <ToggleBtn active={showPreview} onClick={() => setShowPreview(p => !p)} icon={Icon.Print}
-              dataTip="Print preview">Preview</ToggleBtn>
-            <ToggleBtn active={literalNames} onClick={() => setLiteralNames(v => !v)}
-              dataTip="Show English translations of Japanese ship and task force names">Literal</ToggleBtn>
-            <ToggleBtn active={historicalOnly} onClick={() => setHistoricalOnly(v => !v)}
-              dataTip="On: only ships that actually served. Off: also include never-built and unfinished hulls.">Historical</ToggleBtn>
-          </div>
         </div>
 
         <div className="scale-ctrl" data-tip="Scale sets how many task forces and high-value ships your fleet may field">
@@ -1884,15 +1913,27 @@ function App() {
 
         <div className="cmdbar-actions">
           <div style={{ position: 'relative' }}>
-            <Btn variant="ghost" onClick={() => setShowFleetMenu(m => !m)} icon={Icon.Library} dataTip="Save, load, import/export, and historical fleets">Fleets</Btn>
-            {showFleetMenu && <FleetMenu fleet={fleet} grandTotal={grandTotal} onLoad={loadFleetObj} onClose={() => setShowFleetMenu(false)} />}
+            <Btn variant="ghost" onClick={() => { setShowFleetMenu(m => !m); setShowView(false); }} icon={Icon.Library} dataTip="New, save, load, import/export, and historical fleets">Fleet</Btn>
+            {showFleetMenu && <FleetMenu fleet={fleet} grandTotal={grandTotal} onLoad={loadFleetObj}
+              onNew={() => { newBlank(); setShowFleetMenu(false); }}
+              onStarter={() => { loadExample(); setShowFleetMenu(false); }}
+              onClose={() => setShowFleetMenu(false)} />}
           </div>
-          <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load the Ⓢ3 Starter Fleet">Starter fleet</Btn>
-          <Btn variant="ghost" onClick={newBlank} icon={Icon.Document} dataTip="New blank fleet">New fleet</Btn>
           <div style={{ position: 'relative' }}>
-            <Btn variant="ghost" onClick={() => setShowRandom(r => !r)} icon={Icon.Dice}>Random TF</Btn>
+            <Btn variant="ghost" onClick={() => setShowRandom(r => !r)} icon={Icon.Dice} dataTip="Generate a random task force and add it to your fleet">Random TF</Btn>
             {showRandom && <RandomTFPanel fleet={fleet} onAdd={addRandomTF} onClose={() => setShowRandom(false)} />}
           </div>
+          <span className="cmdbar-sep" aria-hidden="true" />
+          <div style={{ position: 'relative' }}>
+            <Btn variant="ghost" onClick={() => { setShowView(v => !v); setShowFleetMenu(false); }} icon={Icon.Sparkle} dataTip="Display options: sci-fi, name style, ship set">View</Btn>
+            {showView && <ViewMenu
+              scifi={scifi} onScifi={toggleScifi}
+              literal={literalNames} onLiteral={() => setLiteralNames(v => !v)}
+              histOnly={historicalOnly} onHistOnly={() => setHistoricalOnly(v => !v)}
+              onClose={() => setShowView(false)} />}
+          </div>
+          <ToggleBtn active={showPreview} onClick={() => setShowPreview(p => !p)} icon={Icon.Print}
+            dataTip="Show the print-ready fleet sheet (then use your browser's Print)">Print</ToggleBtn>
           <Btn variant="ghost" onClick={() => setShowGlossary(true)} icon={Icon.Help} dataTip="Glossary and rules reference">Glossary</Btn>
         </div>
       </header>
