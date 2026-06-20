@@ -1040,6 +1040,28 @@ button, input, select, textarea { font: inherit; color: inherit; }
   background: transparent; cursor: pointer;
 }
 .fleet-row-load:hover, .fleet-row-load.hist:hover { background: var(--neutral-bg-3); }
+
+/* Historical rows: faction tint + a pale roundel watermark */
+.fleet-row-load.hist { position: relative; overflow: hidden; }
+.fleet-row-load.hist[data-faction="IJN"] { background: rgba(190, 36, 42, 0.07); }
+.fleet-row-load.hist[data-faction="USN"] { background: rgba(36, 86, 170, 0.07); }
+.fleet-row-load.hist[data-faction="IJN"]:hover { background: rgba(190, 36, 42, 0.15); }
+.fleet-row-load.hist[data-faction="USN"]:hover { background: rgba(36, 86, 170, 0.15); }
+.fleet-row-load.hist::after {
+  content: '';
+  position: absolute;
+  right: 8px; top: 50%;
+  width: 42px; height: 42px;
+  transform: translateY(-50%);
+  background: no-repeat center / contain;
+  opacity: 0.13;
+  pointer-events: none;
+}
+.fleet-row-load.hist[data-faction="IJN"]::after { background-image: url(../assets/roundel-ijn.svg); }
+.fleet-row-load.hist[data-faction="USN"]::after { background-image: url(../assets/roundel-usn.svg); }
+.fleet-row-load.hist .fleet-row-name,
+.fleet-row-load.hist .fleet-row-sub { position: relative; z-index: 1; }
+
 .fleet-row-name { font-size: 13px; font-weight: 600; color: var(--neutral-fg-1); }
 .fleet-row-sub { font-size: 11px; color: var(--neutral-fg-3); }
 .fleet-row-del {
@@ -1176,7 +1198,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .units-table tbody tr:hover    td { background: var(--neutral-bg-3); }
 .units-table tbody tr:hover .row-delete { opacity: 1; }
 
-.col-qty   { width: 208px; }
+.col-qty   { width: 236px; }
 
 /* qty cell: count dots sit to the LEFT of the stepper, hugging it */
 .qty-cell {
@@ -1189,7 +1211,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* count dots - one per hull, or a little flight-grid per air squadron */
 .qty-dots {
   flex: none;
-  width: 112px;
+  width: 140px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -1205,8 +1227,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* capital ships (fleet carriers, battleships) get 2x-size pips */
 .qty-dots.big { gap: 5px; }
 .qty-dots.big .dot { width: 12px; height: 12px; opacity: .9; }
+/* squadrons: flights flow into AT MOST 3 rows, growing sideways, hugging
+   the stepper. Overflow past the column is clipped (the exact count is in
+   the stepper next to it). */
 .qty-dots.is-squadron {
-  gap: 4px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-columns: min-content;
+  justify-content: end;
+  align-content: center;
+  gap: 3px 4px;
+  overflow: hidden;
 }
 .qty-dots.is-squadron .flight {
   display: inline-grid;

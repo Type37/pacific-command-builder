@@ -1694,7 +1694,7 @@ function FleetMenu({ fleet, grandTotal, onLoad, onClose }) {
           <div className="fleet-scenario" key={scen}>
             <div className="fleet-scenario-name">{scen}</div>
             {byScenario[scen].map(h => (
-              <button className="fleet-row-load hist" key={h.id} onClick={() => onLoad(hydrateFleet(h.fleet))} title={`Load ${h.label}`}>
+              <button className="fleet-row-load hist" data-faction={h.faction} key={h.id} onClick={() => onLoad(hydrateFleet(h.fleet))} title={`Load ${h.label}`}>
                 <span className="fleet-row-name">{h.faction}</span>
                 <span className="fleet-row-sub">Ⓢ{h.scale} / {h.era} / {h.fleet.budget} pts / {h.fleet.taskForces.length} TF</span>
               </button>
