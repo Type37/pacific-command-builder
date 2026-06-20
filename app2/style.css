@@ -1224,20 +1224,23 @@ button, input, select, textarea { font: inherit; color: inherit; }
   background: var(--pip-color);
   opacity: .82;
 }
-/* capital ships (fleet carriers, battleships) get 2x-size pips */
-.qty-dots.big { gap: 5px; }
-.qty-dots.big .dot { width: 12px; height: 12px; opacity: .9; }
-/* squadrons: flights flow into AT MOST 3 rows, growing sideways, hugging
-   the stepper. Overflow past the column is clipped (the exact count is in
+/* pip size tiers: capital ships biggest, light carriers / heavy cruisers mid */
+.qty-dots.xl { gap: 6px; }
+.qty-dots.xl .dot { width: 16px; height: 16px; opacity: .92; }
+.qty-dots.lg { gap: 5px; }
+.qty-dots.lg .dot { width: 9px; height: 9px; opacity: .88; }
+/* squadrons: flights fill rows of (at least) 6, AT MOST 3 rows tall, growing
+   sideways and hugging the stepper. Overflow is clipped (exact count is in
    the stepper next to it). */
 .qty-dots.is-squadron {
   display: grid;
-  grid-auto-flow: column;
-  grid-template-rows: repeat(3, auto);
-  grid-auto-columns: min-content;
+  grid-template-columns: repeat(6, min-content);
+  grid-auto-rows: min-content;
+  grid-auto-flow: row;
   justify-content: end;
   align-content: center;
   gap: 3px 4px;
+  max-height: 24px; /* 3 flight-rows */
   overflow: hidden;
 }
 .qty-dots.is-squadron .flight {
@@ -3214,7 +3217,18 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .units-table thead,
   .units-table tbody,
   .units-table tr { display: table-row-group; }
-  .units-table { display: table; }
+  .units-table { display: table; table-layout: fixed; width: 100%; }
+
+  /* Compact the qty column so the whole row fits a phone and the pips stay
+     on-screen (they were getting pushed off the right edge). */
+  .col-class { width: auto; }
+  .col-qty   { width: 132px; }
+  .col-cost  { width: 58px; }
+  .qty-cell  { gap: 6px; }
+  .qty-dots  { width: 52px; }
+  .qty-dots.is-squadron { grid-template-columns: repeat(3, min-content); }
+  .qty-stepper button { width: 26px; }
+  .qty-stepper .val { min-width: 20px; font-size: 13px; }
 
   /* ── tf-totals: 3 columns ─────────────────────────────── */
   .tf-totals {

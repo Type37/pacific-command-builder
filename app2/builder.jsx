@@ -373,7 +373,14 @@ function dotsPerUnit(cls) {
   if (cls.kind === 'squadron') return 5;
   return 1;
 }
-function QtyDots({ qty, per = 1, big = false }) {
+// Pip size tier by hull weight: capital ships biggest, cruisers/light carriers mid.
+function pipSize(cls) {
+  if (!cls) return null;
+  if (cls.id === 'fleet-carrier' || cls.id === 'battleship') return 'xl';
+  if (cls.id === 'light-carrier' || cls.id === 'heavy-cruiser') return 'lg';
+  return null;
+}
+function QtyDots({ qty, per = 1, size = null }) {
   if (!qty || qty < 1) return null;
   if (per > 1) {
     const cols = Math.min(5, per); // up to 5 pips across per squadron
@@ -388,7 +395,7 @@ function QtyDots({ qty, per = 1, big = false }) {
     );
   }
   return (
-    <div className={'qty-dots' + (big ? ' big' : '')} aria-hidden="true">
+    <div className={'qty-dots' + (size ? ' ' + size : '')} aria-hidden="true">
       {Array.from({ length: qty }, (_, i) => <i className="dot" key={i} />)}
     </div>
   );
@@ -591,7 +598,7 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
       </td>
       <td className="col-qty">
         <div className="qty-cell">
-          <QtyDots qty={unit.qty} per={dotsPerUnit(cls)} big={cls.id === 'fleet-carrier' || cls.id === 'battleship'} />
+          <QtyDots qty={unit.qty} per={dotsPerUnit(cls)} size={pipSize(cls)} />
           <QtyStepper value={unit.qty} max={max} onChange={(v) => onUpdate({ ...unit, qty: v })} onDelete={onDelete} />
         </div>
       </td>
