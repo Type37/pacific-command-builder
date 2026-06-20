@@ -51,6 +51,14 @@
   --status-success-fg:        #0e700e;
   --status-success-bg:        #e6f4e6;
 
+  /* -- Pips / state accents (tokenized so they follow the theme) */
+  --pip-color:                var(--brand-bg);
+  --pip-flight-bg:            rgba(17, 78, 122, 0.07);
+  --over-capacity-bg:         rgba(255, 230, 153, 0.18);
+  --danger-solid:             #d13438;
+  --danger-solid-hover:       #b8292e;
+  --danger-glow:              rgba(209, 52, 56, 0.55);
+
   /* -- Corner radius */
   --r-2: 2px; --r-4: 4px; --r-6: 6px; --r-8: 8px; --r-12: 12px;
   --r-pill: 999px;
@@ -865,7 +873,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .chip-remove {
   background: transparent;
   border: none;
-  width: 18px; height: 18px;
+  width: 22px; height: 22px;
   border-radius: var(--r-pill);
   display: grid; place-items: center;
   color: currentColor;
@@ -1181,7 +1189,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* count dots - one per hull, or a little flight-grid per air squadron */
 .qty-dots {
   flex: none;
-  width: 56px;
+  width: 48px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -1191,7 +1199,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .qty-dots .dot {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--brand-bg);
+  background: var(--pip-color);
   opacity: .82;
 }
 /* capital ships (fleet carriers, battleships) get 2x-size pips */
@@ -1205,7 +1213,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   gap: 1.5px;
   padding: 1.5px;
   border-radius: 2px;
-  background: rgba(17, 78, 122, 0.07);
+  background: var(--pip-flight-bg);
 }
 .qty-dots.is-squadron .dot {
   width: 3px; height: 3px;
@@ -1222,16 +1230,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border: 1px solid var(--neutral-stroke-1);
   border-radius: var(--r-4);
   background: var(--neutral-bg-1);
-  height: 28px;
+  height: 32px;
   overflow: hidden;
-  transition: border-color var(--d-100);
+  transition: border-color var(--d-100), box-shadow var(--d-100);
 }
 .qty-stepper:hover { border-color: var(--neutral-stroke-accessible); }
 .qty-stepper:focus-within { border-color: var(--brand-bg); }
 .qty-stepper button {
   background: transparent;
   border: none;
-  width: 26px; height: 100%;
+  width: 30px; height: 100%;
   cursor: pointer;
   color: var(--neutral-fg-2);
   display: grid; place-items: center;
@@ -1240,9 +1248,23 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .qty-stepper button:hover  { background: var(--neutral-bg-1-hover); color: var(--neutral-fg-1); }
 .qty-stepper button:active { background: var(--neutral-bg-1-pressed); }
 .qty-stepper button:disabled { color: var(--neutral-fg-disabled); cursor: not-allowed; background: transparent; }
-/* at qty 1, the minus deletes the unit - warn with red on hover */
-.qty-stepper button.del-mode { cursor: pointer; }
-.qty-stepper button.del-mode:hover { color: var(--status-danger-fg); background: var(--status-danger-bg); }
+/* at qty 1, the minus deletes the unit - loud red alarm on hover */
+.qty-stepper button.del-mode { cursor: pointer; transition: background var(--d-100), color var(--d-100); }
+.qty-stepper button.del-mode svg { transition: transform var(--d-100) var(--ease-out); }
+.qty-stepper button.del-mode:hover,
+.qty-stepper button.del-mode:focus-visible {
+  color: #fff;
+  background: var(--danger-solid);
+}
+.qty-stepper button.del-mode:active { background: var(--danger-solid-hover); }
+.qty-stepper button.del-mode:hover svg,
+.qty-stepper button.del-mode:focus-visible svg { transform: scale(1.35); }
+/* light up the whole stepper so it reads unmistakably as "delete" */
+.qty-stepper:has(.del-mode:hover),
+.qty-stepper:has(.del-mode:focus-visible) {
+  border-color: var(--danger-solid);
+  box-shadow: 0 0 0 2px var(--danger-glow);
+}
 .qty-stepper .val {
   min-width: 28px;
   text-align: center;
@@ -1321,7 +1343,25 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 .row-delete { opacity: 0; transition: opacity var(--d-100); }
-.unit-row.over-capacity td { background: rgba(255, 230, 153, 0.18); }
+.unit-row.over-capacity td { background: var(--over-capacity-bg); }
+/* non-colour cue so the warning isn't conveyed by the yellow tint alone */
+.over-cap-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--status-warning-fg);
+  background: var(--status-warning-bg);
+  border: 1px solid var(--status-warning-fg);
+  white-space: nowrap;
+}
+.over-cap-flag svg { width: 13px; height: 13px; }
+/* down-triangle marks disadvantageous mods without relying on colour */
+.chip-disadv-mark { font-size: 9px; margin-right: 1px; line-height: 1; }
 
 /* add unit */
 .add-unit { padding: var(--size-120) var(--size-240); }
@@ -1864,8 +1904,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   justify-self: center;
 }
 .scale-btn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--r-4);
   border: none;
   background: rgba(255,255,255,0.15);
@@ -1930,8 +1970,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .callsign-random {
   flex-shrink: 0;
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
   border: none;
   background: transparent;
   color: var(--neutral-fg-4);
@@ -2894,8 +2934,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 32px;
+  height: 32px;
   background: transparent;
   border: 1px solid transparent;
   border-radius: var(--r-4);
@@ -3551,4 +3591,109 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .export-btn:hover {
   opacity: 1;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   Accessibility & theming (Fluent: "One for all" + "Natural")
+   ════════════════════════════════════════════════════════════════ */
+
+/* Respect users who ask the OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark theme: follow the OS preference. Only the token values change;
+   every component reads tokens, so the whole UI flips with it. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Surfaces */
+    --bg:                       #141414;
+    --neutral-bg-1:             #1f1f1f;
+    --neutral-bg-2:             #242424;
+    --neutral-bg-3:             #2e2e2e;
+    --neutral-bg-4:             #383838;
+    --neutral-bg-1-hover:       #2e2e2e;
+    --neutral-bg-1-pressed:     #3d3d3d;
+    --neutral-bg-1-selected:    #333333;
+
+    /* Text */
+    --neutral-fg-1:             #f5f5f5;
+    --neutral-fg-2:             #d6d6d6;
+    --neutral-fg-3:             #adadad;
+    --neutral-fg-4:             #8a8a8a;
+    --neutral-fg-disabled:      #5c5c5c;
+    --neutral-fg-on-brand:      #ffffff;
+
+    /* Strokes */
+    --neutral-stroke-1:         #4d4d4d;
+    --neutral-stroke-2:         #3d3d3d;
+    --neutral-stroke-3:         #2e2e2e;
+    --neutral-stroke-accessible:#adadad;
+    --neutral-stroke-divider:   #333333;
+
+    /* Brand (lightened so navy reads on dark surfaces) */
+    --brand-bg:                 #2f6ea4;
+    --brand-bg-hover:           #3a7cb3;
+    --brand-bg-pressed:         #275d8a;
+    --brand-bg-selected:        #3a7cb3;
+    --brand-bg-2:               #15314a;
+    --brand-bg-2-hover:         #1c3d5b;
+    --brand-bg-2-pressed:       #24496c;
+    --brand-fg-1:               #79b2de;
+    --brand-fg-link:            #8cc0e8;
+    --brand-stroke-1:           #3a7cb3;
+
+    /* Status (lighter foregrounds, deep tints) */
+    --status-danger-fg:         #ff8089;
+    --status-danger-bg:         #3a1418;
+    --status-warning-fg:        #ffce6a;
+    --status-warning-bg:        #3a2c00;
+    --status-success-fg:        #6fce6f;
+    --status-success-bg:        #15300f;
+
+    /* Pip / state accents */
+    --pip-color:                #6ba8d8;
+    --pip-flight-bg:            rgba(107, 168, 216, 0.16);
+    --over-capacity-bg:         rgba(240, 200, 90, 0.16);
+    --danger-solid:             #e04b50;
+    --danger-solid-hover:       #c93c41;
+    --danger-glow:              rgba(224, 75, 80, 0.55);
+
+    /* Elevation: shadows need to be blacker to register on dark */
+    --shadow-2:  0 0 2px rgba(0,0,0,0.40), 0 1px 2px rgba(0,0,0,0.50);
+    --shadow-4:  0 0 2px rgba(0,0,0,0.40), 0 2px 4px rgba(0,0,0,0.50);
+    --shadow-8:  0 0 2px rgba(0,0,0,0.40), 0 4px 8px rgba(0,0,0,0.50);
+    --shadow-16: 0 0 2px rgba(0,0,0,0.40), 0 8px 16px rgba(0,0,0,0.55);
+    --shadow-28: 0 0 8px rgba(0,0,0,0.45), 0 14px 28px rgba(0,0,0,0.60);
+  }
+
+  /* Hardcoded surfaces that can't read a token */
+  .faction-toggle .roundel-btn { background: var(--neutral-bg-3); }
+
+  /* Stat tiles use baked-in pastels; give them dark, legible variants */
+  .tf-totals .t[data-stat="aircraft"] { background: rgba(79,107,237,0.16); }
+  .tf-totals .t[data-stat="aircraft"] .lbl,
+  .tf-totals .t[data-stat="aircraft"] .v   { color: #9db4f5; }
+  .tf-totals .t[data-stat="aircraft"] .lbl .ico { color: #9db4f5; }
+  .tf-totals .t[data-stat="guns"] { background: rgba(193,156,0,0.16); }
+  .tf-totals .t[data-stat="guns"] .lbl,
+  .tf-totals .t[data-stat="guns"] .v   { color: #e8c84d; }
+  .tf-totals .t[data-stat="guns"] .lbl .ico { color: #e8c84d; }
+  .tf-totals .t[data-stat="strike"] { background: rgba(197,15,31,0.18); }
+  .tf-totals .t[data-stat="strike"] .lbl,
+  .tf-totals .t[data-stat="strike"] .v   { color: #ff8a96; }
+  .tf-totals .t[data-stat="strike"] .lbl .ico { color: #ff8a96; }
+  .tf-totals .t[data-stat="aa"] { background: rgba(3,131,135,0.18); }
+  .tf-totals .t[data-stat="aa"] .lbl,
+  .tf-totals .t[data-stat="aa"] .v   { color: #4fd0d4; }
+  .tf-totals .t[data-stat="aa"] .lbl .ico { color: #4fd0d4; }
+  .tf-totals .t[data-stat="cap"] { background: rgba(0,204,106,0.16); }
+  .tf-totals .t[data-stat="cap"] .lbl,
+  .tf-totals .t[data-stat="cap"] .v   { color: #5fdd9a; }
+  .tf-totals .t[data-stat="cap"] .lbl .ico { color: #5fdd9a; }
 }

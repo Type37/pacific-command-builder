@@ -565,6 +565,12 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
           <div className="cls-name">
             <span className="cls-tag" data-sprite={cls.sprite} data-tip={cls.name}>{cls.sprite}</span>
             <span data-tip={shipClassTip(cls)}>{scifi ? scifiUnitName(cls.id, cls.name, terms) : cls.name}</span>
+            {overCapacity && (
+              <span className="over-cap-flag" role="img" aria-label="Exceeds aircraft capacity"
+                data-tip="Squadrons exceed this task force's aircraft capacity">
+                <Icon.Warning /> over capacity
+              </span>
+            )}
           </div>
           <div className="nm-input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <input
@@ -1119,6 +1125,7 @@ function FleetMods({ fleet, onApplySet, onToggleMod, faction, era, onFactionChan
 
         {activeMods.map(m => (
           <span key={m.id} className={'chip ' + (m.disadv ? 'warning' : '')} data-tip={m.text}>
+            {m.disadv && <span className="chip-disadv-mark" aria-label="Disadvantageous" title="Disadvantageous">▼</span>}
             {m.needsClass && sel[m.id] && cmRef[sel[m.id]]
               ? `${m.name}: ${cmRef[sel[m.id]].name}`
               : m.name}
