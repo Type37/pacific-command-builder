@@ -1178,7 +1178,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .qty-cell .qty-stepper { flex: none; }
 
-/* count dots — one per hull, or a little flight-grid per air squadron */
+/* count dots - one per hull, or a little flight-grid per air squadron */
 .qty-dots {
   flex: none;
   width: 56px;
@@ -1240,7 +1240,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .qty-stepper button:hover  { background: var(--neutral-bg-1-hover); color: var(--neutral-fg-1); }
 .qty-stepper button:active { background: var(--neutral-bg-1-pressed); }
 .qty-stepper button:disabled { color: var(--neutral-fg-disabled); cursor: not-allowed; background: transparent; }
-/* at qty 1, the minus deletes the unit — warn with red on hover */
+/* at qty 1, the minus deletes the unit - warn with red on hover */
 .qty-stepper button.del-mode { cursor: pointer; }
 .qty-stepper button.del-mode:hover { color: var(--status-danger-fg); background: var(--status-danger-bg); }
 .qty-stepper .val {
@@ -1343,7 +1343,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   line-height: 20px;
   transition: background var(--d-100), transform var(--d-100);
 }
-/* double-rule inner frame — Art Deco */
+/* double-rule inner frame - Art Deco */
 .add-unit-btn::before {
   content: '';
   position: absolute;
@@ -2339,7 +2339,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* chip remove: handled by ModPicker applied-pill */
 
 /* ═══ Cost column: right-align all numbers ══════════
-   Numbers use IBM Plex Mono — already set, but need right-align */
+   Numbers use IBM Plex Mono - already set, but need right-align */
 .cost-cell {
   text-align: right;
 }
@@ -2398,7 +2398,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   color: var(--status-danger-fg);
 }
 .flyout-item:hover .applied-pill::after {
-  content: ' — Remove';
+  content: ' - Remove';
 }
 .add-pill {
   font-size: 11px;
@@ -2414,7 +2414,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 
-/* ═══ Fleet Modifications — main content horizontal bar ═ */
+/* ═══ Fleet Modifications - main content horizontal bar ═ */
 .fleet-mods {
   background: var(--neutral-bg-1);
   border: 1px solid var(--neutral-stroke-2);
@@ -2467,7 +2467,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   flex-shrink: 0;
 }
 
-/* ModPicker flyout — opens downward from Add button */
+/* ModPicker flyout - opens downward from Add button */
 .mod-add-wrap { position: relative; }
 .mod-add-wrap .flyout {
   position: absolute;
@@ -2595,7 +2595,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   border-color: var(--status-danger-fg, #c50f1f);
   color: var(--status-danger-fg, #c50f1f);
 }
-.ump-item:hover .applied-pill::after { content: ' — Remove'; }
+.ump-item:hover .applied-pill::after { content: ' - Remove'; }
 .ump-item-name {
   font-size: 13px;
   font-weight: 500;
@@ -2606,7 +2606,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .ump-item.active .ump-item-name { color: var(--brand-fg-1); }
 
 
-/* ═══ Fleet Modifications — Inline Grid Panel ════════ */
+/* ═══ Fleet Modifications - Inline Grid Panel ════════ */
 .mod-grid-panel {
   border-top: 1px solid var(--neutral-stroke-2);
   padding: var(--size-160);
@@ -2979,7 +2979,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   min-height: 28px;
 }
 
-/* ─── Configure/Close button — stable width ───────────── */
+/* ─── Configure/Close button - stable width ───────────── */
 .chip-add {
   min-width: 108px;
   justify-content: center;
@@ -2995,7 +2995,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   text-align: left;
 }
 
-/* ─── Faction pill active — keep roundels readable ──────── */
+/* ─── Faction pill active - keep roundels readable ──────── */
 .faction-pill.active img {
   filter: none;
   opacity: 0.9;
@@ -3058,7 +3058,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 /* ═══════════════════════════════════════════════════════
-   MOBILE — max-width: 700px
+   MOBILE - max-width: 700px
    ═══════════════════════════════════════════════════════ */
 @media (max-width: 700px) {
 
@@ -3410,7 +3410,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   font-weight: 400;
 }
 
-/* Circled S — plain glyph in the inherited UI font */
+/* Circled S - plain glyph in the inherited UI font */
 .circ-s {
   font-family: inherit;
 }

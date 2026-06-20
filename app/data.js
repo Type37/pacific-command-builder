@@ -1,4 +1,4 @@
-// Pacific Command — Reference data
+// Pacific Command - Reference data
 // All rule text is verbatim from the project's Quick Reference doc. No paraphrasing.
 
 // ─── Special rules (verbatim) ──────────────────────────
@@ -37,7 +37,7 @@ window.SPECIAL_RULES = {
 window.ruleKey = (s) => (s || '').replace(/\s*\([^)]*\)\s*/g, '').trim();
 
 window.SHIP_CLASSES = [
-  // Capital — air arm
+  // Capital - air arm
   { id: 'fleet-carrier', name: 'Fleet Carrier', category: 'capital', cost: 25,
     role: 'Aircraft 15', special: 'High Value, Armoured (2)',
     stats: { guns: 0, aircraft: 15, aa: 1, strike: 0, cap: 0 },
@@ -50,7 +50,7 @@ window.SHIP_CLASSES = [
     role: '', special: 'Catapult',
     stats: { guns: 0, aircraft: 0, aa: 1, strike: 0, cap: 0 }, sprite: 'AV' },
 
-  // Capital — surface
+  // Capital - surface
   { id: 'battleship', name: 'Battleship', category: 'surface', cost: 15,
     role: 'Guns 8', special: 'High Value, Armoured (3)',
     stats: { guns: 8, aircraft: 0, aa: 1, strike: 0, cap: 0 }, sprite: 'BB' },
@@ -2721,9 +2721,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "IJN",
     "era": "Early War",
     "scale": 3,
-    "label": "Coral Sea — IJN",
+    "label": "Coral Sea - IJN",
     "fleet": {
-      "name": "Coral Sea — IJN",
+      "name": "Coral Sea - IJN",
       "faction": "IJN",
       "era": "Early War",
       "scale": 3,
@@ -2909,9 +2909,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "USN",
     "era": "Early War",
     "scale": 3,
-    "label": "Coral Sea — USN",
+    "label": "Coral Sea - USN",
     "fleet": {
-      "name": "Coral Sea — USN",
+      "name": "Coral Sea - USN",
       "faction": "USN",
       "era": "Early War",
       "scale": 3,
@@ -3004,9 +3004,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "IJN",
     "era": "Early War",
     "scale": 6,
-    "label": "Midway — IJN",
+    "label": "Midway - IJN",
     "fleet": {
-      "name": "Midway — IJN",
+      "name": "Midway - IJN",
       "faction": "IJN",
       "era": "Early War",
       "scale": 6,
@@ -3317,9 +3317,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "USN",
     "era": "Early War",
     "scale": 6,
-    "label": "Midway — USN",
+    "label": "Midway - USN",
     "fleet": {
-      "name": "Midway — USN",
+      "name": "Midway - USN",
       "faction": "USN",
       "era": "Early War",
       "scale": 6,
@@ -3449,9 +3449,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "IJN",
     "era": "Early War",
     "scale": 3,
-    "label": "Eastern Solomons — IJN",
+    "label": "Eastern Solomons - IJN",
     "fleet": {
-      "name": "Eastern Solomons — IJN",
+      "name": "Eastern Solomons - IJN",
       "faction": "IJN",
       "era": "Early War",
       "scale": 3,
@@ -3625,9 +3625,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "USN",
     "era": "Early War",
     "scale": 3,
-    "label": "Eastern Solomons — USN",
+    "label": "Eastern Solomons - USN",
     "fleet": {
-      "name": "Eastern Solomons — USN",
+      "name": "Eastern Solomons - USN",
       "faction": "USN",
       "era": "Early War",
       "scale": 3,
@@ -3731,9 +3731,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "IJN",
     "era": "Early War",
     "scale": 3,
-    "label": "Santa Cruz — IJN",
+    "label": "Santa Cruz - IJN",
     "fleet": {
-      "name": "Santa Cruz — IJN",
+      "name": "Santa Cruz - IJN",
       "faction": "IJN",
       "era": "Early War",
       "scale": 3,
@@ -3901,9 +3901,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "USN",
     "era": "Early War",
     "scale": 3,
-    "label": "Santa Cruz — USN",
+    "label": "Santa Cruz - USN",
     "fleet": {
-      "name": "Santa Cruz — USN",
+      "name": "Santa Cruz - USN",
       "faction": "USN",
       "era": "Early War",
       "scale": 3,
@@ -4043,9 +4043,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "IJN",
     "era": "Late War",
     "scale": 7,
-    "label": "Philippine Sea — IJN",
+    "label": "Philippine Sea - IJN",
     "fleet": {
-      "name": "Philippine Sea — IJN",
+      "name": "Philippine Sea - IJN",
       "faction": "IJN",
       "era": "Late War",
       "scale": 7,
@@ -4278,9 +4278,9 @@ window.HISTORICAL_FLEETS = [
     "faction": "USN",
     "era": "Late War",
     "scale": 7,
-    "label": "Philippine Sea — USN",
+    "label": "Philippine Sea - USN",
     "fleet": {
-      "name": "Philippine Sea — USN",
+      "name": "Philippine Sea - USN",
       "faction": "USN",
       "era": "Late War",
       "scale": 7,

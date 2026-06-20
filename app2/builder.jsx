@@ -366,7 +366,7 @@ function QtyStepper({ value, onChange, min = 1, max = 99, onDelete }) {
   );
 }
 
-// Count dots to the left of the stepper: one dot per hull, or — for air units —
+// Count dots to the left of the stepper: one dot per hull, or - for air units -
 // a row of pips per squadron (a "flight"). A squadron represents ~5 aircraft.
 function dotsPerUnit(cls) {
   if (!cls) return 1;
@@ -409,7 +409,7 @@ const FACTION_ICON = {
 function FactionRoundel({ faction, size = 36 }) {
   const src = FACTION_ICON[faction];
   if (src) return <img className="faction-roundel-img" src={src} width={size} height={size} alt={faction + ' roundel'} />;
-  // No logo on hand (e.g. Bioficer) — circular initials badge.
+  // No logo on hand (e.g. Bioficer) - circular initials badge.
   if (faction) return (
     <span className="faction-badge" data-faction={faction}
       style={{ width: size, height: size, fontSize: Math.max(7, Math.round(size * 0.42)) }}>
@@ -474,7 +474,7 @@ function UnitPicker({ onPick, onClose, squadronRoom = Infinity }) {
         return (
           <button key={u.id} className="flyout-item" disabled={blocked}
             onClick={() => { if (!blocked) { onPick(u.id); onClose(); } }}
-            data-tip={blocked ? 'No aircraft capacity — add a carrier first' : shipClassTip(u)}>
+            data-tip={blocked ? 'No aircraft capacity - add a carrier first' : shipClassTip(u)}>
             <div>
               <div className="nm"><span className="cls-tag" data-sprite={u.sprite}>{u.sprite}</span>{scifi ? scifiUnitName(u.id, u.name, terms) : u.name}</div>
               {u.role && <div className="desc">{u.role}{u.special ? ', ' + u.special : ''}</div>}
@@ -1079,7 +1079,7 @@ function ArmourClassModal({ title, current, onPick, onClose }) {
     <div className="armour-modal-backdrop" onClick={onClose}>
       <div className="armour-modal" ref={ref} role="dialog" aria-label={`Choose class for ${title}`} onClick={e => e.stopPropagation()}>
         <div className="armour-modal-head">
-          <span>{title} — choose a class</span>
+          <span>{title} - choose a class</span>
           <button type="button" className="armour-modal-close" onClick={onClose} aria-label="Close"><Icon.Close /></button>
         </div>
         <div className="armour-modal-body">
@@ -1308,12 +1308,12 @@ const MEANINGS = {
   'Ryusei': 'Shooting Star',
 };
 
-// PENNANT_POOLS removed — names now come from HISTORICAL_NAMES via namePool().
+// PENNANT_POOLS removed - names now come from HISTORICAL_NAMES via namePool().
 
 function randomPennant(classId, faction, era) {
   let pool = namePool(faction, era, classId);
   if (!pool.length && !faction) {
-    // No faction chosen yet — fall back to a sensible historical default.
+    // No faction chosen yet - fall back to a sensible historical default.
     const H = window.HISTORICAL_NAMES || {};
     pool = [
       ...(((H.IJN || {})['Early War'] || {})[classId] || []),
@@ -1669,7 +1669,7 @@ function FleetMenu({ fleet, grandTotal, onLoad, onClose }) {
             <div className="fleet-row" key={s.name}>
               <button className="fleet-row-load" onClick={() => onLoad(hydrateFleet(s.fleet))} title="Load this fleet">
                 <span className="fleet-row-name">{s.name}</span>
-                <span className="fleet-row-sub">{(s.fleet.taskForces || []).length} TF · loads into builder</span>
+                <span className="fleet-row-sub">{(s.fleet.taskForces || []).length} TF / click to load</span>
               </button>
               <button className="fleet-row-del" onClick={() => deleteSave(s.name)} aria-label={`Delete ${s.name}`}><Icon.Delete /></button>
             </div>
@@ -1685,7 +1685,7 @@ function FleetMenu({ fleet, grandTotal, onLoad, onClose }) {
             {byScenario[scen].map(h => (
               <button className="fleet-row-load hist" key={h.id} onClick={() => onLoad(hydrateFleet(h.fleet))} title={`Load ${h.label}`}>
                 <span className="fleet-row-name">{h.faction}</span>
-                <span className="fleet-row-sub">Ⓢ{h.scale} · {h.era} · {h.fleet.budget} pts · {h.fleet.taskForces.length} TF</span>
+                <span className="fleet-row-sub">Ⓢ{h.scale} / {h.era} / {h.fleet.budget} pts / {h.fleet.taskForces.length} TF</span>
               </button>
             ))}
           </div>
@@ -1796,14 +1796,14 @@ function App() {
     const cm2 = cm;
     const lines = [];
     lines.push(fleet.name || 'My Fleet');
-    if (fleet.faction) lines.push(`${fleet.faction}${fleet.era ? ' · ' + fleet.era : ''}`);
+    if (fleet.faction) lines.push(`${fleet.faction}${fleet.era ? ', ' + fleet.era : ''}`);
     if (fleet.mods && fleet.mods.length > 0) {
       const mm = modMap();
       lines.push('Mods: ' + fleet.mods.map(id => mm[id]?.name || id).join(', '));
     }
     lines.push('');
     fleet.taskForces.forEach((tf, i) => {
-      lines.push(`Task Force ${i + 1}${tf.callSign ? ' — ' + tf.callSign : ''}`);
+      lines.push(`Task Force ${i + 1}${tf.callSign ? ' - ' + tf.callSign : ''}`);
       tf.units.forEach(u => {
         const cls = cm2[u.classId];
         if (!cls) return;
@@ -1812,7 +1812,7 @@ function App() {
         lines.push(`  ${qty}${name}  ${cls.cost * u.qty} pts`);
       });
       const tot = totalsByTf[tf.id]?.cost || 0;
-      lines.push(`  — ${tot} pts`);
+      lines.push(`  - ${tot} pts`);
       lines.push('');
     });
     lines.push(`Total: ${grandTotal} pts`);
@@ -1909,7 +1909,7 @@ function App() {
               </h1>
               <div className="fleet-meta">
                 {fleet.taskForces.length} task force{fleet.taskForces.length !== 1 ? 's' : ''}
-                {' · '}
+                {', '}
                 {totalHulls} hulls in service
               </div>
             </div>
@@ -1966,21 +1966,21 @@ function App() {
       <footer className="game-info-footer">
         <div className="gif-inner">
           <span className="gif-title">Pacific Command</span>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <span>Written by <a href="https://planetsmashergames.com/" target="_blank" rel="noopener">Mike Hutchinson</a></span>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <span>Published by <a href="https://www.ospreypublishing.com/us/pacific-command-9781472859976/" target="_blank" rel="noopener">Osprey Games</a></span>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <a href="https://planetsmashergames.com/pacific-command/" target="_blank" rel="noopener">Game page at Planet Smasher Games</a>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <a href="https://www.amazon.com/Pacific-Command-Wargame-Osprey-Wargames/dp/1472859979" target="_blank" rel="noopener">Buy on Amazon</a>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <span className="gif-builder">Fleet builder by <a href="https://jetwong.neocities.org" target="_blank" rel="noopener">WarLore</a></span>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <a href="https://github.com/Type37/pacific-command-builder" target="_blank" rel="noopener">Source on GitHub</a>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <a href="assets/pacific-command-quickref.pdf" target="_blank" rel="noopener">Quick Reference</a>
-          <span className="gif-sep">·</span>
+          <span className="gif-sep">|</span>
           <button className="export-btn" onClick={exportFleetText}>Export Fleet</button>
         </div>
       </footer>
