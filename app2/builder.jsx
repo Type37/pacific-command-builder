@@ -621,10 +621,14 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
   const cm = useMemo(classMap, []);
   const [pickerOpen, setPickerOpen] = useState(false);
 
-  const squadronOver = totals.squadronCount > totals.aircraft;
   // Fleet Building rule: a Task Force may not purchase more squadrons than its
-  // Aircraft value. Remaining squadron capacity = aircraft value − squadrons embarked.
-  const squadronRoom = Math.max(0, (totals.aircraft || 0) - (totals.squadronCount || 0));
+  // Aircraft value. This is a restriction, so free play turns it off (the same
+  // way it ignores TF/HV/sub limits) — historical fleets load in free play and
+  // their full air groups would otherwise trip a false "over capacity".
+  const squadronOver = !freePlay && totals.squadronCount > totals.aircraft;
+  const squadronRoom = freePlay
+    ? Infinity
+    : Math.max(0, (totals.aircraft || 0) - (totals.squadronCount || 0));
   const tfV = useMemo(() => tfViolations(tf, freePlay, fleet.mods), [tf, freePlay, fleet.mods]);
   const scifi = useScifi();
   const literalNames = useLiteralNames();

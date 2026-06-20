@@ -1176,7 +1176,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .units-table tbody tr:hover    td { background: var(--neutral-bg-3); }
 .units-table tbody tr:hover .row-delete { opacity: 1; }
 
-.col-qty   { width: 150px; }
+.col-qty   { width: 208px; }
 
 /* qty cell: count dots sit to the LEFT of the stepper, hugging it */
 .qty-cell {
@@ -1189,7 +1189,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* count dots - one per hull, or a little flight-grid per air squadron */
 .qty-dots {
   flex: none;
-  width: 48px;
+  width: 112px;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
