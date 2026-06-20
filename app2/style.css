@@ -992,6 +992,61 @@ button, input, select, textarea { font: inherit; color: inherit; }
   from { opacity: 0; transform: translateY(-4px) scale(0.98); }
   to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
+/* Fleet menu lives in the top bar, so it opens downward and scrolls */
+.flyout.fleet-menu {
+  top: calc(100% + 4px);
+  bottom: auto;
+  left: auto;
+  right: 0;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.fleet-save-row { display: flex; gap: var(--size-60); padding: 0 var(--size-100) var(--size-60); }
+.fleet-save-name {
+  flex: 1; min-width: 0;
+  height: 30px; padding: 0 10px;
+  border: 1px solid var(--neutral-stroke-1);
+  border-radius: var(--r-4);
+  font-size: 13px; font-family: inherit;
+  background: var(--neutral-bg-1);
+}
+.fleet-save-btn, .fleet-io-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px; padding: 0 12px;
+  border: 1px solid var(--neutral-stroke-1);
+  border-radius: var(--r-4);
+  background: var(--neutral-bg-1);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  color: var(--neutral-fg-1);
+}
+.fleet-save-btn { border-color: var(--brand-bg); color: var(--brand-bg); }
+.fleet-save-btn:hover, .fleet-io-btn:hover { background: var(--neutral-bg-1-hover); }
+.fleet-io-row { display: flex; gap: var(--size-60); padding: 0 var(--size-100); }
+.fleet-io-btn { flex: 1; justify-content: center; }
+.fleet-row { display: flex; align-items: stretch; gap: 4px; padding: 2px var(--size-100); }
+.fleet-row-load {
+  flex: 1; min-width: 0; text-align: left;
+  display: flex; flex-direction: column; gap: 1px;
+  padding: 7px 10px;
+  border: 1px solid transparent; border-radius: var(--r-4);
+  background: transparent; cursor: pointer;
+}
+.fleet-row-load:hover, .fleet-row-load.hist:hover { background: var(--neutral-bg-3); }
+.fleet-row-name { font-size: 13px; font-weight: 600; color: var(--neutral-fg-1); }
+.fleet-row-sub { font-size: 11px; color: var(--neutral-fg-3); }
+.fleet-row-del {
+  flex: none; width: 32px;
+  display: grid; place-items: center;
+  border: 1px solid transparent; border-radius: var(--r-4);
+  background: transparent; cursor: pointer; color: var(--neutral-fg-3);
+}
+.fleet-row-del:hover { color: var(--status-danger-fg); background: var(--status-danger-bg); }
+.fleet-scenario { margin-bottom: var(--size-40); }
+.fleet-scenario-name {
+  font-size: 12px; font-weight: 700; color: var(--neutral-fg-2);
+  padding: var(--size-40) var(--size-100) 2px;
+}
+
 .flyout-group { margin-bottom: var(--size-60); }
 .flyout-group:last-child { margin-bottom: 0; }
 .flyout-group-label {
@@ -1113,7 +1168,49 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .units-table tbody tr:hover    td { background: var(--neutral-bg-3); }
 .units-table tbody tr:hover .row-delete { opacity: 1; }
 
-.col-qty   { width: 96px; }
+.col-qty   { width: 150px; }
+
+/* qty cell: count dots sit to the LEFT of the stepper, hugging it */
+.qty-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qty-cell .qty-stepper { flex: none; }
+
+/* count dots — one per hull, or a little flight-grid per air squadron */
+.qty-dots {
+  flex: none;
+  width: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-content: center;
+  gap: 4px;
+}
+.qty-dots .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--brand-bg);
+  opacity: .82;
+}
+/* capital ships (fleet carriers, battleships) get 2x-size pips */
+.qty-dots.big { gap: 5px; }
+.qty-dots.big .dot { width: 12px; height: 12px; opacity: .9; }
+.qty-dots.is-squadron {
+  gap: 4px;
+}
+.qty-dots.is-squadron .flight {
+  display: inline-grid;
+  gap: 1.5px;
+  padding: 1.5px;
+  border-radius: 2px;
+  background: rgba(17, 78, 122, 0.07);
+}
+.qty-dots.is-squadron .dot {
+  width: 3px; height: 3px;
+  opacity: .9;
+}
 .col-class { width: 36%; }
 .col-role  { width: 28%; }
 .col-cost  { width: 96px; text-align: right; }
@@ -1143,6 +1240,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .qty-stepper button:hover  { background: var(--neutral-bg-1-hover); color: var(--neutral-fg-1); }
 .qty-stepper button:active { background: var(--neutral-bg-1-pressed); }
 .qty-stepper button:disabled { color: var(--neutral-fg-disabled); cursor: not-allowed; background: transparent; }
+/* at qty 1, the minus deletes the unit — warn with red on hover */
+.qty-stepper button.del-mode { cursor: pointer; }
+.qty-stepper button.del-mode:hover { color: var(--status-danger-fg); background: var(--status-danger-bg); }
 .qty-stepper .val {
   min-width: 28px;
   text-align: center;
@@ -2656,7 +2756,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 @media print {
   body { background: #fff; }
-  .cmdbar, .add-tf, .add-unit, .row-delete, .qty-stepper button, .flyout,
+  .cmdbar, .add-tf, .add-unit, .row-delete, .qty-stepper button, .qty-dots, .flyout,
   .tf-doctrine-head .chip-add, .doctrine-presets,
   .game-info-footer, .scifi-fab { display: none !important; }
   .page { display: none; }

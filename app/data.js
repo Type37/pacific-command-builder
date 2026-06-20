@@ -13,7 +13,7 @@ window.SPECIAL_RULES = {
   },
   'Depth Charges': {
     name: 'Depth Charges',
-    text: 'In Gun Battles, rolls of 5 must be assigned to Submarines.',
+    text: 'When involved in a Gun Battle against a Task Force containing Submarines, rolls of 5 are Confirmed Hits that must be assigned to Submarines (unless all the Submarines have been sunk, in which case they revert to Unconfirmed Hits).',
   },
   'High Value': {
     name: 'High Value',
@@ -21,7 +21,7 @@ window.SPECIAL_RULES = {
   },
   'Submarine': {
     name: 'Submarine',
-    text: 'At the start of the Command Phase, any TF that contains only Submarines automatically becomes hidden. During Gun Battles, roll this unit\u2019s attack dice separately: rolls of 5 count as Confirmed Hits.',
+    text: 'At the start of the Command Phase, any TF that contains only Submarines automatically becomes hidden. During Gun Battles, roll Submarine attack dice separately: rolls of 4 count as Unconfirmed Hits, rolls of 5 or 6 count as Confirmed Hits.',
   },
   'Weak AA Defences': {
     name: 'Weak AA Defences',
@@ -1583,14 +1583,10 @@ window.HISTORICAL_NAMES = {
         "A5M4 Claude",
         "A6M2-N Rufe (floatplane)",
         "A6M2 Reisen, Tainan Kokutai",
-        "Ki-43 Hayabusa (Oscar, land-based)",
-        "Ki-27 Nate (land-based)"
       ],
       "bomber-sqn": [
         "D3A1 Val (dive bomber)",
         "B5N2 Kate (torpedo bomber)",
-        "G3M Nell (land-based)",
-        "G4M Betty (land-based)",
         "H6K Mavis (flying boat)",
         "E13A Jake (floatplane)"
       ]
@@ -1741,7 +1737,6 @@ window.HISTORICAL_NAMES = {
         "J2M Raiden (Jack)",
         "A7M Reppu (Sam)",
         "N1K1 Kyofu (Rex, floatplane)",
-        "Ki-84 Hayate (Frank, land-based)"
       ],
       "bomber-sqn": [
         "D4Y Suisei (Judy)",
@@ -1750,7 +1745,6 @@ window.HISTORICAL_NAMES = {
         "P1Y Ginga (Frances)",
         "D3A2 Val",
         "E16A Zuiun (Paul, floatplane)",
-        "MXY-7 Ohka (rocket, land-based)"
       ]
     }
   },
@@ -1964,15 +1958,12 @@ window.HISTORICAL_NAMES = {
         "F4F-3 Wildcat",
         "F4F-4 Wildcat",
         "F2A Buffalo",
-        "P-40 Warhawk (land-based)",
-        "P-39 Airacobra (land-based)"
       ],
       "bomber-sqn": [
         "SBD Dauntless (dive bomber)",
         "TBD Devastator (torpedo bomber)",
         "TBF Avenger",
         "PBY Catalina",
-        "B-25 Mitchell (land-based)"
       ]
     },
     "Late War": {
@@ -2203,14 +2194,11 @@ window.HISTORICAL_NAMES = {
         "F4U-4 Corsair",
         "FM-2 Wildcat",
         "F8F Bearcat",
-        "P-38 Lightning (land-based)"
       ],
       "bomber-sqn": [
         "SB2C-4 Helldiver",
         "SBD-5 Dauntless",
         "TBM-3 Avenger",
-        "PB4Y Privateer (land-based)",
-        "B-29 Superfortress (land-based)"
       ]
     }
   },
@@ -2724,6 +2712,1811 @@ window.PAPER_NAMES = {
   }
 };
 
+
+// Historical orders of battle (from Historical Fleets.docx). Loadable presets.
+window.HISTORICAL_FLEETS = [
+  {
+    "id": "coral-sea-ijn",
+    "scenario": "Coral Sea",
+    "faction": "IJN",
+    "era": "Early War",
+    "scale": 3,
+    "label": "Coral Sea — IJN",
+    "fleet": {
+      "name": "Coral Sea — IJN",
+      "faction": "IJN",
+      "era": "Early War",
+      "scale": 3,
+      "budget": 248,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "coordinated-strikes",
+        "extended-craft-range",
+        "mobile-force-doctrine",
+        "seasoned-pilots",
+        "superior-fighters",
+        "ineffective-aa"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Task Force \"MO\"",
+          "commander": "Vice Admiral Takagi Takeo",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Shokaku"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Zuikaku"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 8,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 16,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Myoko"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Haguro"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 6,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "MO Main Force",
+          "commander": "Rear Admiral Goto Aritomo",
+          "units": [
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Shoho"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 2,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 2,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Aoba"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Kako"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Kinugasa"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Furutaka"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 1,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "MO Invasion Force",
+          "commander": "Rear Admiral Kajioka Sadamichi",
+          "units": [
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Yubari"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "auxiliary",
+              "qty": 2,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Covering Force",
+          "commander": "Rear Admiral Marumo Kuninori",
+          "units": [
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Tatsuta"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Tenryu"
+            },
+            {
+              "classId": "seaplane-tender",
+              "qty": 1,
+              "pennant": "Kamikawa Maru"
+            },
+            {
+              "classId": "auxiliary",
+              "qty": 2,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Tulagi Invasion Force",
+          "commander": "Rear Admiral Shima Kiyohide",
+          "units": [
+            {
+              "classId": "destroyer",
+              "qty": 2,
+              "pennant": ""
+            },
+            {
+              "classId": "auxiliary",
+              "qty": 10,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Rabaul Airfield",
+          "commander": "",
+          "units": [
+            {
+              "classId": "bomber-sqn",
+              "qty": 6,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "coral-sea-usn",
+    "scenario": "Coral Sea",
+    "faction": "USN",
+    "era": "Early War",
+    "scale": 3,
+    "label": "Coral Sea — USN",
+    "fleet": {
+      "name": "Coral Sea — USN",
+      "faction": "USN",
+      "era": "Early War",
+      "scale": 3,
+      "budget": 191,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "enemy-codes",
+        "increased-aircraft",
+        "unreliable-torpedoes"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Task Force \"17\"",
+          "commander": "Rear Admiral Frank Fletcher",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Lexington"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Yorktown"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 8,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 24,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Minneapolis"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "New Orleans"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Astoria"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chester"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Portland"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chicago"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "HMAS Australia"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "HMAS Hobart"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 11,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "midway-ijn",
+    "scenario": "Midway",
+    "faction": "IJN",
+    "era": "Early War",
+    "scale": 6,
+    "label": "Midway — IJN",
+    "fleet": {
+      "name": "Midway — IJN",
+      "faction": "IJN",
+      "era": "Early War",
+      "scale": 6,
+      "budget": 768,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "coordinated-strikes",
+        "extended-craft-range",
+        "mobile-force-doctrine",
+        "seasoned-pilots",
+        "superior-fighters",
+        "ineffective-aa"
+      ],
+      "taskForces": [
+        {
+          "callSign": "First Carrier Striking Force",
+          "commander": "Admiral Chūichi Nagumo",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Akagi"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Kaga"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Hiryu"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Soryu"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 16,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 34,
+              "pennant": ""
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Haruna"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Kirishima"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Tone"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chikuma"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Nagara"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 12,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Main Force",
+          "commander": "Admiral Isoroku Yamamoto",
+          "units": [
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Yamato"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Nagato"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Mutsu"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Hosho"
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 2,
+              "pennant": ""
+            },
+            {
+              "classId": "seaplane-tender",
+              "qty": 1,
+              "pennant": "Chiyoda"
+            },
+            {
+              "classId": "seaplane-tender",
+              "qty": 1,
+              "pennant": "Nisshin"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Sendai"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 8,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Guard Force",
+          "commander": "Vice Admiral Takasu Shiro",
+          "units": [
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Ise"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Hyuga"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Fuso"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Yamashiro"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Oi"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Kitakami"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 12,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Midway Invasion Force",
+          "commander": "Vice Admiral Kondo Nobutake",
+          "units": [
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Zuiho"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 2,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 2,
+              "pennant": ""
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Kongo"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Hiei"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Atago"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chokai"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Myoko"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Haguro"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Yura"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 8,
+              "pennant": ""
+            },
+            {
+              "classId": "auxiliary",
+              "qty": 1,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Close Support Group",
+          "commander": "Vice Admiral Kurita Takeo",
+          "units": [
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Kumano"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Suzuya"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Mogami"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Mikuma"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Jintsu"
+            },
+            {
+              "classId": "seaplane-tender",
+              "qty": 1,
+              "pennant": "Chitose"
+            },
+            {
+              "classId": "seaplane-tender",
+              "qty": 1,
+              "pennant": "Kamikawa"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 13,
+              "pennant": ""
+            },
+            {
+              "classId": "auxiliary",
+              "qty": 14,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Advance Force",
+          "commander": "Vice Admiral Komatsu Teruhishi",
+          "units": [
+            {
+              "classId": "submarine",
+              "qty": 15,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "midway-usn",
+    "scenario": "Midway",
+    "faction": "USN",
+    "era": "Early War",
+    "scale": 6,
+    "label": "Midway — USN",
+    "fleet": {
+      "name": "Midway — USN",
+      "faction": "USN",
+      "era": "Early War",
+      "scale": 6,
+      "budget": 358,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "enemy-codes",
+        "increased-aircraft",
+        "unreliable-torpedoes"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Task Force \"17\"",
+          "commander": "Rear Admiral Frank Fletcher",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Yorktown"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 10,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Astoria"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Portland"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 6,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"16\"",
+          "commander": "Rear Admiral Raymond Spruance",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Enterprise"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Hornet"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 12,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 20,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Minneapolis"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "New Orleans"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Vincennes"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Northampton"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Pensacola"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Atlanta"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 9,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"7\"",
+          "commander": "Rear Admiral Robert English",
+          "units": [
+            {
+              "classId": "submarine",
+              "qty": 19,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "eastern-solomons-ijn",
+    "scenario": "Eastern Solomons",
+    "faction": "IJN",
+    "era": "Early War",
+    "scale": 3,
+    "label": "Eastern Solomons — IJN",
+    "fleet": {
+      "name": "Eastern Solomons — IJN",
+      "faction": "IJN",
+      "era": "Early War",
+      "scale": 3,
+      "budget": 280,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "coordinated-strikes",
+        "extended-craft-range",
+        "mobile-force-doctrine",
+        "seasoned-pilots",
+        "superior-fighters",
+        "ineffective-aa"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Third Fleet, Main Body",
+          "commander": "Vice Admiral Chūichi Nagumo",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Shokaku"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Zuikaku"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 8,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 20,
+              "pennant": ""
+            },
+            {
+              "classId": "destroyer",
+              "qty": 6,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Vanguard Force",
+          "commander": "Rear Admiral Abe Hiroaki",
+          "units": [
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Hiei"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Kirishima"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Kumano"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Suzuya"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chikuma"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Nagara"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 3,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Detached Carrier Strike Force",
+          "commander": "Rear Admiral Chūichi Hara",
+          "units": [
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Ryujo"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 4,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 2,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Tone"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 2,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Advance Force",
+          "commander": "Vice Admiral Kondo Nobutake",
+          "units": [
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Atago"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Maya"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Takao"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Haguro"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Myoko"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Yura"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "seaplane-tender",
+              "qty": 1,
+              "pennant": "Chitose"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "eastern-solomons-usn",
+    "scenario": "Eastern Solomons",
+    "faction": "USN",
+    "era": "Early War",
+    "scale": 3,
+    "label": "Eastern Solomons — USN",
+    "fleet": {
+      "name": "Eastern Solomons — USN",
+      "faction": "USN",
+      "era": "Early War",
+      "scale": 3,
+      "budget": 168,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "enemy-codes",
+        "increased-aircraft",
+        "unreliable-torpedoes"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Task Force \"11\"",
+          "commander": "Vice Admiral Frank Fletcher",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Saratoga"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 8,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Minneapolis"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "New Orleans"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "HMAS Australia"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "HMAS Hobart"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 7,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"16\"",
+          "commander": "Rear Admiral Thomas Kinkaid",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Enterprise"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 10,
+              "pennant": ""
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "North Carolina"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Portland"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Atlanta"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "santa-cruz-ijn",
+    "scenario": "Santa Cruz",
+    "faction": "IJN",
+    "era": "Early War",
+    "scale": 3,
+    "label": "Santa Cruz — IJN",
+    "fleet": {
+      "name": "Santa Cruz — IJN",
+      "faction": "IJN",
+      "era": "Early War",
+      "scale": 3,
+      "budget": 353,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "coordinated-strikes",
+        "extended-craft-range",
+        "mobile-force-doctrine",
+        "seasoned-pilots",
+        "superior-fighters",
+        "ineffective-aa"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Support Force",
+          "commander": "Vice Admiral Kondo Nobutake",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Junyo"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 4,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Kongo"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Haruna"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Atago"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Takao"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Maya"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Myoko"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Isuzu"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 9,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Third Fleet, Main Body",
+          "commander": "Vice Admiral Chūichi Nagumo",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Shokaku"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Zuikaku"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Zuiho"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 16,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 18,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Kumano"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 8,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Vanguard Force",
+          "commander": "Rear Admiral Abe Hiroaki",
+          "units": [
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Hiei"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Kirishima"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Suzuya"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chikuma"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Tone"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Nagara"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 7,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "santa-cruz-usn",
+    "scenario": "Santa Cruz",
+    "faction": "USN",
+    "era": "Early War",
+    "scale": 3,
+    "label": "Santa Cruz — USN",
+    "fleet": {
+      "name": "Santa Cruz — USN",
+      "faction": "USN",
+      "era": "Early War",
+      "scale": 3,
+      "budget": 236,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "enemy-codes",
+        "increased-aircraft",
+        "unreliable-torpedoes"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Task Force \"16\"",
+          "commander": "Rear Admiral Thomas Kinkaid",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Enterprise"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 8,
+              "pennant": ""
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "South Dakota"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Portland"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "San Juan"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 8,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"17\"",
+          "commander": "Rear Admiral George D. Murray",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Hornet"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Northampton"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Pensacola"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "San Diego"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Juneau"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 6,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"64\"",
+          "commander": "Rear Admiral Willis A. Lee",
+          "units": [
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Washington"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "San Francisco"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Helena"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Atlanta"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 6,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "philippine-sea-ijn",
+    "scenario": "Philippine Sea",
+    "faction": "IJN",
+    "era": "Late War",
+    "scale": 7,
+    "label": "Philippine Sea — IJN",
+    "fleet": {
+      "name": "Philippine Sea — IJN",
+      "faction": "IJN",
+      "era": "Late War",
+      "scale": 7,
+      "budget": 669,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "coordinated-strikes",
+        "extended-craft-range",
+        "aircraft-shortage",
+        "rookie-pilots",
+        "ineffective-aa"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Task Force \"A\"",
+          "commander": "Vice Admiral Jisaburō Ozawa",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Shokaku"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Taiho"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Zuikaku"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 16,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 24,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Myoko"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Haguro"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Yahagi"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 7,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"B\"",
+          "commander": "Vice Admiral Kakuji Kakuta",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Junyo"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Hiyo"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Ryuho"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 12,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 18,
+              "pennant": ""
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Nagato"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Mogami"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 7,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"C\"",
+          "commander": "Vice Admiral Takeo Kurita",
+          "units": [
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Chitose"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Chiyoda"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Zuiho"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 6,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 12,
+              "pennant": ""
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Yamato"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Musashi"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Kongo"
+            },
+            {
+              "classId": "battleship",
+              "qty": 1,
+              "pennant": "Haruna"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Atago"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Takao"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Maya"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chokai"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Kumano"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Suzuya"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Tone"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Chikuma"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Noshiro"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 7,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Sixth Submarine Fleet",
+          "commander": "Vice Admiral Takeo Takagi",
+          "units": [
+            {
+              "classId": "submarine",
+              "qty": 26,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "philippine-sea-usn",
+    "scenario": "Philippine Sea",
+    "faction": "USN",
+    "era": "Late War",
+    "scale": 7,
+    "label": "Philippine Sea — USN",
+    "fleet": {
+      "name": "Philippine Sea — USN",
+      "faction": "USN",
+      "era": "Late War",
+      "scale": 7,
+      "budget": 642,
+      "freePlay": true,
+      "setId": null,
+      "mods": [
+        "coordinated-strikes",
+        "enemy-codes",
+        "increased-aircraft",
+        "mobile-force-doctrine"
+      ],
+      "taskForces": [
+        {
+          "callSign": "Task Force \"58.1\"",
+          "commander": "Rear Admiral Joseph J. Clark",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Hornet"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Yorktown"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Belleau Wood"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Bataan"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 22,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 28,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Baltimore"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Boston"
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Canberra"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "San Juan"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Oakland"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 14,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"58.2\"",
+          "commander": "Rear Admiral Alfred E. Montgomery",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Bunker Hill"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Wasp"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Monterey"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Cabot"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 22,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 26,
+              "pennant": ""
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Santa Fe"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Mobile"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Biloxi"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 12,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"58.3\"",
+          "commander": "Rear Admiral John W. Reeves",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Enterprise"
+            },
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Lexington"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "San Jacinto"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Princeton"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 20,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 26,
+              "pennant": ""
+            },
+            {
+              "classId": "heavy-cruiser",
+              "qty": 1,
+              "pennant": "Indianapolis"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Cleveland"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Montpelier"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Birmingham"
+            },
+            {
+              "classId": "light-cruiser",
+              "qty": 1,
+              "pennant": "Reno"
+            },
+            {
+              "classId": "destroyer",
+              "qty": 13,
+              "pennant": ""
+            }
+          ]
+        },
+        {
+          "callSign": "Task Force \"58.4\"",
+          "commander": "Rear Admiral William K. Harrill",
+          "units": [
+            {
+              "classId": "fleet-carrier",
+              "qty": 1,
+              "pennant": "Essex"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Langley"
+            },
+            {
+              "classId": "light-carrier",
+              "qty": 1,
+              "pennant": "Cowpens"
+            },
+            {
+              "classId": "fighter-sqn",
+              "qty": 16,
+              "pennant": ""
+            },
+            {
+              "classId": "bomber-sqn",
+              "qty": 16,
+              "pennant": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+];
 
 // ─── Java Sea example fleet (verbatim from user spec) ──
 window.EXAMPLE_FLEET = {

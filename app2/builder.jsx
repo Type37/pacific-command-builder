@@ -139,6 +139,18 @@ const Icon = {
     <path d="M7.8 7.5a2.2 2.2 0 1 1 3.2 2c-.8.5-1 .9-1 1.6" {...S}/>
     <circle cx="10" cy="14" r="0.9" fill="currentColor" stroke="none"/>
   </svg>,
+  Library: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
+    <path d="M4 3.5h3v13H4zM8.5 3.5h3v13h-3zM13.2 4l2.8.7-2.6 12.2-2.8-.6z" {...S}/>
+  </svg>,
+  Save: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
+    <path d="M4 3.5h9l3 3V16a.5.5 0 0 1-.5.5H4a.5.5 0 0 1-.5-.5V4a.5.5 0 0 1 .5-.5zM6 3.5v4h6v-4M6.5 16.5v-5h7v5" {...S}/>
+  </svg>,
+  Download: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
+    <path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5M4 15.5h12" {...S}/>
+  </svg>,
+  Upload: (p) => <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" {...p}>
+    <path d="M10 13V4m0 0L6.5 7.5M10 4l3.5 3.5M4 15.5h12" {...S}/>
+  </svg>,
 
   Cost: (p) => <svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true" {...p}>
     <circle cx="10" cy="10" r="7" {...S}/>
@@ -200,6 +212,7 @@ function applyModEffects(activeMods, baseTotals, units, cm) {
   }
   return {
     cost, guns, aircraft: aircraftAfter, aa, strike, cap,
+    squadronCount: baseTotals.squadronCount,
     aircraftBase: aircraft, aircraftDelta: aircraftAfter - aircraft,
   };
 }
@@ -336,11 +349,47 @@ function useClickOutside(ref, onOutside) {
 }
 
 function QtyStepper({ value, onChange, min = 1, max = 99, onDelete }) {
+  const atMin = value <= min;
+  const canDelete = atMin && !!onDelete;
   return (
     <div className="qty-stepper">
-      <button onClick={() => value <= min ? (onDelete && onDelete()) : onChange(value - 1)} disabled={value <= min && !onDelete} aria-label="decrease"><Icon.Subtract /></button>
+      <button
+        className={canDelete ? 'del-mode' : ''}
+        onClick={() => atMin ? (onDelete && onDelete()) : onChange(value - 1)}
+        disabled={atMin && !onDelete}
+        aria-label={canDelete ? 'remove unit' : 'decrease'}
+        title={canDelete ? 'Remove unit' : undefined}
+      ><Icon.Subtract /></button>
       <span className="val">{value}</span>
       <button onClick={() => onChange(Math.min(max, value + 1))} disabled={value >= max} aria-label="increase"><Icon.Add /></button>
+    </div>
+  );
+}
+
+// Count dots to the left of the stepper: one dot per hull, or — for air units —
+// a row of pips per squadron (a "flight"). A squadron represents ~5 aircraft.
+function dotsPerUnit(cls) {
+  if (!cls) return 1;
+  if (cls.kind === 'squadron') return 5;
+  return 1;
+}
+function QtyDots({ qty, per = 1, big = false }) {
+  if (!qty || qty < 1) return null;
+  if (per > 1) {
+    const cols = Math.min(5, per); // up to 5 pips across per squadron
+    return (
+      <div className="qty-dots is-squadron" aria-hidden="true">
+        {Array.from({ length: qty }, (_, i) => (
+          <span className="flight" key={i} style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+            {Array.from({ length: per }, (_, j) => <i className="dot" key={j} />)}
+          </span>
+        ))}
+      </div>
+    );
+  }
+  return (
+    <div className={'qty-dots' + (big ? ' big' : '')} aria-hidden="true">
+      {Array.from({ length: qty }, (_, i) => <i className="dot" key={i} />)}
     </div>
   );
 }
@@ -409,7 +458,7 @@ function FactionToggle({ faction, era, onChange }) {
 }
 
 // ─── Unit picker ───────────────────────────────────────
-function UnitPicker({ onPick, onClose }) {
+function UnitPicker({ onPick, onClose, squadronRoom = Infinity }) {
   const ref = useRef(null);
   const scifi = useScifi();
   const terms = T(scifi);
@@ -420,15 +469,20 @@ function UnitPicker({ onPick, onClose }) {
   }, [onClose]);
   return (
     <div className="flyout" ref={ref} role="dialog" aria-label="Pick a unit">
-      {window.SHIP_CLASSES.map(u => (
-        <button key={u.id} className="flyout-item" onClick={() => { onPick(u.id); onClose(); }} data-tip={shipClassTip(u)}>
-          <div>
-            <div className="nm"><span className="cls-tag" data-sprite={u.sprite}>{u.sprite}</span>{scifi ? scifiUnitName(u.id, u.name, terms) : u.name}</div>
-            {u.role && <div className="desc">{u.role}{u.special ? ', ' + u.special : ''}</div>}
-          </div>
-          <div className="right">{u.cost} pts</div>
-        </button>
-      ))}
+      {window.SHIP_CLASSES.map(u => {
+        const blocked = u.kind === 'squadron' && squadronRoom <= 0;
+        return (
+          <button key={u.id} className="flyout-item" disabled={blocked}
+            onClick={() => { if (!blocked) { onPick(u.id); onClose(); } }}
+            data-tip={blocked ? 'No aircraft capacity — add a carrier first' : shipClassTip(u)}>
+            <div>
+              <div className="nm"><span className="cls-tag" data-sprite={u.sprite}>{u.sprite}</span>{scifi ? scifiUnitName(u.id, u.name, terms) : u.name}</div>
+              {u.role && <div className="desc">{u.role}{u.special ? ', ' + u.special : ''}</div>}
+            </div>
+            <div className="right">{blocked ? 'full' : u.cost + ' pts'}</div>
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -499,7 +553,7 @@ function HistoricalModSets({ onApply, currentSetId, currentFaction, currentEra }
 }
 
 // ─── Unit row ──────────────────────────────────────────
-function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, faction, fleet }) {
+function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, faction, fleet, max }) {
   const literalNames = useLiteralNames();
   const scifi = useScifi();
   const terms = T(scifi);
@@ -530,7 +584,10 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
         </div>
       </td>
       <td className="col-qty">
-        <QtyStepper value={unit.qty} onChange={(v) => onUpdate({ ...unit, qty: v })} />
+        <div className="qty-cell">
+          <QtyDots qty={unit.qty} per={dotsPerUnit(cls)} big={cls.id === 'fleet-carrier' || cls.id === 'battleship'} />
+          <QtyStepper value={unit.qty} max={max} onChange={(v) => onUpdate({ ...unit, qty: v })} onDelete={onDelete} />
+        </div>
       </td>
       <td className="col-role">
         <div className="role-cell">
@@ -559,6 +616,9 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
   const [pickerOpen, setPickerOpen] = useState(false);
 
   const squadronOver = totals.squadronCount > totals.aircraft;
+  // Fleet Building rule: a Task Force may not purchase more squadrons than its
+  // Aircraft value. Remaining squadron capacity = aircraft value − squadrons embarked.
+  const squadronRoom = Math.max(0, (totals.aircraft || 0) - (totals.squadronCount || 0));
   const tfV = useMemo(() => tfViolations(tf, freePlay, fleet.mods), [tf, freePlay, fleet.mods]);
   const scifi = useScifi();
   const literalNames = useLiteralNames();
@@ -568,6 +628,9 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
   const updateUnit = (id, unit) => onUpdate({ ...tf, units: tf.units.map(u => u.id === id ? unit : u) });
   const deleteUnit = (id) => onUpdate({ ...tf, units: tf.units.filter(u => u.id !== id) });
   const addUnit = (classId) => {
+    const cls = cm[classId];
+    // Don't let squadron purchases exceed the Task Force's Aircraft value.
+    if (cls && cls.kind === 'squadron' && squadronRoom <= 0) return;
     const existing = tf.units.find(u => u.classId === classId && !u.pennant);
     let next;
     if (existing) {
@@ -667,6 +730,7 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
                   onUpdate={(unit) => updateUnit(u.id, unit)}
                   onDelete={() => deleteUnit(u.id)}
                   overCapacity={isSquadron && squadronOver}
+                  max={isSquadron ? u.qty + squadronRoom : undefined}
                   suggestedName={suggestions[u.id]}
                   faction={fleet?.faction} fleet={fleet} />
               );
@@ -685,7 +749,7 @@ function TaskForceCard({ tf, idx, fleet, totals, faction, era, onUpdate, onDelet
           <span className="configure-btn-ico">{pickerOpen ? <Icon.Close /> : <Icon.Add />}</span>
           <span>{pickerOpen ? 'Close' : 'Add Unit'}</span>
         </button>
-        {pickerOpen && <UnitPicker onPick={addUnit} onClose={() => setPickerOpen(false)} />}
+        {pickerOpen && <UnitPicker onPick={addUnit} onClose={() => setPickerOpen(false)} squadronRoom={squadronRoom} />}
       </div>
 
       <footer className="tf-totals">
@@ -1384,6 +1448,40 @@ function seedFromExample() {
   };
 }
 
+// Take a raw fleet (preset, saved slot, or imported file) and return a clean
+// fleet with fresh tf/unit ids and sane defaults.
+function hydrateFleet(raw) {
+  if (!raw || !Array.isArray(raw.taskForces)) return null;
+  return {
+    name: raw.name || 'Fleet',
+    mods: Array.isArray(raw.mods) ? raw.mods.slice() : [],
+    setId: raw.setId || null,
+    faction: raw.faction || null,
+    era: raw.era || null,
+    budget: typeof raw.budget === 'number' ? raw.budget : 300,
+    scale: raw.scale || 3,
+    freePlay: !!raw.freePlay,
+    taskForces: raw.taskForces.map(tf => ({
+      id: 'tf-' + uid(),
+      callSign: tf.callSign || '',
+      commander: tf.commander || '',
+      units: (tf.units || []).map(u => ({
+        id: 'u-' + uid(),
+        classId: u.classId,
+        qty: u.qty || 1,
+        pennant: u.pennant || '',
+      })),
+    })),
+  };
+}
+
+const SAVES_KEY = 'pc2-saves';
+function readSaves() {
+  try { return JSON.parse(localStorage.getItem(SAVES_KEY)) || []; }
+  catch { return []; }
+}
+function writeSaves(list) { localStorage.setItem(SAVES_KEY, JSON.stringify(list)); }
+
 // ─── Random TF generator ──────────────────────────────
 function generateRandomTF(budget, fleet) {
   const all = window.SHIP_CLASSES;
@@ -1497,6 +1595,106 @@ function fmtName(name) {
     : <React.Fragment key={i}><CircleS />{p}</React.Fragment>);
 }
 
+// ─── Fleet menu: save / load / historical / import-export ──
+function FleetMenu({ fleet, grandTotal, onLoad, onClose }) {
+  const ref = useRef(null);
+  const fileRef = useRef(null);
+  const [saves, setSaves] = useState(() => readSaves());
+  const [nameInput, setNameInput] = useState(fleet?.name || 'My Fleet');
+  useClickOutside(ref, onClose);
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  const saveCurrent = () => {
+    const name = (nameInput || '').trim() || 'Untitled fleet';
+    const entry = { name, savedAt: new Date().toISOString(), fleet: { ...fleet, name } };
+    const next = [entry, ...readSaves().filter(s => s.name !== name)];
+    writeSaves(next); setSaves(next);
+  };
+  const deleteSave = (name) => {
+    const next = readSaves().filter(s => s.name !== name);
+    writeSaves(next); setSaves(next);
+  };
+  const exportFleet = () => {
+    const blob = new Blob([JSON.stringify(fleet, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (fleet?.name || 'fleet').replace(/[^\w\-]+/g, '_') + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  };
+  const importFleet = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const raw = JSON.parse(reader.result);
+        const hydrated = hydrateFleet(raw);
+        if (!hydrated) { alert('That file does not look like a Pacific Command fleet.'); return; }
+        onLoad(hydrated);
+      } catch { alert('Could not read that file as JSON.'); }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
+
+  const hist = window.HISTORICAL_FLEETS || [];
+  const byScenario = {};
+  for (const h of hist) (byScenario[h.scenario] = byScenario[h.scenario] || []).push(h);
+
+  return (
+    <div className="flyout fleet-menu" ref={ref} role="dialog" aria-label="Fleets" style={{ minWidth: 340, maxWidth: 420 }}>
+      <div className="flyout-group">
+        <div className="flyout-group-label">Save current fleet</div>
+        <div className="fleet-save-row">
+          <input className="fleet-save-name" value={nameInput} onChange={e => setNameInput(e.target.value)} placeholder="Fleet name" />
+          <button className="fleet-save-btn" onClick={saveCurrent}><Icon.Save /> Save</button>
+        </div>
+        <div className="fleet-io-row">
+          <button className="fleet-io-btn" onClick={exportFleet}><Icon.Download /> Export file</button>
+          <button className="fleet-io-btn" onClick={() => fileRef.current && fileRef.current.click()}><Icon.Upload /> Import file</button>
+          <input ref={fileRef} type="file" accept="application/json,.json" style={{ display: 'none' }} onChange={importFleet} />
+        </div>
+      </div>
+
+      {saves.length > 0 && (
+        <div className="flyout-group">
+          <div className="flyout-group-label">Saved fleets</div>
+          {saves.map(s => (
+            <div className="fleet-row" key={s.name}>
+              <button className="fleet-row-load" onClick={() => onLoad(hydrateFleet(s.fleet))} title="Load this fleet">
+                <span className="fleet-row-name">{s.name}</span>
+                <span className="fleet-row-sub">{(s.fleet.taskForces || []).length} TF · loads into builder</span>
+              </button>
+              <button className="fleet-row-del" onClick={() => deleteSave(s.name)} aria-label={`Delete ${s.name}`}><Icon.Delete /></button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="flyout-group">
+        <div className="flyout-group-label">Historical fleets</div>
+        {Object.keys(byScenario).map(scen => (
+          <div className="fleet-scenario" key={scen}>
+            <div className="fleet-scenario-name">{scen}</div>
+            {byScenario[scen].map(h => (
+              <button className="fleet-row-load hist" key={h.id} onClick={() => onLoad(hydrateFleet(h.fleet))} title={`Load ${h.label}`}>
+                <span className="fleet-row-name">{h.faction}</span>
+                <span className="fleet-row-sub">Ⓢ{h.scale} · {h.era} · {h.fleet.budget} pts · {h.fleet.taskForces.length} TF</span>
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── App ───────────────────────────────────────────────
 function App() {
   const [fleet, setFleet] = useState(() => {
@@ -1510,6 +1708,7 @@ function App() {
   setHistFlag(historicalOnly);
   const [showRandom, setShowRandom] = useState(false);
   const [showGlossary, setShowGlossary] = useState(false);
+  const [showFleetMenu, setShowFleetMenu] = useState(false);
 
   useEffect(() => { if (fleet) localStorage.setItem('pc2-fleet', JSON.stringify(fleet)); }, [fleet]);
   useEffect(() => { localStorage.setItem('pc2-scifi', scifi ? '1' : '0'); }, [scifi]);
@@ -1552,6 +1751,10 @@ function App() {
   const newBlank = () => {
     if (!confirm('Start a new blank fleet?')) return;
     setFleet({ name: 'My Fleet', taskForces: [makeBlankTF(1)], mods: [], setId: null, faction: null, era: null, budget: 0, scale: 3, freePlay: false });
+  };
+  const loadFleetObj = (hydrated) => {
+    if (!hydrated) return;
+    setFleet(hydrated); setShowPreview(false); setShowFleetMenu(false);
   };
 
   const onToggleMod = (id) => {
@@ -1662,6 +1865,10 @@ function App() {
         </div>
 
         <div className="cmdbar-actions">
+          <div style={{ position: 'relative' }}>
+            <Btn variant="ghost" onClick={() => setShowFleetMenu(m => !m)} icon={Icon.Library} dataTip="Save, load, import/export, and historical fleets">Fleets</Btn>
+            {showFleetMenu && <FleetMenu fleet={fleet} grandTotal={grandTotal} onLoad={loadFleetObj} onClose={() => setShowFleetMenu(false)} />}
+          </div>
           <Btn variant="ghost" onClick={loadExample} icon={Icon.Flag} dataTip="Load the Ⓢ3 Starter Fleet">Starter fleet</Btn>
           <Btn variant="ghost" onClick={newBlank} icon={Icon.Document} dataTip="New blank fleet">New fleet</Btn>
           <div style={{ position: 'relative' }}>
