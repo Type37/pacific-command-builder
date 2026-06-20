@@ -1362,6 +1362,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   min-width: 32px;
   text-align: center;
 }
+/* naval convention: individual ship proper names italic, class/type roman */
+.nm-input.proper-name { font-style: italic; }
+.p-r-pennant.proper { font-style: italic; }
 .nm-input {
   border: 1px solid transparent;
   background: transparent;

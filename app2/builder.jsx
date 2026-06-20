@@ -581,7 +581,7 @@ function UnitRow({ unit, cls, onUpdate, onDelete, overCapacity, suggestedName, f
           </div>
           <div className="nm-input-wrap" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
             <input
-              className="nm-input"
+              className={'nm-input' + (cls.kind !== 'squadron' && unit.pennant && !/class\b/i.test(unit.pennant) ? ' proper-name' : '')}
               placeholder="Click to name"
               value={literalNames && MEANINGS[unit.pennant] ? MEANINGS[unit.pennant] : (unit.pennant || '')}
               onChange={(e) => onUpdate({ ...unit, pennant: e.target.value })}
@@ -912,7 +912,7 @@ function PrintArea({ fleet, totalsByTf, showPreview }) {
                         <td className="p-r-qtycol">{u.qty}</td>
                         <td className="p-r-name">
                           <span className="p-r-sprite">{c.sprite}</span>
-                          {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className="p-r-pennant"> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
+                          {scifi ? scifiUnitName(c.id, c.name, terms) : c.name}{u.pennant ? <span className={'p-r-pennant' + (c.kind !== 'squadron' && !/class\b/i.test(u.pennant) ? ' proper' : '')}> {literalNames && MEANINGS[u.pennant] ? MEANINGS[u.pennant] : u.pennant}</span> : null}
                         </td>
                         <td className="p-r-role">{c.role}</td>
                         <td className="p-r-special">{effectiveSpecial(c, fleet)}</td>
