@@ -1,8 +1,10 @@
-# Pacific Command — Fleet Builder
+# Pacific Command - Fleet Builder
 
 Fleet builder for **[Pacific Command](https://planetsmashergames.com/pacific-command/)**, the WWII naval wargame written by Mike Hutchinson and published by Osprey Games.
 
 **Live:** https://jetwong.neocities.org/wargaming/historicals/pacific-command-builder-2
+
+**Quick reference sheets (PDF):** [Pacific Command](https://jetwong.neocities.org/wargaming/historicals/assets/pacific-command-quickref.pdf) / [Stellar Command](https://jetwong.neocities.org/wargaming/historicals/assets/stellar-command-quickref.pdf) (also linked from the builder's footer).
 
 ---
 

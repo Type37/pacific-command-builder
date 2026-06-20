@@ -7,7 +7,8 @@ on:
 # GitHub Pages (Settings > Pages, source: main /) serves the canonical app at
 # https://type37.github.io/pacific-command-builder/ . Neocities is a WarLore-branded
 # doorway only: this job keeps its entry pages redirecting to Pages so there is never
-# a second, drifting copy of the builder.
+# a second, drifting copy of the builder. It also hosts the quick reference PDFs that
+# the WarLore wargaming page links to, kept in sync from this repo's assets/.
 jobs:
   point-neocities-at-pages:
     runs-on: ubuntu-latest
@@ -23,4 +24,6 @@ jobs:
             -F "wargaming/historicals/index.html=@neocities-redirect.html" \
             -F "wargaming/historicals/pacific-command-builder.html=@neocities-redirect.html" \
             -F "wargaming/historicals/pacific-command-builder-2.html=@neocities-redirect.html" \
+            -F "wargaming/historicals/assets/pacific-command-quickref.pdf=@assets/pacific-command-quickref.pdf" \
+            -F "wargaming/historicals/assets/stellar-command-quickref.pdf=@assets/stellar-command-quickref.pdf" \
             https://neocities.org/api/upload

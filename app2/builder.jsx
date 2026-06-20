@@ -2038,7 +2038,7 @@ function App() {
           <span className="gif-sep">|</span>
           <a href="https://github.com/Type37/pacific-command-builder" target="_blank" rel="noopener">Source on GitHub</a>
           <span className="gif-sep">|</span>
-          <a href="assets/pacific-command-quickref.pdf" target="_blank" rel="noopener">Quick Reference</a>
+          <a href={scifi ? 'assets/stellar-command-quickref.pdf' : 'assets/pacific-command-quickref.pdf'} target="_blank" rel="noopener">Quick Reference</a>
           <span className="gif-sep">|</span>
           <button className="export-btn" onClick={exportFleetText}>Export Fleet</button>
         </div>
