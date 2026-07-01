@@ -1474,6 +1474,7 @@ function hydrateFleet(raw) {
     name: raw.name || 'Fleet',
     mods: Array.isArray(raw.mods) ? raw.mods.slice() : [],
     setId: raw.setId || null,
+    armourSel: (raw.armourSel && typeof raw.armourSel === 'object') ? { ...raw.armourSel } : {},
     faction: raw.faction || null,
     era: raw.era || null,
     budget: typeof raw.budget === 'number' ? raw.budget : 300,
@@ -1491,6 +1492,42 @@ function hydrateFleet(raw) {
       })),
     })),
   };
+}
+
+// ─── Share links ───────────────────────────────────────
+// Pack the whole fleet into a URL hash so it can be shared as a single link.
+// Only the meaningful fields are kept — tf/unit ids are regenerated on load by
+// hydrateFleet. Encoded as URL-safe base64 of the JSON (UTF-8 aware, so
+// non-ASCII pennant names survive).
+function packFleet(fleet) {
+  const slim = {
+    name: fleet.name || 'Fleet',
+    mods: fleet.mods || [],
+    setId: fleet.setId || null,
+    armourSel: fleet.armourSel || {},
+    faction: fleet.faction || null,
+    era: fleet.era || null,
+    budget: fleet.budget,
+    scale: fleet.scale,
+    freePlay: !!fleet.freePlay,
+    taskForces: (fleet.taskForces || []).map(tf => ({
+      callSign: tf.callSign || '',
+      commander: tf.commander || '',
+      units: (tf.units || []).map(u => ({ classId: u.classId, qty: u.qty || 1, pennant: u.pennant || '' })),
+    })),
+  };
+  const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(slim))));
+  return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function unpackFleet(code) {
+  try {
+    let b64 = code.replace(/-/g, '+').replace(/_/g, '/');
+    while (b64.length % 4) b64 += '=';
+    return hydrateFleet(JSON.parse(decodeURIComponent(escape(atob(b64)))));
+  } catch { return null; }
+}
+function shareUrl(fleet) {
+  return location.origin + location.pathname + '#f=' + packFleet(fleet);
 }
 
 const SAVES_KEY = 'pc2-saves';
@@ -1767,6 +1804,19 @@ function App() {
   const [showFleetMenu, setShowFleetMenu] = useState(false);
   const [showView, setShowView] = useState(false);
 
+  // A share link (…#f=…) loads that fleet into the builder. We prompt before
+  // replacing the current fleet, then strip the hash so a refresh won't re-load.
+  useEffect(() => {
+    const m = location.hash.match(/[#&]f=([^&]+)/);
+    if (!m) return;
+    const shared = unpackFleet(m[1]);
+    history.replaceState(null, '', location.pathname + location.search);
+    if (!shared) { alert('That share link could not be read.'); return; }
+    if (confirm('Open the shared fleet? This will replace your current fleet.')) {
+      setFleet(shared); setShowPreview(false);
+    }
+  }, []);
+
   useEffect(() => { if (fleet) localStorage.setItem('pc2-fleet', JSON.stringify(fleet)); }, [fleet]);
   useEffect(() => { localStorage.setItem('pc2-scifi', scifi ? '1' : '0'); }, [scifi]);
   useEffect(() => { localStorage.setItem('pc-literal', literalNames ? '1' : '0'); }, [literalNames]);
@@ -1885,6 +1935,20 @@ function App() {
       document.execCommand('copy');
       document.body.removeChild(ta);
       alert('Fleet copied to clipboard!');
+    });
+  };
+
+  const copyShareLink = () => {
+    const url = shareUrl(fleet);
+    const done = () => alert('Share link copied to clipboard!');
+    navigator.clipboard.writeText(url).then(done).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
     });
   };
 
@@ -2041,6 +2105,8 @@ function App() {
           <a href={scifi ? 'assets/stellar-command-quickref.pdf' : 'assets/pacific-command-quickref.pdf'} target="_blank" rel="noopener">Quick Reference</a>
           <span className="gif-sep">|</span>
           <button className="export-btn" onClick={exportFleetText}>Export Fleet</button>
+          <span className="gif-sep">|</span>
+          <button className="export-btn" onClick={copyShareLink}>Copy Share Link</button>
         </div>
       </footer>
 
