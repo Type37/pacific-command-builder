@@ -2888,17 +2888,6 @@ window.HISTORICAL_FLEETS = [
               "pennant": ""
             }
           ]
-        },
-        {
-          "callSign": "Rabaul Airfield",
-          "commander": "",
-          "units": [
-            {
-              "classId": "bomber-sqn",
-              "qty": 6,
-              "pennant": ""
-            }
-          ]
         }
       ]
     }
