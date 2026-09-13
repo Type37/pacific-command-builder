@@ -3269,9 +3269,11 @@ body:has(.app.preview-mode) .wlf { display: none; }
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-  .units-table thead,
-  .units-table tbody,
-  .units-table tr { display: table-row-group; }
+  /* Normal table display so the heading row shares columns with unit rows
+     (row-group on every tr split them and pushed Qty/Cost headings off). */
+  .units-table thead { display: table-header-group; }
+  .units-table tbody { display: table-row-group; }
+  .units-table tr { display: table-row; }
   .units-table { display: table; table-layout: fixed; width: 100%; }
   /* Rows carry a 5th (delete) cell the 4-column header doesn't, which fixed
      layout pushed past the card edge. Auto layout sizes to the real cells. */
@@ -3369,9 +3371,9 @@ body:has(.app.preview-mode) .wlf { display: none; }
   /* Unit rows fit a 288px card: pips stack over the stepper, tighter cells. */
   td.col-qty { width: auto; }
   .qty-cell { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .units-table td { padding-left: 6px; padding-right: 6px; }
-  .units-table td:first-child { padding-left: var(--size-120); }
-  .units-table td:last-child { padding-left: 0; padding-right: var(--size-80); }
+  .units-table td, .units-table thead th { padding-left: 6px; padding-right: 6px; }
+  .units-table td:first-child, .units-table thead th:first-child { padding-left: var(--size-120); }
+  .units-table td:last-child, .units-table thead th:last-child { padding-left: 0; padding-right: var(--size-80); }
   .brand-name { font-size: 13px; }
   .tf-head .tf-id .callsign { font-size: 18px; }
   .faction-pill span { display: none; }  /* icon only on tiny screens */
