@@ -515,7 +515,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 @media (min-width: 1240px) {
   .fleet-sidebar { display: block; }
-  .page { margin-left: max(0px, calc((100% - 1280px) / 2 + 356px)); margin-right: auto; }
+  .page { margin-left: max(0px, calc((100% - 1280px) / 2 + 356px)); margin-right: auto; width: auto; } /* width:auto so the sidebar offset never pushes it past the edge */
 }
 .app.preview-mode .fleet-sidebar { display: none; }
 
@@ -3817,3 +3817,23 @@ body:has(.app.preview-mode) .wlf { display: none; }
   .tf-totals .t[data-stat="cap"] .v   { color: #5fdd9a; }
   .tf-totals .t[data-stat="cap"] .lbl .ico { color: #5fdd9a; }
 }
+
+/* ─── No sideways scroll ───────────────────────────────── */
+/* Print preview sheet: builder.jsx measures --preview-zoom (pane width / 816px)
+   but nothing applied it, so the Letter sheet spilled past phone screens. */
+@media (max-width: 860px) {
+  .print-area.preview { width: 816px; max-width: none; zoom: var(--preview-zoom, 1); }
+}
+@media print {
+  .print-area.preview { zoom: 1; }
+}
+/* Tooltips on right-edge controls open leftward, so their hidden boxes don't
+   stick out past the page edge. */
+.cmdbar-actions [data-tip]::after,
+.tf-head [data-tip]::after,
+.tf-totals .t:last-child[data-tip]::after,
+.tf-totals .t.accent[data-tip]::after { left: auto; right: 0; transform: translate(0, 4px); }
+.cmdbar-actions [data-tip]:hover::after, .cmdbar-actions [data-tip]:focus-visible::after,
+.tf-head [data-tip]:hover::after, .tf-head [data-tip]:focus-visible::after,
+.tf-totals .t:last-child[data-tip]:hover::after,
+.tf-totals .t.accent[data-tip]:hover::after { transform: translate(0, 0); }
