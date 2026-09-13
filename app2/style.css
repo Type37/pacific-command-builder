@@ -3225,6 +3225,8 @@ body:has(.app.preview-mode) .wlf { display: none; }
     padding-bottom: 4px;
     border-top: 1px solid var(--neutral-stroke-2);
     padding-top: 6px;
+    flex-wrap: wrap;           /* buttons reflow onto a second row instead of overflowing */
+    row-gap: 4px;
   }
   /* Hide button labels in cmdbar, keep icons */
   .cmdbar-actions .btn > *:not(.ico) {
@@ -3271,6 +3273,11 @@ body:has(.app.preview-mode) .wlf { display: none; }
   .units-table tbody,
   .units-table tr { display: table-row-group; }
   .units-table { display: table; table-layout: fixed; width: 100%; }
+  /* Rows carry a 5th (delete) cell the 4-column header doesn't, which fixed
+     layout pushed past the card edge. Auto layout sizes to the real cells. */
+  .units-table { table-layout: auto; }
+  .units-table td:first-child, .units-table thead th:first-child { padding-left: var(--size-120); }
+  .units-table td:last-child { padding-right: var(--size-80); padding-left: 0; }
 
   /* Compact the qty column so the whole row fits a phone and the pips stay
      on-screen (they were getting pushed off the right edge). */
@@ -3341,18 +3348,30 @@ body:has(.app.preview-mode) .wlf { display: none; }
 
   /* ── Print area: handled by print.css, hide on mobile ──── */
 
-  /* ── game info footer: stack ──────────────────────────── */
+  /* ── game info footer: compact inline wrap (sticky on phones) ── */
+  .game-info-footer {
+    padding: 5px var(--size-120);
+    font-size: 11px;
+    line-height: 14px;
+  }
   .gif-inner {
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-start;
+    gap: 1px 8px;
+    align-items: baseline;
   }
   .gif-sep { display: none; }
   .gif-builder { margin-left: 0; }
+  .gif-builder a { font-size: 12px; letter-spacing: 0; }
+  .game-info-footer .export-btn { font-size: 11px; line-height: 14px; padding: 0; }
 }
 
 /* ── Very small screens ──────────────────────────────── */
 @media (max-width: 400px) {
+  /* Unit rows fit a 288px card: pips stack over the stepper, tighter cells. */
+  td.col-qty { width: auto; }
+  .qty-cell { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .units-table td { padding-left: 6px; padding-right: 6px; }
+  .units-table td:first-child { padding-left: var(--size-120); }
+  .units-table td:last-child { padding-left: 0; padding-right: var(--size-80); }
   .brand-name { font-size: 13px; }
   .tf-head .tf-id .callsign { font-size: 18px; }
   .faction-pill span { display: none; }  /* icon only on tiny screens */
