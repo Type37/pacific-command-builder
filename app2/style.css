@@ -2878,7 +2878,24 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 
 /* ─── Game info footer ─────────────────────────────────── */
+/* The builder fills at least the first screen; the credits footer rides the
+   bottom of it (sticky) until the shared WarLore footer scrolls in below. */
+.app {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.wlf { z-index: 20; } /* above the fixed fleet sidebar (5) and sticky bars, below flyouts (200) and modals (300) */
+body:has(.app.preview-mode) .wlf { display: none; }
+@media print {
+  .app { min-height: 0; display: block; }
+}
 .game-info-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 6;
+  margin-top: auto;
   border-top: 1px solid var(--neutral-stroke-2);
   background: var(--neutral-bg-2);
   padding: 10px var(--size-200);
