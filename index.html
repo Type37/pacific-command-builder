@@ -42,6 +42,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800&family=Readex+Pro:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="app2/style.css?v=1789330000" />
 <link rel="stylesheet" href="app/print.css?v=1789330000" />
+<!-- Fast taps must count, not double-tap zoom the page. Every element, not
+     only buttons: a second tap that misses a small stepper by a few pixels
+     lands on the row behind it. Pinch zoom stays. Zero specificity, so a
+     drag handle's own touch-action still wins. -->
+<style>html, * { touch-action: manipulation; }</style>
 </head>
 <body>
   <div id="root"></div>
